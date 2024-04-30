@@ -10,8 +10,8 @@ class Notifikasi extends StatefulWidget {
 class _NotifikasiState extends State<Notifikasi> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: Text(
           'notifikasi',
         ),

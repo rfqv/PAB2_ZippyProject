@@ -10,8 +10,8 @@ class Pesan extends StatefulWidget {
 class _PesanState extends State<Pesan> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: Text(
           'pesan',
         ),
