@@ -8,12 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ZippyScreen(),
+      home: zippy_screen(),
     );
   }
 }
 
-class ZippyScreen extends StatelessWidget {
+class zippy_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,8 @@ class ZippyScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                   minimumSize: Size(double.infinity, 50),
                 ),
                 icon: Image.asset(

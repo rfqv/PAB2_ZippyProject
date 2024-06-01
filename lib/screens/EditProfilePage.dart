@@ -28,49 +28,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: Colors.lightBlue[100],
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {},
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.black),
+            icon: const Icon(Icons.settings, color: Colors.black),
             onPressed: () {},
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage(
                   'assets/profile_picture.png'), // Update with your image
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Edit Profile',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildTextField(label: 'Name'),
             _buildTextField(label: 'Email'),
             _buildTextField(label: 'Bio'),
             _buildTextField(label: 'Date of birth'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {},
               icon: Image.asset('assets/zippy.png',
                   width: 20, height: 20), // Update with your icon
-              label: Text('Save'),
+              label: const Text('Save'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue, // Button color
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Image.asset(
               'assets/zippy.png',
               width: 200,
@@ -82,7 +82,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
@@ -109,7 +109,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           labelText: '$label :',
         ),
       ),

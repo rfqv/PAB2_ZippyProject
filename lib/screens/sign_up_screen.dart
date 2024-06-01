@@ -52,15 +52,19 @@ class SignUpScreenState extends State<SignUpScreen> {
                     final email = _emailController.text;
                     final password = _passwordController.text;
 
-                    final user = await _signUpService.signUpWithEmailAndPassword(email, password);
+                    final user = await _signUpService
+                        .signUpWithEmailAndPassword(email, password);
 
                     if (user != null) {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => PhoneNumberInputScreen(user: user)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PhoneNumberInputScreen(user: user)),
                       );
                     } else {
                       setState(() {
-                        _errorMessage = 'Failed to sign up. Please check your information.';
+                        _errorMessage =
+                            'Failed to sign up. Please check your information.';
                       });
                     }
                   } catch (error) {
@@ -84,7 +88,9 @@ class SignUpScreenState extends State<SignUpScreen> {
 
                     if (user != null) {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => PhoneNumberInputScreen(user: user)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PhoneNumberInputScreen(user: user)),
                       );
                     } else {
                       setState(() {
@@ -107,7 +113,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                   height: 24.0,
                   width: 24.0,
                 ),
-                label: const Text('Sign up via Google Account'),
+                label: const Text('Continue with Google'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,

@@ -70,7 +70,7 @@ class ProfileHeader extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 40,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            backgroundImage: NetworkImage('assets/janeyaprofil.jpeg'),
           ),
           SizedBox(width: 16),
           Column(
@@ -199,12 +199,12 @@ class PostList extends StatelessWidget {
           time: '13:21 7 Apr 24',
           content:
               'Aku habis beli naskun trs minta jgn pake kerupuk, tpi malah dikasih ENAM BUNGKUS TUH GMNA YAH',
-          imageUrl: null,
+          imageUrl: 'Davika.jpg',
           views: '450 views',
         ),
         Post(
           username: 'Arlhino',
-          handle: '@m.sigluno',
+          handle: '@msigluno',
           time: '13:21 7 Apr 24',
           content: 'KONDANGAN DULU GAK SEEEH',
           imageUrl: 'lino1.jpeg', // ini tambahin foto si cowok "lino 1 dan 2"

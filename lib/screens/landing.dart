@@ -24,7 +24,7 @@ class Landing extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/zippy.png',
+                'assets/zippyadatulisan.png',
                 width: 200,
                 height: 200,
               ),
