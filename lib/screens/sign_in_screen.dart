@@ -45,23 +45,37 @@ class SignInScreenState extends State<SignInScreen> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: _emailController.text,
-                      password: _passwordController.text,
+                    final email = _emailController.text;
+                    final password = _passwordController.text;
+
+                    final UserCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
                     );
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()),
-                    );
+                    
+                    if (mounted) {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const HomePage()),
+                      );
+                    }
                   } catch (error) {
-                    setState(() {
-                      _errorMessage = error.toString();
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(_errorMessage),
-                      ),
-                    );
+                    String errorMessage = 'Terjadi galat saat proses sign in!';
+                    if (error is FirebaseAuthException) {
+                      errorMessage = error.message ?? 'Terjadi kesalahan';
+                    } else {
+                      errorMessage = error.toString();
+                    }
+
+                    if (mounted) {
+                      setState(() {
+                        _errorMessage = errorMessage;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(errorMessage),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: const Text('Sign In'),
