@@ -19,6 +19,7 @@ class _MyButtomNavbarState extends State<MyButtomNavbar> {
     Notifikasi(),
     Profile(),
   ];
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,22 +38,22 @@ class _MyButtomNavbarState extends State<MyButtomNavbar> {
                   myCurrentIndex = Index;
                 });
               },
-              items: const [
+              items: [
                 BottomNavigationBarItem(
                   label: "",
-                  icon: Icon(Icons.home),
+                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/home.jpg")),
                 ),
                 BottomNavigationBarItem(
                   label: "",
-                  icon: Icon(Icons.chat_sharp),
+                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/chat-sharp.jpg")),
                 ),
                 BottomNavigationBarItem(
                   label: "",
-                  icon: Icon(Icons.notification_add_sharp),
+                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/notification-bell.jpg")),
                 ),
                 BottomNavigationBarItem(
                   label: "",
-                  icon: Icon(Icons.person),
+                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/person.jpg")),
                 ),
               ]),
         ),

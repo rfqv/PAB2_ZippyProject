@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -349,8 +349,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
-<<<<<<< HEAD
-=======
   typed_data:
     dependency: transitive
     description:
@@ -359,7 +357,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
->>>>>>> 873efea02cf75272f4848db05ee9c380c8c04565
   vector_math:
     dependency: transitive
     description:
@@ -376,10 +373,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "13.0.0"
-<<<<<<< HEAD
-sdks:
-  dart: ">=3.3.1 <4.0.0"
-=======
   web:
     dependency: transitive
     description:
@@ -391,4 +384,3 @@ sdks:
 sdks:
   dart: ">=3.3.1 <4.0.0"
   flutter: ">=3.16.0"
->>>>>>> 873efea02cf75272f4848db05ee9c380c8c04565

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zippy/firebase_options.dart';
 import 'package:zippy/navigator/app_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

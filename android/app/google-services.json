@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "78604707807",
+    "project_id": "zippyproject-mrifqiv",
+    "storage_bucket": "zippyproject-mrifqiv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78604707807:android:9b8e2e1231d2bb41d7866a",
+        "android_client_info": {
+          "package_name": "com.example.zippy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqd6VWx9Q4NrOv05qvPkVAmjuC0zSy-_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
