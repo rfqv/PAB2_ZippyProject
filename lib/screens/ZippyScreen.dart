@@ -47,8 +47,7 @@ class ZippyScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  onPrimary: Colors.black,
+                  foregroundColor: Colors.black, backgroundColor: Colors.white,
                   minimumSize: Size(double.infinity, 50),
                 ),
                 icon: Image.asset(
@@ -65,7 +64,7 @@ class ZippyScreen extends StatelessWidget {
               SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.lightBlue[200],
+                  backgroundColor: Colors.lightBlue[200],
                   minimumSize: Size(double.infinity, 50),
                 ),
                 child: Text('Create account'),

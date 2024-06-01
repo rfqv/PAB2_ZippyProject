@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zippy_landing_page/screen/landing.dart';
+import 'package:zippy/screens/landing.dart';
 
 void main() {
   runApp(MyApp());
@@ -67,7 +67,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   width: 20, height: 20), // Update with your icon
               label: Text('Save'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue, // Button color
+                backgroundColor: Colors.blue, // Button color
               ),
             ),
             Spacer(),

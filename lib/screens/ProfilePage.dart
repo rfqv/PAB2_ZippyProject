@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage>
                     ElevatedButton(
                       onPressed: () {},
                       child: Text('Follow'),
-                      style: ElevatedButton.styleFrom(primary: Colors.blue),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                     ),
                     SizedBox(width: 10),
                     OutlinedButton(

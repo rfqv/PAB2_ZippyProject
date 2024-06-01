@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zippy_landing_page/main.dart';
+import 'package:zippy/main.dart';
 
 void main() {
   runApp(MyApp());
