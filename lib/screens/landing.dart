@@ -7,7 +7,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MaterialApp(
       home: Landing(),
     );
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
 class Landing extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Scaffold(
         backgroundColor: Colors.lightBlue[100],
         body: Center(

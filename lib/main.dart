@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/navigator/app_navigator.dart';
+import 'screens/notifikasi.dart';
 
 void main() {
   runApp(const MyApp());
