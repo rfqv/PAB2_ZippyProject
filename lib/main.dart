@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return const MaterialApp(
       home: MyButtomNavbar(),
     );
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -104,3 +104,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class BuildContext {}
