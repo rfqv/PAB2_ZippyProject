@@ -24,11 +24,11 @@ class _MyButtomNavbarState extends State<MyButtomNavbar> {
     return Scaffold(
       bottomNavigationBar: Container(
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(15), topRight: Radius.circular(15)),
           child: BottomNavigationBar(
-              backgroundColor: Color.fromARGB(255, 25, 157, 190),
-              selectedItemColor: Color.fromARGB(255, 5, 5, 5),
+              backgroundColor: const Color.fromARGB(255, 25, 157, 190),
+              selectedItemColor: const Color.fromARGB(255, 5, 5, 5),
               unselectedItemColor: const Color.fromARGB(255, 247, 247, 247),
               type: BottomNavigationBarType.fixed,
               currentIndex: myCurrentIndex,
@@ -37,7 +37,7 @@ class _MyButtomNavbarState extends State<MyButtomNavbar> {
                   myCurrentIndex = Index;
                 });
               },
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   label: "",
                   icon: Icon(Icons.home),
