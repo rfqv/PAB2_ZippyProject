@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/navigator/app_navigator.dart';
+import 'package:zippy/screens/chatview.dart';
+//import 'package:zippy/screens/story.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,11 +10,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyButtomNavbar(),
+    return MaterialApp(
+      routes: {
+        '/': (context) => const MyButtomNavbar(),
+        "chatview": (context) => ChatView(),
+      },
     );
   }
 }

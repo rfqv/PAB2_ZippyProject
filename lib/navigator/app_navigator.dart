@@ -13,8 +13,8 @@ class MyButtomNavbar extends StatefulWidget {
 
 class _MyButtomNavbarState extends State<MyButtomNavbar> {
   int myCurrentIndex = 0;
-  List pages = const [
-    HomePage(),
+  List pages = [
+    Home(),
     Pesan(),
     Notifikasi(),
     Profile(),
