@@ -40,6 +40,8 @@ dependencies:
   cloud_firestore: ^4.17.5
   firebase_storage: ^11.7.7
   firebase_database: ^10.5.7
+  google_sign_in: ^6.2.1
+  country_code_picker: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -103,3 +105,4 @@ flutter:
     - assets/app/navbar/icons/chat-sharp.jpg
     - assets/app/navbar/icons/notification-bell.jpg
     - assets/app/navbar/icons/person.jpg
+    - assets/app/signin/icons/google_logo.png

@@ -10,38 +10,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
-        children: const [
-          //appbar home
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "zippy",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+    return Scaffold(
+      body: SafeArea(
+        child: ListView(
+          children: [
+            // AppBar Home
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: const [
+                      Text(
+                        "zippy",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.search,
-                    )
-                  ],
-                )
-              ],
+                    ],
+                  ),
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.search,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          )
-          //story
-        ],
+            // Story
+            // Tambahkan widget lain di sini
+          ],
+        ),
       ),
     );
   }

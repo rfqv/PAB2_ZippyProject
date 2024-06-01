@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zippy/screens/home.dart';
 import 'package:zippy/screens/sign_up_screen.dart';
+import 'package:zippy/services/sign_in_services.dart'; // Import SignInService
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key});
@@ -13,6 +13,10 @@ class SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   String _errorMessage = '';
+  
+  // Buat instance dari SignInService
+  final SignInService _signInService = SignInService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,37 +52,75 @@ class SignInScreenState extends State<SignInScreen> {
                     final email = _emailController.text;
                     final password = _passwordController.text;
 
-                    final UserCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    
-                    if (mounted) {
+                    // Panggil metode signInWithEmailAndPassword dari SignInService
+                    final user = await _signInService.signInWithEmailAndPassword(email, password);
+
+                    if (user != null) {
+                      // Jika berhasil sign in, navigasi ke HomePage
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => const HomePage()),
                       );
+                    } else {
+                      // Tampilkan pesan error jika sign in gagal
+                      setState(() {
+                        _errorMessage = 'Failed to sign in. Please check your credentials.';
+                      });
                     }
                   } catch (error) {
-                    String errorMessage = 'Terjadi galat saat proses sign in!';
-                    if (error is FirebaseAuthException) {
-                      errorMessage = error.message ?? 'Terjadi kesalahan';
-                    } else {
-                      errorMessage = error.toString();
-                    }
-
-                    if (mounted) {
-                      setState(() {
-                        _errorMessage = errorMessage;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(errorMessage),
-                        ),
-                      );
-                    }
+                    // Tangani error
+                    String errorMessage = 'An error occurred during sign in!';
+                    setState(() {
+                      _errorMessage = errorMessage;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(errorMessage),
+                      ),
+                    );
                   }
                 },
                 child: const Text('Sign In'),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  try {
+                    final user = await _signInService.signInWithGoogle();
+
+                    if (user != null) {
+                      // Jika berhasil sign in via Google, navigasi ke HomePage
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const HomePage()),
+                      );
+                    } else {
+                      // Tampilkan pesan error jika sign in via Google gagal
+                      setState(() {
+                        _errorMessage = 'Failed to sign in with Google.';
+                      });
+                    }
+                  } catch (error) {
+                    // Tangani error
+                    String errorMessage = 'An error occurred during Google sign in!';
+                    setState(() {
+                      _errorMessage = errorMessage;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(errorMessage),
+                      ),
+                    );
+                  }
+                },
+                icon: Image.asset(
+                  'assets/app/signin/icons/google_logo.png', // Path to your Google logo asset
+                  height: 24.0,
+                  width: 24.0,
+                ),
+                label: const Text('Sign in via Google Account'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black, 
+                ),
               ),
               const SizedBox(height: 32.0),
               TextButton(
@@ -91,6 +133,11 @@ class SignInScreenState extends State<SignInScreen> {
                 },
                 child: const Text('Don\'t have an account? Sign up'),
               ),
+              if (_errorMessage.isNotEmpty)
+                Text(
+                  _errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
             ],
           ),
         ),
