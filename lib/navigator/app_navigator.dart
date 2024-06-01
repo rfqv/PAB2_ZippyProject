@@ -38,22 +38,22 @@ class _MyButtomNavbarState extends State<MyButtomNavbar> {
                   myCurrentIndex = Index;
                 });
               },
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   label: "",
-                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/home.jpg")),
+                  icon: Icon(Icons.home),
                 ),
                 BottomNavigationBarItem(
                   label: "",
-                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/chat-sharp.jpg")),
+                  icon: Icon(Icons.chat_sharp),
                 ),
                 BottomNavigationBarItem(
                   label: "",
-                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/notification-bell.jpg")),
+                  icon: Icon(Icons.notification_add_sharp),
                 ),
                 BottomNavigationBarItem(
                   label: "",
-                  icon: ImageIcon(AssetImage("assets/app/navbar/icons/person.jpg")),
+                  icon: Icon(Icons.person),
                 ),
               ]),
         ),

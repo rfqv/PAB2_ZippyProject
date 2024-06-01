@@ -9,10 +9,10 @@ class Pesan extends StatefulWidget {
 
 class _PesanState extends State<Pesan> {
   final List<PesanItem> messages = [
-    PesanItem(username: 'user1', message: 'Hey! How are you?', timestamp: '2h ago', profileImage: 'assets/images/user1.png'),
-    PesanItem(username: 'user2', message: 'Let\'s catch up soon!', timestamp: '3h ago', profileImage: 'assets/images/user2.png'),
-    PesanItem(username: 'user3', message: 'Great meeting you!', timestamp: '5h ago', profileImage: 'assets/images/user3.png'),
-    PesanItem(username: 'user4', message: 'Check out this post!', timestamp: '1d ago', profileImage: 'assets/images/user4.png'),
+    PesanItem(username: 'Christ', message: 'Hi mate!', timestamp: '2h ago', profileImage: 'assets/users/favicon/username-itsmechrist-uid-254803.jpg'),
+    PesanItem(username: 'Nounwoo', message: 'Mau ke pantai ga besok?', timestamp: '3h ago', profileImage: 'assets/users/favicon/username-leedongwook_official-uid-130743.jpg'),
+    PesanItem(username: 'Wonyoung', message: 'ayo jane kita ke cafe machanatte lusa nantii', timestamp: '5h ago', profileImage: 'assets/users/favicon/username-for_everyoung10-uid-187436.jpg'),
+    PesanItem(username: 'Ethan', message: 'May I help you jane?', timestamp: '1d ago', profileImage: 'assets/users/favicon/username-ethan1610-uid-256944.jpg'),
   ];
   @override
   Widget build(BuildContext context) {
