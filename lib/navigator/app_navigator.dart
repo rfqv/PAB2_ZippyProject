@@ -4,22 +4,22 @@ import 'package:zippy/screens/notifikasi.dart';
 import 'package:zippy/screens/pesan.dart';
 import 'package:zippy/screens/profile.dart';
 
-class MyButtomNavbar extends StatefulWidget {
-  const MyButtomNavbar({super.key});
+class MyBottomNavbar extends StatefulWidget {
+  const MyBottomNavbar({super.key});
 
   @override
-  State<MyButtomNavbar> createState() => _MyButtomNavbarState();
+  State<MyBottomNavbar> createState() => _MyBottomNavbarState();
 }
 
-class _MyButtomNavbarState extends State<MyButtomNavbar> {
+class _MyBottomNavbarState extends State<MyBottomNavbar> {
   int myCurrentIndex = 0;
-  List pages = const [
+  List<Widget> pages = const [
     HomePage(),
     Pesan(),
     Notifikasi(),
     Profile(),
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
