@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zippy/screens/home.dart';
+import 'package:zippy/navigator/app_navigator.dart'; // Import MyBottomNavbar
 import 'package:zippy/screens/sign_up_screen.dart';
 import 'package:zippy/services/sign_in_services.dart'; // Import SignInService
 
@@ -56,9 +56,9 @@ class SignInScreenState extends State<SignInScreen> {
                     final user = await _signInService.signInWithEmailAndPassword(email, password);
 
                     if (user != null) {
-                      // Jika berhasil sign in, navigasi ke HomePage
+                      // Jika berhasil sign in, navigasi ke MyBottomNavbar
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const HomePage()),
+                        MaterialPageRoute(builder: (context) => const MyBottomNavbar()),
                       );
                     } else {
                       // Tampilkan pesan error jika sign in gagal
@@ -88,9 +88,9 @@ class SignInScreenState extends State<SignInScreen> {
                     final user = await _signInService.signInWithGoogle();
 
                     if (user != null) {
-                      // Jika berhasil sign in via Google, navigasi ke HomePage
+                      // Jika berhasil sign in via Google, navigasi ke MyBottomNavbar
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const HomePage()),
+                        MaterialPageRoute(builder: (context) => const MyBottomNavbar()),
                       );
                     } else {
                       // Tampilkan pesan error jika sign in via Google gagal

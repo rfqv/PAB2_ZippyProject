@@ -3,7 +3,6 @@ import 'package:zippy/firebase_options.dart';
 import 'package:zippy/navigator/app_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zippy/screens/home.dart';
 import 'package:zippy/screens/sign_in_screen.dart';
 
 void main() async {
@@ -15,7 +14,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
