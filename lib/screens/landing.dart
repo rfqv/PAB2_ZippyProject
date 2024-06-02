@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:zippy/main.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Landing(),
     );
   }
 }
 
 class Landing extends StatelessWidget {
+  const Landing({super.key});
+
   @override
   Widget build(context) {
     return Scaffold(
@@ -28,7 +31,7 @@ class Landing extends StatelessWidget {
                 width: 200,
                 height: 200,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 'ZIPPY',
                 style: TextStyle(

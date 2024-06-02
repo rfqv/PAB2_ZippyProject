@@ -14,12 +14,12 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Accessibility, Display, and Languages'),
+        title: const Text('Accessibility, Display, and Languages'),
       ),
       body: Column(
         children: [
           ListTile(
-            title: Text('Light Mode'),
+            title: const Text('Light Mode'),
             leading: Radio(
               value: ThemeMode.light,
               groupValue: _themeMode,
@@ -32,7 +32,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: Text('Dark Mode'),
+            title: const Text('Dark Mode'),
             leading: Radio(
               value: ThemeMode.dark,
               groupValue: _themeMode,
@@ -45,7 +45,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: Text('Default (User Preferences)'),
+            title: const Text('Default (User Preferences)'),
             leading: Radio(
               value: ThemeMode.system,
               groupValue: _themeMode,

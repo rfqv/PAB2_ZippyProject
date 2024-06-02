@@ -5,7 +5,7 @@ import 'package:zippy/screens/phone_number_input_screen.dart';
 class EmailVerificationScreen extends StatefulWidget {
   final User user;
 
-  const EmailVerificationScreen({Key? key, required this.user}) : super(key: key);
+  const EmailVerificationScreen({super.key, required this.user});
 
   @override
   _EmailVerificationScreenState createState() => _EmailVerificationScreenState();
@@ -65,7 +65,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               if (_errorMessage.isNotEmpty)
                 Text(
                   _errorMessage,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
               // Add Captcha here if required
             ],

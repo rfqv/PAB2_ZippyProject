@@ -12,48 +12,48 @@ class UserSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: ListView(
         children: [
           ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Your account'),
-            subtitle: Text('See information about your account, download an archive of your data or learn about your account deactivation options.'),
+            leading: const Icon(Icons.account_circle),
+            title: const Text('Your account'),
+            subtitle: const Text('See information about your account, download an archive of your data or learn about your account deactivation options.'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => YourAccountSettings()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const YourAccountSettings()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.security),
-            title: Text('Security and account access'),
-            subtitle: Text('Manage your account\'s security, and keep track of your account usage, including apps that you have connected to your account.'),
+            leading: const Icon(Icons.security),
+            title: const Text('Security and account access'),
+            subtitle: const Text('Manage your account\'s security, and keep track of your account usage, including apps that you have connected to your account.'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SecurityAndAccountAccessSettings()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SecurityAndAccountAccessSettings()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.privacy_tip),
-            title: Text('Privacy and safety'),
-            subtitle: Text('Manage what information you see and share on Zippy.'),
+            leading: const Icon(Icons.privacy_tip),
+            title: const Text('Privacy and safety'),
+            subtitle: const Text('Manage what information you see and share on Zippy.'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyAndSafetySettings()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyAndSafetySettings()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('Notification'),
-            subtitle: Text('Select the kinds of notification you get about your activities, interests and recommendations.'),
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notification'),
+            subtitle: const Text('Select the kinds of notification you get about your activities, interests and recommendations.'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationSettings()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationSettings()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.accessibility),
-            title: Text('Accessibility, display, and languages'),
-            subtitle: Text('Manage how Zippy content is displayed to you.'),
+            leading: const Icon(Icons.accessibility),
+            title: const Text('Accessibility, display, and languages'),
+            subtitle: const Text('Manage how Zippy content is displayed to you.'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AccessibilityDisplayAndLanguagesSettings()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const AccessibilityDisplayAndLanguagesSettings()));
             },
           ),
         ],

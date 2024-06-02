@@ -47,9 +47,9 @@ Widget build(BuildContext context) {
   if (userProfile == null) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Loading...'),
+        title: const Text('Loading...'),
       ),
-      body: Center(
+      body: const Center(
         child: CircularProgressIndicator(),
       ),
     );
@@ -60,9 +60,9 @@ Widget build(BuildContext context) {
       title: Text(userProfile!.username),
       actions: [
         IconButton(
-          icon: Icon(Icons.more_vert),
+          icon: const Icon(Icons.more_vert),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => UserSettings()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const UserSettings()));
           },
         ),
       ],
@@ -90,12 +90,12 @@ Widget build(BuildContext context) {
                           _buildStatColumn('Ppy', userProfile!.ppy),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
                           // Handle follow/unfollow
                         },
-                        child: Text('Edit Profile'),
+                        child: const Text('Edit Profile'),
                       ),
                     ],
                   ),
@@ -103,12 +103,12 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
-          Divider(),
+          const Divider(),
           GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: userProfile!.postPypo.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 4,
               mainAxisSpacing: 4,
@@ -128,15 +128,15 @@ Widget build(BuildContext context) {
       children: [
         Text(
           '$count',
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.grey,
             fontSize: 16,
           ),

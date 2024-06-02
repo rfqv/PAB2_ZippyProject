@@ -8,7 +8,7 @@ class YourAccountSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Account'),
+        title: const Text('Your Account'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -16,7 +16,7 @@ class YourAccountSettings extends StatelessWidget {
             await FirebaseAuth.instance.signOut();
             Navigator.pushReplacementNamed(context, '/');
           },
-          child: Text('Sign Out'),
+          child: const Text('Sign Out'),
         ),
       ),
     );

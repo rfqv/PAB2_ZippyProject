@@ -7,9 +7,9 @@ class PrivacyAndSafetySettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy and Safety'),
+        title: const Text('Privacy and Safety'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Privacy and Safety Settings'),
       ),
     );

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:zippy/screens/landing.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: EditProfilePage(),
     );
   }
 }
 
 class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({super.key});
+
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
