@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/navigator/app_navigator.dart'; // Import MyBottomNavbar
 import 'package:zippy/screens/sign_up_screen.dart';
+import 'package:zippy/screens/lupa_password.dart'; // Import LupaPasswordScreen
 import 'package:zippy/services/sign_in_services.dart'; // Import SignInService
 
 class SignInScreen extends StatefulWidget {
@@ -13,12 +14,16 @@ class SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   String _errorMessage = '';
-  
+
   // Buat instance dari SignInService
   final SignInService _signInService = SignInService();
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final backgroundColor = brightness == Brightness.dark ? Colors.black : Colors.white;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign In'),
@@ -44,6 +49,19 @@ class SignInScreenState extends State<SignInScreen> {
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
+              ),
+              const SizedBox(height: 1.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LupaPasswordScreen()),
+                    );
+                  },
+                  child: const Text('Lupa password?'),
+                ),
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
@@ -116,19 +134,19 @@ class SignInScreenState extends State<SignInScreen> {
                   height: 24.0,
                   width: 24.0,
                 ),
-                label: const Text('Sign in via Google Account'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black, 
-                ),
+                label: const Text('Continue with Google'),
+                // style: ElevatedButton.styleFrom(
+                  // backgroundColor: backgroundColor,
+                  // foregroundColor: textColor, 
+                // ),
               ),
+
               const SizedBox(height: 32.0),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpScreen()),
+                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
                   );
                 },
                 child: const Text('Don\'t have an account? Sign up'),
@@ -136,7 +154,7 @@ class SignInScreenState extends State<SignInScreen> {
               if (_errorMessage.isNotEmpty)
                 Text(
                   _errorMessage,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
             ],
           ),

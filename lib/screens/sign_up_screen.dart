@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/screens/email_verification_screen.dart';
 import 'package:zippy/services/sign_up_services.dart';
+import 'package:zippy/screens/sign_in_screen.dart'; // Import SignInScreen
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -18,6 +19,10 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final backgroundColor = brightness == Brightness.dark ? Colors.black : Colors.white;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
@@ -113,17 +118,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                   width: 24.0,
                 ),
                 label: const Text('Continue with Google'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                ),
+                // style: ElevatedButton.styleFrom(
+                  // backgroundColor: backgroundColor,
+                  // foregroundColor: textColor, 
+                // ),
               ),
               const SizedBox(height: 32.0),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                    MaterialPageRoute(builder: (context) => const SignInScreen()),
                   );
                 },
                 child: const Text('Already have an account? Sign in'),
