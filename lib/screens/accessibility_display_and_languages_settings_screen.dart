@@ -10,27 +10,21 @@ class AccessibilityDisplayAndLanguagesSettings extends StatefulWidget {
 }
 
 class _AccessibilityDisplayAndLanguagesSettingsState extends State<AccessibilityDisplayAndLanguagesSettings> {
-  late ThemeMode _themeMode;
-  late Locale _locale;
-
-  @override
-  void initState() {
-    super.initState();
-    final settings = Provider.of<UserSettingsService>(context, listen: false);
-    _themeMode = settings.themeMode;
-    _locale = settings.locale;
-  }
+  ThemeMode _themeMode = ThemeMode.system;
+  Locale _locale = Locale('en', 'US');
 
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<UserSettingsService>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accessibility, Display, and Languages'),
+        title: Text('Accessibility, Display, and Languages'),
       ),
       body: Column(
         children: [
           ListTile(
-            title: const Text('Light Mode'),
+            title: Text('Light Mode'),
             leading: Radio(
               value: ThemeMode.light,
               groupValue: _themeMode,
@@ -42,7 +36,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: const Text('Dark Mode'),
+            title: Text('Dark Mode'),
             leading: Radio(
               value: ThemeMode.dark,
               groupValue: _themeMode,
@@ -54,25 +48,13 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: const Text('Default (User Preferences)'),
+            title: Text('Default (User Preferences)'),
             leading: Radio(
               value: ThemeMode.system,
               groupValue: _themeMode,
               onChanged: (ThemeMode? value) {
                 setState(() {
                   _themeMode = value!;
-                });
-              },
-            ),
-          ),
-          ListTile(
-            title: Text('English'),
-            leading: Radio(
-              value: Locale('en', 'US'),
-              groupValue: _locale,
-              onChanged: (Locale? value) {
-                setState(() {
-                  _locale = value!;
                 });
               },
             ),
@@ -89,9 +71,20 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
               },
             ),
           ),
+          ListTile(
+            title: Text('English'),
+            leading: Radio(
+              value: Locale('en', 'US'),
+              groupValue: _locale,
+              onChanged: (Locale? value) {
+                setState(() {
+                  _locale = value!;
+                });
+              },
+            ),
+          ),
           ElevatedButton(
             onPressed: () {
-              final settings = Provider.of<UserSettingsService>(context, listen: false);
               settings.updateThemeMode(_themeMode);
               settings.updateLocale(_locale);
             },

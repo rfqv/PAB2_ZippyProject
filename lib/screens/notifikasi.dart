@@ -64,6 +64,7 @@ class _NotifikasiState extends State<Notifikasi> {
         profileImage: 'assets/users/ethan1610/favicon/username-ethan1610-uid-256944.jpg',
         isFollowing: true),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +108,14 @@ class NotifikasiWidget extends StatefulWidget {
 class _NotifikasiWidgetState extends State<NotifikasiWidget> {
   @override
   Widget build(BuildContext context) {
+    // Get the current theme brightness
+    final brightness = Theme.of(context).brightness;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final followBackBackgroundColor = brightness == Brightness.dark ? Colors.black : Colors.blue;
+    final followBackTextColor = Colors.white;
+    final followingBackgroundColor = brightness == Brightness.dark ? Colors.white : Colors.grey;
+    final followingTextColor = brightness == Brightness.dark ? Colors.black : Colors.white;
+
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: AssetImage(widget.notification.profileImage),
@@ -116,12 +125,11 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
           children: [
             TextSpan(
               text: widget.notification.username,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
             ),
             TextSpan(
               text: ' ${widget.notification.action}',
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(color: textColor),
             ),
           ],
         ),
@@ -130,9 +138,12 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
       trailing: widget.notification.action == 'started following you'
           ? ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor:
-                    widget.notification.isFollowing ? Colors.grey : Colors.blue,
+                foregroundColor: widget.notification.isFollowing
+                    ? followingTextColor
+                    : followBackTextColor,
+                backgroundColor: widget.notification.isFollowing
+                    ? followingBackgroundColor
+                    : followBackBackgroundColor,
               ),
               onPressed: () {
                 setState(() {

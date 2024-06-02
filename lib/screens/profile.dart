@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
   Future<void> fetchUserProfile() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final ref = FirebaseDatabase.instance.reference().child('users').child(user.uid);
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
       final snapshot = await ref.once();
       if (snapshot.snapshot.value != null) {
         final data = snapshot.snapshot.value as Map?;
