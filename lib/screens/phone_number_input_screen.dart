@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class PhoneNumberInputScreen extends StatefulWidget {
   final User user;
 
-  const PhoneNumberInputScreen({Key? key, required this.user}) : super(key: key);
+  const PhoneNumberInputScreen({super.key, required this.user});
 
   @override
   _PhoneNumberInputScreenState createState() => _PhoneNumberInputScreenState();
@@ -35,7 +35,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                     _countryCode = countryCode.dialCode;
                   },
                   initialSelection: 'US',
-                  favorite: ['+1', 'US'],
+                  favorite: const ['+1', 'US'],
                 ),
                 Expanded(
                   child: TextField(
@@ -63,7 +63,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
               child: const Text('Skip'),

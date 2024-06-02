@@ -37,7 +37,7 @@ class _PesanState extends State<Pesan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Direct Messages'),
+        title: const Text('Direct Messages'),
       ),
       body: ListView.builder(
         itemCount: messages.length,
@@ -65,7 +65,7 @@ class PesanItem {
 class MessageWidget extends StatelessWidget {
   final PesanItem message;
 
-  MessageWidget({required this.message});
+  const MessageWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class MessageWidget extends StatelessWidget {
       ),
       title: Text(
         message.username,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class MessageWidget extends StatelessWidget {
           Text(message.message),
           Text(
             message.timestamp,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),

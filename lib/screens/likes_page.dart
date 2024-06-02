@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,20 +14,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProfilePage(),
+      home: const ProfilePage(),
     );
   }
 }
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text('Janeya'),
+        leading: const Icon(Icons.arrow_back),
+        title: const Text('Janeya'),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
             ProfileHeader(),
@@ -37,7 +41,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
@@ -61,12 +65,14 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       color: Colors.blue[100],
-      child: Row(
+      child: const Row(
         children: [
           CircleAvatar(
             radius: 40,
@@ -97,12 +103,14 @@ class ProfileHeader extends StatelessWidget {
 }
 
 class ProfileStats extends StatelessWidget {
+  const ProfileStats({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       color: Colors.blue[200],
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ProfileStat(count: '25K', label: 'Fans'),
@@ -119,7 +127,7 @@ class ProfileStat extends StatelessWidget {
   final String count;
   final String label;
 
-  ProfileStat({required this.count, required this.label});
+  const ProfileStat({super.key, required this.count, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +135,7 @@ class ProfileStat extends StatelessWidget {
       children: [
         Text(
           count,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         Text(label),
       ],
@@ -136,6 +144,8 @@ class ProfileStat extends StatelessWidget {
 }
 
 class ProfileButtons extends StatelessWidget {
+  const ProfileButtons({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -143,11 +153,11 @@ class ProfileButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {},
-          child: Text('Followed'),
+          child: const Text('Followed'),
         ),
         OutlinedButton(
           onPressed: () {},
-          child: Text('Message'),
+          child: const Text('Message'),
         ),
       ],
     );
@@ -155,9 +165,11 @@ class ProfileButtons extends StatelessWidget {
 }
 
 class ProfileTabs extends StatelessWidget {
+  const ProfileTabs({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return const DefaultTabController(
       length: 4,
       child: Column(
         children: [
@@ -171,7 +183,7 @@ class ProfileTabs extends StatelessWidget {
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
           ),
-          Container(
+          SizedBox(
             height: 400,
             child: TabBarView(
               children: [
@@ -189,9 +201,11 @@ class ProfileTabs extends StatelessWidget {
 }
 
 class PostList extends StatelessWidget {
+  const PostList({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Post(
           username: 'Davikah',
@@ -223,7 +237,7 @@ class Post extends StatelessWidget {
   final String? imageUrl;
   final String views;
 
-  Post({
+  const Post({super.key, 
     required this.username,
     required this.handle,
     required this.time,
@@ -235,29 +249,29 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 backgroundImage:
                     NetworkImage('https://via.placeholder.com/150'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(username, style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(username, style: const TextStyle(fontWeight: FontWeight.bold)),
                   Text(handle),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Text(time),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(content),
           imageUrl != null
               ? Padding(
@@ -267,10 +281,10 @@ class Post extends StatelessWidget {
               : Container(),
           Row(
             children: [
-              Icon(Icons.chat_bubble_outline),
-              SizedBox(width: 8),
-              Icon(Icons.favorite_border),
-              SizedBox(width: 8),
+              const Icon(Icons.chat_bubble_outline),
+              const SizedBox(width: 8),
+              const Icon(Icons.favorite_border),
+              const SizedBox(width: 8),
               Text(views),
             ],
           ),

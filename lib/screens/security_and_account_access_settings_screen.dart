@@ -7,9 +7,9 @@ class SecurityAndAccountAccessSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Security and Account Access'),
+        title: const Text('Security and Account Access'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Security and Account Access Settings'),
       ),
     );

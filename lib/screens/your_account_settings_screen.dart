@@ -9,7 +9,7 @@ class YourAccountSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Account'),
+        title: const Text('Your Account'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -20,7 +20,7 @@ class YourAccountSettings extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const SignOutScreen()),
             );
           },
-          child: Text('Sign Out'),
+          child: const Text('Sign Out'),
         ),
       ),
     );

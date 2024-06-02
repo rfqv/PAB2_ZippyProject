@@ -5,7 +5,7 @@ import 'package:zippy/screens/sign_in_screen.dart';
 class PhoneNumberVerificationScreen extends StatefulWidget {
   final String phoneNumber;
 
-  const PhoneNumberVerificationScreen({Key? key, required this.phoneNumber}) : super(key: key);
+  const PhoneNumberVerificationScreen({super.key, required this.phoneNumber});
 
   @override
   _PhoneNumberVerificationScreenState createState() => _PhoneNumberVerificationScreenState();
@@ -57,7 +57,7 @@ class _PhoneNumberVerificationScreenState extends State<PhoneNumberVerificationS
           TextButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => SignInScreen()),
+                MaterialPageRoute(builder: (context) => const SignInScreen()),
                 (route) => false,
               );
             },
@@ -108,7 +108,7 @@ class _PhoneNumberVerificationScreenState extends State<PhoneNumberVerificationS
             if (_errorMessage.isNotEmpty)
               Text(
                 _errorMessage,
-                style: TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.red),
               ),
           ],
         ),

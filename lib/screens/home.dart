@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: ListView(
-          children: [
+          children: const [
             // Add post feeds and other elements here
           ],
         ),
@@ -110,7 +110,7 @@ class CustomSearchDelegate extends SearchDelegate {
         ),
         const SizedBox(height: 10),
         DropdownButton<String>(
-          items: [
+          items: const [
             DropdownMenuItem(value: '1h', child: Text('1 jam terakhir')),
             DropdownMenuItem(value: '4h', child: Text('4 jam terakhir')),
             DropdownMenuItem(value: '12h', child: Text('12 jam terakhir')),
@@ -122,7 +122,7 @@ class CustomSearchDelegate extends SearchDelegate {
           onChanged: (value) {
             // Handle the filter change
           },
-          hint: Text('Select filter'),
+          hint: const Text('Select filter'),
         ),
         // Display suggested results
       ],

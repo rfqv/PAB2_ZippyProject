@@ -7,9 +7,9 @@ class NotificationSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notification'),
+        title: const Text('Notification'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Notification Settings'),
       ),
     );

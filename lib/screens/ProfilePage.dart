@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: ProfilePage(),
     );
   }
 }
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -42,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage>
         backgroundColor: Colors.lightBlue[100],
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {},
         ),
       ),
@@ -52,12 +56,12 @@ class _ProfilePageState extends State<ProfilePage>
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 50,
                   backgroundImage: AssetImage('assets/profile_picture.png'),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'Janeya',
                   style: TextStyle(
                     fontSize: 24,
@@ -78,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage>
                     color: Colors.grey[700],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -88,23 +92,23 @@ class _ProfilePageState extends State<ProfilePage>
                     _buildStatColumn('81', 'Ppy'),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () {},
-                      child: Text('Follow'),
                       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                      child: const Text('Follow'),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     OutlinedButton(
                       onPressed: () {},
-                      child: Text('Message'),
+                      child: const Text('Message'),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -113,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage>
             indicatorColor: Colors.blue,
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.black,
-            tabs: [
+            tabs: const [
               Tab(text: 'Pypo'),
               Tab(text: 'Ppy'),
               Tab(text: 'Replies'),
@@ -141,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage>
       children: [
         Text(
           count,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -177,24 +181,24 @@ class _ProfilePageState extends State<ProfilePage>
         children: [
           Row(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 20,
                 backgroundImage: AssetImage(
                     'assets/profile_picture.png'), // Update with your image
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     username,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     date,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -202,12 +206,12 @@ class _ProfilePageState extends State<ProfilePage>
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(content),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Image.asset(imagePath), // Update with your image
-          SizedBox(height: 10),
-          Row(
+          const SizedBox(height: 10),
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(

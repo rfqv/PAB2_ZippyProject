@@ -68,7 +68,7 @@ class _NotifikasiState extends State<Notifikasi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications Page'),
+        title: const Text('Notifications Page'),
       ),
       body: ListView.builder(
         itemCount: notifications.length,
@@ -98,7 +98,7 @@ class NotifikasiItem {
 class NotifikasiWidget extends StatefulWidget {
   final NotifikasiItem notification;
 
-  NotifikasiWidget({required this.notification});
+  const NotifikasiWidget({super.key, required this.notification});
 
   @override
   _NotifikasiWidgetState createState() => _NotifikasiWidgetState();
@@ -117,11 +117,11 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
             TextSpan(
               text: widget.notification.username,
               style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),
             TextSpan(
               text: ' ${widget.notification.action}',
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ],
         ),
