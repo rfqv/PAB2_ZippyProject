@@ -13,10 +13,99 @@ class SignInScreen extends StatefulWidget {
 class SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _captchaController = TextEditingController();
   String _errorMessage = '';
+  bool _isCaptchaCorrect = false;
+  String _generatedCaptcha = '';
+  bool _isPasswordHidden = true;
 
   // Buat instance dari SignInService
   final SignInService _signInService = SignInService();
+
+  @override
+  void initState() {
+    super.initState();
+    _generateCaptcha();
+  }
+
+  void _generateCaptcha() {
+    setState(() {
+      _generatedCaptcha = (1000 + (10000 - 1000) * (DateTime.now().millisecondsSinceEpoch % 1000) / 1000).toInt().toString();
+    });
+  }
+
+  void _verifyCaptcha() {
+    setState(() {
+      _isCaptchaCorrect = _captchaController.text == _generatedCaptcha;
+    });
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isPasswordHidden = !_isPasswordHidden;
+    });
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleSignIn() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    if (email.isEmpty && password.isEmpty) {
+      _showErrorDialog('Email dan Password kosong. Harap isi terlebih dahulu!');
+    } else if (email.isNotEmpty && password.isEmpty) {
+      _showErrorDialog('Password kosong. Harap isi terlebih dahulu!');
+    } else if (email.isEmpty && password.isNotEmpty) {
+      _showErrorDialog('Email kosong. Harap isi terlebih dahulu!');
+    } else {
+      try {
+        // Panggil metode signInWithEmailAndPassword dari SignInService
+        final user = await _signInService.signInWithEmailAndPassword(email, password);
+
+        if (user != null) {
+          // Jika berhasil sign in, navigasi ke MyBottomNavbar
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const MyBottomNavbar()),
+          );
+        } else {
+          // Tampilkan pesan error jika sign in gagal
+          setState(() {
+            _errorMessage = 'Failed to sign in. Please check your credentials.';
+          });
+        }
+      } catch (error) {
+        // Tangani error
+        String errorMessage = 'An error occurred during sign in!';
+        setState(() {
+          _errorMessage = errorMessage;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +133,17 @@ class SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 16.0),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                obscureText: _isPasswordHidden,
+                decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: _togglePasswordView,
+                  ),
                 ),
-                obscureText: true,
               ),
               const SizedBox(height: 1.0),
               Align(
@@ -64,39 +159,34 @@ class SignInScreenState extends State<SignInScreen> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final email = _emailController.text;
-                    final password = _passwordController.text;
-
-                    // Panggil metode signInWithEmailAndPassword dari SignInService
-                    final user = await _signInService.signInWithEmailAndPassword(email, password);
-
-                    if (user != null) {
-                      // Jika berhasil sign in, navigasi ke MyBottomNavbar
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const MyBottomNavbar()),
-                      );
-                    } else {
-                      // Tampilkan pesan error jika sign in gagal
-                      setState(() {
-                        _errorMessage = 'Failed to sign in. Please check your credentials.';
-                      });
-                    }
-                  } catch (error) {
-                    // Tangani error
-                    String errorMessage = 'An error occurred during sign in!';
-                    setState(() {
-                      _errorMessage = errorMessage;
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(errorMessage),
-                      ),
-                    );
-                  }
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Captcha: $_generatedCaptcha',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: _generateCaptcha,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              TextField(
+                controller: _captchaController,
+                decoration: const InputDecoration(
+                  labelText: 'Masukkan Captcha',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  _verifyCaptcha();
                 },
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _isCaptchaCorrect ? _handleSignIn : null,
                 child: const Text('Sign In'),
               ),
               const SizedBox(height: 16.0),
@@ -135,12 +225,7 @@ class SignInScreenState extends State<SignInScreen> {
                   width: 24.0,
                 ),
                 label: const Text('Continue with Google'),
-                // style: ElevatedButton.styleFrom(
-                  // backgroundColor: backgroundColor,
-                  // foregroundColor: textColor, 
-                // ),
               ),
-
               const SizedBox(height: 32.0),
               TextButton(
                 onPressed: () {
