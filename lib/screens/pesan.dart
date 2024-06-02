@@ -9,6 +9,7 @@ class Pesan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Scaffold(
       appBar: AppBar(
         leading: Container(
@@ -23,6 +24,12 @@ class Pesan extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+=======
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'pesan',
+>>>>>>> afdc4c28a126c9ae69d56e2209e836ae2de1018e
         ),
         title: Text(
           'Messages',
