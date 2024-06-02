@@ -11,11 +11,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String profileName = 'User';
+  List<Map> postPypo = [];
+  List<Map> postPpy = [];
 
   @override
   void initState() {
     super.initState();
     fetchProfileName();
+    fetchPosts();
   }
 
   Future<void> fetchProfileName() async {
@@ -34,9 +37,33 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> fetchPosts() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final refPypo = FirebaseDatabase.instance.ref().child('postPypo').orderByChild('username').equalTo('itsmechrist');
+      final refPpy = FirebaseDatabase.instance.ref().child('postPpy').orderByChild('username').equalTo('itsmechrist');
+
+      final snapshotPypo = await refPypo.once();
+      final snapshotPpy = await refPpy.once();
+
+      if (snapshotPypo.snapshot.value != null) {
+        final data = snapshotPypo.snapshot.value as Map?;
+        if (mounted) {
+          setState(() {
+            postPypo = List<Map>.from(data?.values ?? []);
+          });
+        }
+      }
+
+      if (snapshotPpy.snapshot.value != null) {
+        final data = snapshotPpy.snapshot.value as Map?;
+        if (mounted) {
+          setState(() {
+            postPpy = List<Map>.from(data?.values ?? []);
+          });
+        }
+      }
+    }
   }
 
   @override
@@ -58,10 +85,48 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: ListView(
-          children: const [
-            // Add post feeds and other elements here
+          children: [
+            ...postPypo.map((post) => _buildPostItem(post)).toList(),
+            ...postPpy.map((post) => _buildPostItem(post)).toList(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildPostItem(Map post) {
+    return ListTile(
+      leading: post['mediaUrl'] != null ? Image.network(post['mediaUrl']) : null,
+      title: Text(post['username']),
+      subtitle: Text(post['text']),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.favorite_border),
+            onPressed: () {
+              // Handle like
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.comment),
+            onPressed: () {
+              // Handle reply
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              // Handle save
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {
+              // Handle share
+            },
+          ),
+        ],
       ),
     );
   }

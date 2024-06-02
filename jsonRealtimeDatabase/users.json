@@ -19,6 +19,10 @@
             "assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3565.jpg",
             "assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3564.jpg",
             "assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3563.jpg"
+          ],
+          "postPpy": [
+            "Hari ini mau ngapain yaahhh?",
+            "Selamat pagi, dunia!"
           ]
         },
       "n8wEvcUsumh5YyZiu76WmteiuVj2": {
@@ -29,7 +33,12 @@
           "fans": 26009,
           "following": 113,
           "pypo": 3,
-          "ppy": 2
+          "ppy": 2,
+          "postPypo": 0,
+          "postPpy": [
+            "Feeling bored",
+            "Nothin."
+          ]
       }
   }
 }
