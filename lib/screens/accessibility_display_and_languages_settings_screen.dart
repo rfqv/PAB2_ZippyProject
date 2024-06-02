@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zippy/services/user_settings_services.dart';
 
 class AccessibilityDisplayAndLanguagesSettings extends StatefulWidget {
   const AccessibilityDisplayAndLanguagesSettings({super.key});
@@ -8,7 +10,16 @@ class AccessibilityDisplayAndLanguagesSettings extends StatefulWidget {
 }
 
 class _AccessibilityDisplayAndLanguagesSettingsState extends State<AccessibilityDisplayAndLanguagesSettings> {
-  ThemeMode _themeMode = ThemeMode.system;
+  late ThemeMode _themeMode;
+  late Locale _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    final settings = Provider.of<UserSettingsService>(context, listen: false);
+    _themeMode = settings.themeMode;
+    _locale = settings.locale;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +37,6 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
               onChanged: (ThemeMode? value) {
                 setState(() {
                   _themeMode = value!;
-                  // Add theme change logic here
                 });
               },
             ),
@@ -39,7 +49,6 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
               onChanged: (ThemeMode? value) {
                 setState(() {
                   _themeMode = value!;
-                  // Add theme change logic here
                 });
               },
             ),
@@ -52,10 +61,41 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
               onChanged: (ThemeMode? value) {
                 setState(() {
                   _themeMode = value!;
-                  // Add theme change logic here
                 });
               },
             ),
+          ),
+          ListTile(
+            title: Text('English'),
+            leading: Radio(
+              value: Locale('en', 'US'),
+              groupValue: _locale,
+              onChanged: (Locale? value) {
+                setState(() {
+                  _locale = value!;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Text('Bahasa Indonesia'),
+            leading: Radio(
+              value: Locale('id', 'ID'),
+              groupValue: _locale,
+              onChanged: (Locale? value) {
+                setState(() {
+                  _locale = value!;
+                });
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final settings = Provider.of<UserSettingsService>(context, listen: false);
+              settings.updateThemeMode(_themeMode);
+              settings.updateLocale(_locale);
+            },
+            child: Text('Apply & Save'),
           ),
         ],
       ),

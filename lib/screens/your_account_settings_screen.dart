@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zippy/screens/sign_out_screen.dart';
 
 class YourAccountSettings extends StatelessWidget {
   const YourAccountSettings({super.key});
@@ -14,7 +15,10 @@ class YourAccountSettings extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             await FirebaseAuth.instance.signOut();
-            Navigator.pushReplacementNamed(context, '/');
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const SignOutScreen()),
+            );
           },
           child: Text('Sign Out'),
         ),
