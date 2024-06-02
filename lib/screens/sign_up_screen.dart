@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zippy/screens/home.dart';
-import 'package:zippy/screens/phone_number_input_screen.dart'; // Import phone number input screen
+import 'package:zippy/screens/email_verification_screen.dart';
 import 'package:zippy/services/sign_up_services.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -52,19 +51,18 @@ class SignUpScreenState extends State<SignUpScreen> {
                     final email = _emailController.text;
                     final password = _passwordController.text;
 
-                    final user = await _signUpService
-                        .signUpWithEmailAndPassword(email, password);
+                    final user = await _signUpService.signUpWithEmailAndPassword(email, password);
 
                     if (user != null) {
+                      await user.sendEmailVerification();
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                             builder: (context) =>
-                                PhoneNumberInputScreen(user: user)),
+                                EmailVerificationScreen(user: user)),
                       );
                     } else {
                       setState(() {
-                        _errorMessage =
-                            'Failed to sign up. Please check your information.';
+                        _errorMessage = 'Failed to sign up. Please check your information.';
                       });
                     }
                   } catch (error) {
@@ -87,10 +85,11 @@ class SignUpScreenState extends State<SignUpScreen> {
                     final user = await _signUpService.signUpWithGoogle();
 
                     if (user != null) {
+                      await user.sendEmailVerification();
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                             builder: (context) =>
-                                PhoneNumberInputScreen(user: user)),
+                                EmailVerificationScreen(user: user)),
                       );
                     } else {
                       setState(() {

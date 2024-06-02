@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,11 +21,22 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchProfileName() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final snapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-      setState(() {
-        profileName = snapshot.data()?['profileName'] ?? 'User';
-      });
+      final ref = FirebaseDatabase.instance.reference().child('users').child(user.uid);
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = snapshot.snapshot.value as Map?;
+        if (mounted) {
+          setState(() {
+            profileName = data?['profileName'] ?? 'User';
+          });
+        }
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

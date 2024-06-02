@@ -10,8 +10,8 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final UserProfile userProfile = UserProfile(
     profileName: 'Janeya',
-    username: '@jjnaey95',
-    profileImage: 'assets/me/profile_picture.jpeg',
+    username: '@jjnaey97',
+    profileImage: 'assets/me/username-jjnaey97-uid-256944-profileIconMain.jpeg',
     pypo: 3571,
     ppy: 81,
     fans: 25695,
