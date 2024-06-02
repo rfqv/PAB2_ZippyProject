@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:zippy/screens/user_settings_screen.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -8,97 +11,117 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final UserProfile userProfile = UserProfile(
-    profileName: 'Janeya',
-    username: '@jjnaey97',
-    profileImage: 'assets/me/username-jjnaey97-uid-256944-profileIconMain.jpeg',
-    pypo: 3571,
-    ppy: 81,
-    fans: 25695,
-    following: 458,
-    postPypo: [
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3571.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3570.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3569.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3568.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3567.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3566.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3565.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3564.jpg',
-      'assets/me/pypo/username-jjnaey97-uid-256944-pypo3563.jpg',
-      // Tambahkan gambar lain sesuai kebutuhan
-    ],
-  );
+  UserProfile? userProfile;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    fetchUserProfile();
+  }
+
+  Future<void> fetchUserProfile() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.reference().child('users').child(user.uid);
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = snapshot.snapshot.value as Map?;
+        setState(() {
+          userProfile = UserProfile(
+            profileName: data?['profileName'] ?? 'User',
+            username: data?['username'] ?? 'Unknown',
+            profileImage: data?['profileImage'] ?? 'assets/default_profile.png',
+            fans: data?['fans'] ?? 0,
+            following: data?['following'] ?? 0,
+            pypo: data?['pypo'] ?? 0,
+            ppy: data?['ppy'] ?? 0,
+            postPypo: List<String>.from(data?['postPypo'] ?? []),
+          );
+        });
+      }
+    }
+  }
+
+@override
+Widget build(BuildContext context) {
+  if (userProfile == null) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(userProfile.username),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {
-              // Handle more options
+        title: Text('Loading...'),
+      ),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(userProfile!.username),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.more_vert),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => UserSettings()));
+          },
+        ),
+      ],
+    ),
+    body: SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage(userProfile!.profileImage),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildStatColumn('Fans', userProfile!.fans),
+                          _buildStatColumn('Following', userProfile!.following),
+                          _buildStatColumn('Pypo', userProfile!.pypo),
+                          _buildStatColumn('Ppy', userProfile!.ppy),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle follow/unfollow
+                        },
+                        child: Text('Edit Profile'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: userProfile!.postPypo.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+            ),
+            itemBuilder: (context, index) {
+              return Image.asset(userProfile!.postPypo[index]);
             },
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(userProfile.profileImage),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildStatColumn('Fans', userProfile.fans),
-                            _buildStatColumn('Following', userProfile.following),
-                            _buildStatColumn('Pypo', userProfile.pypo),
-                            _buildStatColumn('Ppy', userProfile.ppy),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle follow/unfollow
-                          },
-                          child: Text('Edit Profile'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: userProfile.postPypo.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-              ),
-              itemBuilder: (context, index) {
-                return Image.asset(userProfile.postPypo[index]);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildStatColumn(String label, int count) {
     return Column(

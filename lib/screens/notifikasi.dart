@@ -14,54 +14,54 @@ class _NotifikasiState extends State<Notifikasi> {
         action: 'commented on your ppy: follback pls',
         timestamp: '2m ago',
         profileImage:
-            'assets/users/favicon/username-itsmechrist-uid-254803.jpg',
+            'assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg',
         isFollowing: false),
     NotifikasiItem(
         username: 'Wonyoung',
         action: 'commented on your pypo: daebakkk<3',
         timestamp: '3m ago',
         profileImage:
-            'assets/users/favicon/username-for_everyoung10-uid-187436.jpg',
+            'assets/users/for_everyoung10/favicon/username-for_everyoung10-uid-187436.jpg',
         isFollowing: true),
     NotifikasiItem(
         username: 'Irene',
         action: 'liked your pypo',
         timestamp: '20m ago',
-        profileImage: 'assets/users/favicon/username-renebaebae-uid-151135.jpg',
+        profileImage: 'assets/users/renebaebae/favicon/username-renebaebae-uid-151135.jpg',
         isFollowing: true),
     NotifikasiItem(
         username: 'Nounwoo',
         action: 'commented on your pypo: Cakeup btl!!',
         timestamp: '1h ago',
         profileImage:
-            'assets/users/favicon/username-leedongwook_official-uid-130743.jpg',
+            'assets/users/leedongwook_official/favicon/username-leedongwook_official-uid-130743.jpg',
         isFollowing: true),
     NotifikasiItem(
         username: 'Nounwoo',
         action: 'liked your pypo',
         timestamp: '1h ago',
         profileImage:
-            'assets/users/favicon/username-leedongwook_official-uid-130743.jpg',
+            'assets/users/leedongwook_official/favicon/username-leedongwook_official-uid-130743.jpg',
         isFollowing: true),
     NotifikasiItem(
         username: 'Christ',
         action: 'liked your pypo',
         timestamp: '2h ago',
         profileImage:
-            'assets/users/favicon/username-itsmechrist-uid-254803.jpg',
+            'assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg',
         isFollowing: false),
     NotifikasiItem(
         username: 'Christ',
         action: 'started following you',
         timestamp: '2h ago',
         profileImage:
-            'assets/users/favicon/username-itsmechrist-uid-254803.jpg',
+            'assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg',
         isFollowing: false),
     NotifikasiItem(
         username: 'Ethan',
         action: 'started following you',
         timestamp: '4d ago',
-        profileImage: 'assets/users/favicon/username-ethan1610-uid-256944.jpg',
+        profileImage: 'assets/users/ethan1610/favicon/username-ethan1610-uid-256944.jpg',
         isFollowing: true),
   ];
   @override

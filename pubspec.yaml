@@ -96,23 +96,24 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - assets/users/favicon/username-leedongwook_official-uid-130743.jpg
-    - assets/users/favicon/username-renebaebae-uid-151135.jpg
-    - assets/users/favicon/username-for_everyoung10-uid-187436.jpg
-    - assets/users/favicon/username-itsmechrist-uid-254803.jpg
-    - assets/users/favicon/username-ethan1610-uid-256944.jpg
+    - assets/users/leedongwook_official/favicon/username-leedongwook_official-uid-130743.jpg
+    - assets/users/renebaebae/favicon/username-renebaebae-uid-151135.jpg
+    - assets/users/for_everyoung10/favicon/username-for_everyoung10-uid-187436.jpg
+    - assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg
+    - assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg
+    - assets/users/ethan1610/favicon/username-ethan1610-uid-256944.jpg
     - assets/app/navbar/icons/home.jpg
     - assets/app/navbar/icons/chat-sharp.jpg
     - assets/app/navbar/icons/notification-bell.jpg
     - assets/app/navbar/icons/person.jpg
     - assets/app/signin/icons/google_logo.png
-    - assets/me/username-jjnaey97-uid-256944-profileIconMain.jpeg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3571.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3570.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3569.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3568.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3567.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3566.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3565.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3564.jpg
-    - assets/me/pypo/username-jjnaey97-uid-256944-pypo3563.jpg
+    - assets/me/default_profileImages.jpeg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3571.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3570.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3569.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3568.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3567.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3566.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3565.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3564.jpg
+    - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3563.jpg
