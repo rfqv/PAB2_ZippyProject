@@ -1,9 +1,11 @@
-// home.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:zippy/screens/show_pypo_screen.dart';
-import 'package:zippy/screens/user_settings_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,9 +17,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String profileName = 'User';
   String profileImage = 'assets/me/default_profileImage.png';
-  List<Map> postPypo = [];
-  List<Map> postPpy = [];
+  List<Map> postPypoMain = [];
+  List<Map> postPpyMain = [];
   final TextEditingController _textController = TextEditingController();
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -44,8 +48,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchPosts() async {
-    final refPypo = FirebaseDatabase.instance.ref().child('postPypo');
-    final refPpy = FirebaseDatabase.instance.ref().child('postPpy');
+    final refPypo = FirebaseDatabase.instance.ref().child('postPypoMain');
+    final refPpy = FirebaseDatabase.instance.ref().child('postPpyMain');
 
     final snapshotPypo = await refPypo.once();
     final snapshotPpy = await refPpy.once();
@@ -54,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       final data = snapshotPypo.snapshot.value as Map?;
       if (mounted) {
         setState(() {
-          postPypo = List<Map>.from(data?.values ?? []);
+          postPypoMain = List<Map>.from(data?.values ?? []);
         });
       }
     }
@@ -63,27 +67,46 @@ class _HomePageState extends State<HomePage> {
       final data = snapshotPpy.snapshot.value as Map?;
       if (mounted) {
         setState(() {
-          postPpy = List<Map>.from(data?.values ?? []);
+          postPpyMain = List<Map>.from(data?.values ?? []);
         });
       }
     }
   }
 
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
   Future<void> _savePpy() async {
     final text = _textController.text;
-    if (text.isNotEmpty) {
+    if (text.isNotEmpty || _image != null) {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        final ref = FirebaseDatabase.instance.reference().child('postPpy').push();
+        String? imageUrl;
+        if (_image != null) {
+          final storageRef = FirebaseStorage.instance.ref().child('post_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+          final uploadTask = await storageRef.putFile(_image!);
+          imageUrl = await uploadTask.ref.getDownloadURL();
+        }
+
+        final ref = FirebaseDatabase.instance.reference().child('postPpyMain').push();
         final newPost = {
           'username': profileName,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
+          'profileImage': profileImage,
+          'mediaUrl': imageUrl,
         };
         await ref.set(newPost);
         setState(() {
-          postPpy.add(newPost);
+          postPpyMain.add(newPost);
           _textController.clear();
+          _image = null;
         });
       }
     }
@@ -139,12 +162,17 @@ class _HomePageState extends State<HomePage> {
                         hintText: 'Write ppy here...',
                       ),
                     ),
+                    if (_image != null)
+                      Image.file(_image!),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            IconButton(icon: Icon(Icons.image), onPressed: () {}),
+                            IconButton(
+                              icon: Icon(Icons.image),
+                              onPressed: _pickImage,
+                            ),
                             IconButton(icon: Icon(Icons.gif), onPressed: () {}),
                             IconButton(icon: Icon(Icons.event), onPressed: () {}),
                           ],
@@ -161,14 +189,14 @@ class _HomePageState extends State<HomePage> {
             ),
             // Posts
             Expanded(
-              child: postPypo.isEmpty && postPpy.isEmpty
+              child: postPypoMain.isEmpty && postPpyMain.isEmpty
                   ? Center(
                       child: Text("Selamat datang di Zippy. Mari buat pypo/ppy pertama Anda!"),
                     )
                   : ListView(
                       children: [
-                        ...postPypo.map((post) => _buildPostPypoItem(post)).toList(),
-                        ...postPpy.map((post) => _buildPostPpyItem(post)).toList(),
+                        ...postPypoMain.map((post) => _buildPostPypoMainItem(post)).toList(),
+                        ...postPpyMain.map((post) => _buildPostPpyMainItem(post)).toList(),
                       ],
                     ),
             ),
@@ -178,7 +206,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildPostPypoItem(Map post) {
+  Widget _buildPostPypoMainItem(Map post) {
+    final timestamp = DateTime.parse(post['timestamp']);
     return Card(
       margin: EdgeInsets.all(8.0),
       child: Padding(
@@ -196,14 +225,14 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(post['username'], style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('5 hours ago'), // Replace with actual time
+                    Text(timeago.format(timestamp)),
                   ],
                 ),
               ],
             ),
             SizedBox(height: 8.0),
             Text(post['text']),
-            if (post['mediaUrl'] != null) Image.asset(post['mediaUrl']),
+            if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -238,7 +267,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildPostPpyItem(Map post) {
+  Widget _buildPostPpyMainItem(Map post) {
+    final timestamp = DateTime.parse(post['timestamp']);
     return Card(
       margin: EdgeInsets.all(8.0),
       child: Padding(
@@ -256,14 +286,14 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(post['username'], style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('5 hours ago'), // Replace with actual time
+                    Text(timeago.format(timestamp)),
                   ],
                 ),
               ],
             ),
             SizedBox(height: 8.0),
             Text(post['text']),
-            if (post['mediaUrl'] != null) Image.asset(post['mediaUrl']),
+            if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -324,13 +354,11 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // Implement search result display
     return Container();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // Implement search suggestion display
     return Container();
   }
 }
