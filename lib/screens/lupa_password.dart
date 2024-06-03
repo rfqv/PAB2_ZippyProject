@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LupaPasswordScreen extends StatelessWidget {
-  const LupaPasswordScreen({Key? key}) : super(key: key);
+  const LupaPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

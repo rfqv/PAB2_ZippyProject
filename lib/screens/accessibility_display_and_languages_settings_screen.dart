@@ -11,7 +11,7 @@ class AccessibilityDisplayAndLanguagesSettings extends StatefulWidget {
 
 class _AccessibilityDisplayAndLanguagesSettingsState extends State<AccessibilityDisplayAndLanguagesSettings> {
   ThemeMode _themeMode = ThemeMode.system;
-  Locale _locale = Locale('en', 'US');
+  Locale _locale = const Locale('en', 'US');
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,12 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Accessibility, Display, and Languages'),
+        title: const Text('Accessibility, Display, and Languages'),
       ),
       body: Column(
         children: [
           ListTile(
-            title: Text('Light Mode'),
+            title: const Text('Light Mode'),
             leading: Radio(
               value: ThemeMode.light,
               groupValue: _themeMode,
@@ -36,7 +36,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: Text('Dark Mode'),
+            title: const Text('Dark Mode'),
             leading: Radio(
               value: ThemeMode.dark,
               groupValue: _themeMode,
@@ -48,7 +48,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: Text('Default (User Preferences)'),
+            title: const Text('Default (User Preferences)'),
             leading: Radio(
               value: ThemeMode.system,
               groupValue: _themeMode,
@@ -60,9 +60,9 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: Text('Bahasa Indonesia'),
+            title: const Text('Bahasa Indonesia'),
             leading: Radio(
-              value: Locale('id', 'ID'),
+              value: const Locale('id', 'ID'),
               groupValue: _locale,
               onChanged: (Locale? value) {
                 setState(() {
@@ -72,9 +72,9 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ListTile(
-            title: Text('English'),
+            title: const Text('English'),
             leading: Radio(
-              value: Locale('en', 'US'),
+              value: const Locale('en', 'US'),
               groupValue: _locale,
               onChanged: (Locale? value) {
                 setState(() {
@@ -88,7 +88,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
               settings.updateThemeMode(_themeMode);
               settings.updateLocale(_locale);
             },
-            child: Text('Apply & Save'),
+            child: const Text('Apply & Save'),
           ),
         ],
       ),

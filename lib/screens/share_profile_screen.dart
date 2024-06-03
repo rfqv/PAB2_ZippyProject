@@ -9,8 +9,8 @@ class ShareProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bagikan Profil'),
       ),
-      body: Center(
-        child: const Text('Share Profile Page'),
+      body: const Center(
+        child: Text('Share Profile Page'),
       ),
     );
   }

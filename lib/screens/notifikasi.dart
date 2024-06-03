@@ -112,7 +112,7 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
     final brightness = Theme.of(context).brightness;
     final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     final followBackBackgroundColor = brightness == Brightness.dark ? Colors.black : Colors.blue;
-    final followBackTextColor = Colors.white;
+    const followBackTextColor = Colors.white;
     final followingBackgroundColor = brightness == Brightness.dark ? Colors.white : Colors.grey;
     final followingTextColor = brightness == Brightness.dark ? Colors.black : Colors.white;
 

@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserLocationScreen extends StatefulWidget {
-  const UserLocationScreen({Key? key}) : super(key: key);
+  const UserLocationScreen({super.key});
 
   @override
   _UserLocationScreenState createState() => _UserLocationScreenState();
@@ -105,7 +105,7 @@ class _UserLocationScreenState extends State<UserLocationScreen> {
       body: Column(
         children: [
           _initialLocation != null
-              ? Container(
+              ? SizedBox(
                   height: 400,
                   child: GoogleMap(
                     onMapCreated: _onMapCreated,
@@ -116,13 +116,13 @@ class _UserLocationScreenState extends State<UserLocationScreen> {
                     markers: _selectedLocation != null
                         ? {
                             Marker(
-                              markerId: MarkerId('selectedLocation'),
+                              markerId: const MarkerId('selectedLocation'),
                               position: _selectedLocation!,
                             ),
                           }
                         : {
                             Marker(
-                              markerId: MarkerId('initialLocation'),
+                              markerId: const MarkerId('initialLocation'),
                               position: _initialLocation!,
                             ),
                           },

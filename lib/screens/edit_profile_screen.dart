@@ -114,7 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onTap: _pickImage,
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: _imageFile != null ? FileImage(_imageFile!) : AssetImage('assets/me/default_profileImage.png') as ImageProvider,
+                backgroundImage: _imageFile != null ? FileImage(_imageFile!) : const AssetImage('assets/me/default_profileImage.png') as ImageProvider,
               ),
             ),
             const SizedBox(height: 10),

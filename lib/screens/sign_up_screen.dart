@@ -66,7 +66,7 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   void _generateCaptcha() {
     setState(() {
-      _generatedCaptcha = (1000 + (10000 - 1000) * (new DateTime.now().millisecondsSinceEpoch % 1000) / 1000).toInt().toString();
+      _generatedCaptcha = (1000 + (10000 - 1000) * (DateTime.now().millisecondsSinceEpoch % 1000) / 1000).toInt().toString();
     });
   }
 
@@ -110,8 +110,8 @@ class SignUpScreenState extends State<SignUpScreen> {
                   labelText: 'Nama Pengguna',
                   border: const OutlineInputBorder(),
                   suffixIcon: _isUsernameAvailable
-                      ? Icon(Icons.check, color: Colors.green)
-                      : Icon(Icons.close, color: Colors.red),
+                      ? const Icon(Icons.check, color: Colors.green)
+                      : const Icon(Icons.close, color: Colors.red),
                 ),
                 onChanged: (value) {
                   _checkUsernameAvailability();
@@ -157,11 +157,11 @@ class SignUpScreenState extends State<SignUpScreen> {
                   Expanded(
                     child: Text(
                       'Captcha: $_generatedCaptcha',
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.refresh),
+                    icon: const Icon(Icons.refresh),
                     onPressed: _generateCaptcha,
                   ),
                 ],
@@ -169,9 +169,9 @@ class SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 16.0),
               TextField(
                 controller: _captchaController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Masukkan Captcha',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
                   _verifyCaptcha();

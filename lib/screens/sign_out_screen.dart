@@ -12,8 +12,8 @@ class SignOutScreen extends StatelessWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Signed Out'),
-            content: Text('You\'re successfully signed out!'),
+            title: const Text('Signed Out'),
+            content: const Text('You\'re successfully signed out!'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -22,7 +22,7 @@ class SignOutScreen extends StatelessWidget {
                     (Route<dynamic> route) => false,
                   );
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -30,7 +30,7 @@ class SignOutScreen extends StatelessWidget {
       );
     });
 
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),

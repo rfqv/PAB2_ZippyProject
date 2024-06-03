@@ -199,7 +199,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildPypoGrid() {
     if (userProfile!.postPypo.isEmpty) {
-      return Center(child: Text("Tidak ada Pypo"));
+      return const Center(child: Text("Tidak ada Pypo"));
     }
 
     return GridView.builder(
@@ -228,7 +228,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildPpyList() {
     if (userProfile!.postPpy.isEmpty) {
-      return Center(child: Text("Tidak ada Ppy"));
+      return const Center(child: Text("Tidak ada Ppy"));
     }
 
     return ListView.builder(
@@ -243,19 +243,19 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.comment),
+                  icon: const Icon(Icons.comment),
                   onPressed: () {
                     // Implement reply functionality
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.share),
+                  icon: const Icon(Icons.share),
                   onPressed: () {
                     // Implement share functionality
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.favorite),
+                  icon: const Icon(Icons.favorite),
                   color: Colors.grey, // Implement like functionality and color change
                   onPressed: () {
                     // Implement like functionality
@@ -263,7 +263,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            Divider(),
+            const Divider(),
           ],
         );
       },
@@ -272,7 +272,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildRepliesList() {
     if (userProfile!.postReplies.isEmpty) {
-      return Center(child: Text("Tidak ada Replies"));
+      return const Center(child: Text("Tidak ada Replies"));
     }
 
     return ListView.builder(
@@ -287,7 +287,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildLikesGrid() {
   if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
-    return Center(child: Text("Tidak ada Likes"));
+    return const Center(child: Text("Tidak ada Likes"));
   }
 
   return GridView.builder(

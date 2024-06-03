@@ -6,7 +6,7 @@ class ShowPypoScreen extends StatefulWidget {
   final List<String> postPypo;
   final int initialIndex;
 
-  const ShowPypoScreen({required this.postPypo, required this.initialIndex, Key? key}) : super(key: key);
+  const ShowPypoScreen({required this.postPypo, required this.initialIndex, super.key});
 
   @override
   _ShowPypoScreenState createState() => _ShowPypoScreenState();
@@ -71,7 +71,7 @@ void _unlikePypo(int index) async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pypo'),
+        title: const Text('Pypo'),
       ),
       body: PageView.builder(
         controller: _pageController,
@@ -86,19 +86,19 @@ void _unlikePypo(int index) async {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.comment),
+                    icon: const Icon(Icons.comment),
                     onPressed: () {
                       // Implement reply functionality
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.share),
+                    icon: const Icon(Icons.share),
                     onPressed: () {
                       // Implement share functionality
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.favorite),
+                    icon: const Icon(Icons.favorite),
                     color: likedPypo.contains(widget.postPypo[index]) ? Colors.red : Colors.grey,
                     onPressed: () {
                       if (likedPypo.contains(widget.postPypo[index])) {
@@ -110,7 +110,7 @@ void _unlikePypo(int index) async {
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
             ],
           );
         },

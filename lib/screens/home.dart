@@ -118,8 +118,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Row(
           children: [
-            Text('ZIPPY'),
-            Spacer(),
+            const Text('ZIPPY'),
+            const Spacer(),
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             // Horizontal List of Users
-            Container(
+            SizedBox(
               height: 100,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -151,14 +151,14 @@ class _HomePageState extends State<HomePage> {
             ),
             // Pypo input
             Card(
-              margin: EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(8.0),
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     TextField(
                       controller: _textController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Write ppy here...',
                       ),
                     ),
@@ -170,16 +170,16 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.image),
+                              icon: const Icon(Icons.image),
                               onPressed: _pickImage,
                             ),
-                            IconButton(icon: Icon(Icons.gif), onPressed: () {}),
-                            IconButton(icon: Icon(Icons.event), onPressed: () {}),
+                            IconButton(icon: const Icon(Icons.gif), onPressed: () {}),
+                            IconButton(icon: const Icon(Icons.event), onPressed: () {}),
                           ],
                         ),
                         ElevatedButton(
                           onPressed: _savePpy,
-                          child: Text('Share'),
+                          child: const Text('Share'),
                         ),
                       ],
                     ),
@@ -190,13 +190,13 @@ class _HomePageState extends State<HomePage> {
             // Posts
             Expanded(
               child: postPypoMain.isEmpty && postPpyMain.isEmpty
-                  ? Center(
+                  ? const Center(
                       child: Text("Selamat datang di Zippy. Mari buat pypo/ppy pertama Anda!"),
                     )
                   : ListView(
                       children: [
-                        ...postPypoMain.map((post) => _buildPostPypoMainItem(post)).toList(),
-                        ...postPpyMain.map((post) => _buildPostPpyMainItem(post)).toList(),
+                        ...postPypoMain.map((post) => _buildPostPypoMainItem(post)),
+                        ...postPpyMain.map((post) => _buildPostPpyMainItem(post)),
                       ],
                     ),
             ),
@@ -209,9 +209,9 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostPypoMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -220,17 +220,17 @@ class _HomePageState extends State<HomePage> {
                 CircleAvatar(
                   backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(post['username'], style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
                     Text(timeago.format(timestamp)),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(post['text']),
             if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
             Row(
@@ -239,24 +239,24 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.favorite_border),
+                      icon: const Icon(Icons.favorite_border),
                       onPressed: () {},
                     ),
-                    Text('1.8K'), // Replace with actual like count
+                    const Text('1.8K'), // Replace with actual like count
                     IconButton(
-                      icon: Icon(Icons.comment),
+                      icon: const Icon(Icons.comment),
                       onPressed: () {},
                     ),
-                    Text('872'), // Replace with actual comment count
+                    const Text('872'), // Replace with actual comment count
                     IconButton(
-                      icon: Icon(Icons.save),
+                      icon: const Icon(Icons.save),
                       onPressed: () {},
                     ),
-                    Text('132'), // Replace with actual save count
+                    const Text('132'), // Replace with actual save count
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.share),
+                  icon: const Icon(Icons.share),
                   onPressed: () {},
                 ),
               ],
@@ -270,9 +270,9 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostPpyMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -281,17 +281,17 @@ class _HomePageState extends State<HomePage> {
                 CircleAvatar(
                   backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(post['username'], style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
                     Text(timeago.format(timestamp)),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(post['text']),
             if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
             Row(
@@ -300,24 +300,24 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.favorite_border),
+                      icon: const Icon(Icons.favorite_border),
                       onPressed: () {},
                     ),
-                    Text('1.8K'), // Replace with actual like count
+                    const Text('1.8K'), // Replace with actual like count
                     IconButton(
-                      icon: Icon(Icons.comment),
+                      icon: const Icon(Icons.comment),
                       onPressed: () {},
                     ),
-                    Text('872'), // Replace with actual comment count
+                    const Text('872'), // Replace with actual comment count
                     IconButton(
-                      icon: Icon(Icons.save),
+                      icon: const Icon(Icons.save),
                       onPressed: () {},
                     ),
-                    Text('132'), // Replace with actual save count
+                    const Text('132'), // Replace with actual save count
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.share),
+                  icon: const Icon(Icons.share),
                   onPressed: () {},
                 ),
               ],
