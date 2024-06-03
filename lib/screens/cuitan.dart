@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddCuitanScreen extends StatefulWidget {
-  const AddCuitanScreen({super.key});
+  const AddCuitanScreen({Key? key}) : super(key: key);
 
   @override
   State<AddCuitanScreen> createState() => _AddCuitanScreenState();
@@ -12,7 +12,7 @@ class _AddCuitanScreenState extends State<AddCuitanScreen> {
   final _formKey = GlobalKey<FormState>();
   final _CuitanController = TextEditingController();
 
-  Future<void> _addCuitan() async {
+  Future<void> _addTweet() async {
     if (_formKey.currentState!.validate()) {
       final cuitanText = _CuitanController.text;
       final newcuitan = Cuitan(
@@ -33,7 +33,7 @@ class _AddCuitanScreenState extends State<AddCuitanScreen> {
         title: const Text('Add cuitan'),
         actions: [
           TextButton(
-            onPressed: _addCuitan,
+            onPressed: _addTweet,
             child: const Text('Cuitan'),
           ),
         ],
