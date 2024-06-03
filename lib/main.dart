@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -30,6 +31,49 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+=======
+    return ChangeNotifierProvider(
+      create: (_) => UserSettingsService(),
+      child: Consumer<UserSettingsService>(
+        builder: (context, settings, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Zippy',
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            themeMode: settings.themeMode,
+            locale: settings.locale,
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('id', 'ID'),
+            ],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return const MyBottomNavbar();
+                } else {
+                  return const SignInScreen();
+                }
+              },
+            ),
+            routes: {
+              '/sign-in': (context) => const SignInScreen(),
+              '/sign-out': (context) => const SignOutScreen(),
+              '/your-account-settings': (context) =>
+                  const YourAccountSettings(),
+              '/accessibility-display-and-languages-settings': (context) =>
+                  const AccessibilityDisplayAndLanguagesSettings(),
+              // Tambahkan rute lainnya di sini
+            },
+          );
+        },
+>>>>>>> Stashed changes
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
