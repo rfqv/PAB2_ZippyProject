@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:intl/intl.dart'; // Import for date formatting
 import 'package:zippy/screens/profile.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -23,11 +28,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? _userGender;
   File? _imageFile;
   bool _showAdditionalFields = false;
+  Position? _currentPosition;
 
   @override
   void initState() {
     super.initState();
     _loadUserProfile();
+    _getCurrentLocation();
   }
 
   Future<void> _loadUserProfile() async {
@@ -40,7 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         setState(() {
           _nameController.text = data?['profileName'] ?? '';
           _bioController.text = data?['userBio'] ?? '';
-          _birthdayController.text = data?['userBirthday'] ?? '01-01-1970';
+          _birthdayController.text = data?['userBirthday'] ?? '1970/01/01';
           _addressController.text = data?['userAddress'] ?? '';
           _usernameController.text = data?['username'] ?? '';
           _emailController.text = user.email ?? '';
@@ -61,6 +68,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         'userAddress': _addressController.text,
         'username': _usernameController.text,
         'userGender': _userGender,
+        'latitude': _currentPosition?.latitude,
+        'longitude': _currentPosition?.longitude,
       });
       showDialog(
         context: context,
@@ -93,11 +102,60 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
+    if (pickedFile != null) {
+      setState(() {
         _imageFile = File(pickedFile.path);
+      });
+
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        String appDocPath = appDocDir.path;
+        String username = _usernameController.text;
+        String userUniqueIdentifier = user.uid;
+        String extension = path.extension(_imageFile!.path);
+        String newFileName = '$username-$userUniqueIdentifier$extension';
+        String newPath = path.join(appDocPath, 'assets/users/$username/favicon', newFileName);
+
+        final newFile = await _imageFile!.copy(newPath);
+
+        final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+        await ref.update({
+          'profileImage': 'assets/users/$username/favicon/$newFileName',
+        });
       }
-    });
+    }
+  }
+
+  Future<void> _getCurrentLocation() async {
+    if (await Permission.location.isGranted) {
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+        );
+        setState(() {
+          _currentPosition = position;
+        });
+      } catch (e) {
+        print('Error getting location: $e');
+      }
+    } else {
+      await Permission.location.request();
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        _birthdayController.text = DateFormat('yyyy/MM/dd').format(picked);
+      });
+    }
   }
 
   @override
@@ -120,7 +178,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SizedBox(height: 10),
             _buildTextField(controller: _nameController, label: 'Nama'),
             _buildTextField(controller: _bioController, label: 'Bio'),
-            _buildTextField(controller: _birthdayController, label: 'Tanggal Lahir'),
+            GestureDetector(
+              onTap: () => _selectDate(context),
+              child: AbsorbPointer(
+                child: _buildTextField(controller: _birthdayController, label: 'Tanggal Lahir'),
+              ),
+            ),
             _buildTextField(controller: _addressController, label: 'Alamat'),
             const SizedBox(height: 10),
             Row(
@@ -168,6 +231,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onPressed: _saveProfile,
               child: const Text('Simpan'),
             ),
+            if (_currentPosition != null) ...[
+              Text('Latitude: ${_currentPosition?.latitude}, Longitude: ${_currentPosition?.longitude}'),
+            ]
           ],
         ),
       ),
