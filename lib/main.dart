@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<UserSettingsService>(
         builder: (context, settings, child) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Zippy',
             theme: ThemeData.light(),
             darkTheme: ThemeData.dark(),

@@ -71,11 +71,11 @@ class SignInScreenState extends State<SignInScreen> {
     final password = _passwordController.text;
 
     if (email.isEmpty && password.isEmpty) {
-      _showErrorDialog('Email dan Password kosong. Harap isi terlebih dahulu!');
+      _showErrorDialog('Email dan Password tidak boleh kosong. Silahkan di isi terlebih dahulu!');
     } else if (email.isNotEmpty && password.isEmpty) {
-      _showErrorDialog('Password kosong. Harap isi terlebih dahulu!');
+      _showErrorDialog('Password tidak boleh kosong. Silahkan di isi terlebih dahulu!');
     } else if (email.isEmpty && password.isNotEmpty) {
-      _showErrorDialog('Email kosong. Harap isi terlebih dahulu!');
+      _showErrorDialog('Email tidak boleh kosong. Silahkan di isi terlebih dahulu!');
     } else {
       try {
         // Panggil metode signInWithEmailAndPassword dari SignInService
