@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -14,20 +15,57 @@ class ShowPypoScreen extends StatefulWidget {
 class _ShowPypoScreenState extends State<ShowPypoScreen> {
   PageController? _pageController;
   int currentIndex = 0;
+  Set<String> likedPypo = {};
 
   @override
   void initState() {
     super.initState();
     currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
+    _loadLikedPypo();
   }
 
-  void _likePypo(int index) {
-    setState(() {
-      // Toggle like status
-    });
-    // Save like status to Firebase
+  Future<void> _loadLikedPypo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = List<String>.from(snapshot.snapshot.value as List);
+        setState(() {
+          likedPypo = Set<String>.from(data);
+        });
+      }
+    }
   }
+
+  void _likePypo(int index) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+    final pypo = widget.postPypo[index];
+    setState(() {
+      if (likedPypo.contains(pypo)) {
+        likedPypo.remove(pypo);
+      } else {
+        likedPypo.add(pypo);
+      }
+    });
+    await ref.set(likedPypo.toList());
+  }
+}
+
+void _unlikePypo(int index) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+    final pypo = widget.postPypo[index];
+    setState(() {
+      likedPypo.remove(pypo);
+    });
+    await ref.set(likedPypo.toList());
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +99,13 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
                   ),
                   IconButton(
                     icon: Icon(Icons.favorite),
-                    color: /* Check if liked */ false ? Colors.red : Colors.grey,
+                    color: likedPypo.contains(widget.postPypo[index]) ? Colors.red : Colors.grey,
                     onPressed: () {
-                      _likePypo(index);
+                      if (likedPypo.contains(widget.postPypo[index])) {
+                        _unlikePypo(index);
+                      } else {
+                        _likePypo(index);
+                      }
                     },
                   ),
                 ],

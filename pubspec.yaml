@@ -115,6 +115,10 @@ flutter:
     - assets/app/navbar/icons/person.jpg
     - assets/app/signin/icons/google_logo.png
     - assets/me/default_profileImage.png
+    - assets/users/katarinabluu/pypo/username-katarinabluu-uid-129466-pypo1.jpg
+    - assets/users/itsmechrist/pypo/username-itsmechrist-uid-254803-pypo1.jpeg
+    - assets/users/itsmechrist/pypo/username-itsmechrist-uid-254803-pypo2.jpeg
+    - assets/users/itsmechrist/pypo/username-itsmechrist-uid-254803-pypo3.jpeg
     - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3571.jpg
     - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3570.jpg
     - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3569.jpg

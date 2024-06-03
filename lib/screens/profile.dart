@@ -24,32 +24,32 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> fetchUserProfile() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
-      final snapshot = await ref.once();
-      if (snapshot.snapshot.value != null) {
-        final data = snapshot.snapshot.value as Map?;
-        setState(() {
-          userProfile = UserProfile(
-            profileName: data?['profileName'] ?? 'User',
-            username: data?['username'] ?? 'Unknown',
-            profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
-            userAddress: data?['userAddress'] ?? 'Unknown',
-            fans: data?['fans'] ?? 0,
-            following: data?['following'] ?? 0,
-            pypo: data?['pypo'] ?? 0,
-            ppy: data?['ppy'] ?? 0,
-            postPypo: List<String>.from(data?['postPypo'] ?? []),
-            postPpy: List<String>.from(data?['postPpy'] ?? []),
-            postReplies: List<String>.from(data?['postReplies'] ?? []),
-            likedPypo: List<String>.from(data?['likedPypo'] ?? []), 
-            likedPpy: List<String>.from(data?['likedPpy'] ?? []), 
-          );
-        });
-      }
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+    final snapshot = await ref.once();
+    if (snapshot.snapshot.value != null) {
+      final data = snapshot.snapshot.value as Map?;
+      setState(() {
+        userProfile = UserProfile(
+          profileName: data?['profileName'] ?? 'User',
+          username: data?['username'] ?? 'Unknown',
+          profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+          userAddress: data?['userAddress'] ?? 'Unknown',
+          fans: data?['fans'] ?? 0,
+          following: data?['following'] ?? 0,
+          pypo: data?['pypo'] ?? 0,
+          ppy: data?['ppy'] ?? 0,
+          postPypo: List<String>.from(data?['postPypo'] ?? []),
+          postPpy: List<String>.from(data?['postPpy'] ?? []),
+          postReplies: List<String>.from(data?['postReplies'] ?? []),
+          likedPypo: List<String>.from(data?['likedPypo'] ?? []),
+          likedPpy: List<String>.from(data?['likedPpy'] ?? []),
+        );
+      });
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -286,29 +286,29 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildLikesGrid() {
-    if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
-      return Center(child: Text("Tidak ada Likes"));
-    }
-
-    return GridView.builder(
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-      ),
-      itemCount: userProfile!.likedPypo.length + userProfile!.likedPpy.length,
-      itemBuilder: (context, index) {
-        if (index < userProfile!.likedPypo.length) {
-          return Image.asset(userProfile!.likedPypo[index], fit: BoxFit.cover);
-        } else {
-          return ListTile(
-            title: Text(userProfile!.likedPpy[index - userProfile!.likedPypo.length]),
-          );
-        }
-      },
-    );
+  if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
+    return Center(child: Text("Tidak ada Likes"));
   }
+
+  return GridView.builder(
+    padding: const EdgeInsets.all(8.0),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      crossAxisSpacing: 4,
+      mainAxisSpacing: 4,
+    ),
+    itemCount: userProfile!.likedPypo.length + userProfile!.likedPpy.length,
+    itemBuilder: (context, index) {
+      if (index < userProfile!.likedPypo.length) {
+        return Image.asset(userProfile!.likedPypo[index], fit: BoxFit.cover);
+      } else {
+        return ListTile(
+          title: Text(userProfile!.likedPpy[index - userProfile!.likedPypo.length]),
+        );
+      }
+    },
+  );
+}
 
   Widget _buildStatColumn(String label, int count) {
     String formattedCount = _formatCount(count);
