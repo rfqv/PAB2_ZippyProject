@@ -4,6 +4,11 @@
           "profileName": "Janeya",
           "username": "jjnaey97",
           "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+          "userAddress": "Palembang, Indonesia",
+          "userLocation": {
+            "latitude": -2.99110830,
+            "longitude": 104.75673330
+          },
           "email": "jjnaey97@gmail.com",
           "fans": 25695,
           "following": 458,
@@ -30,6 +35,11 @@
           "username": "itsmechrist",
           "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
           "email": "itsmechrist@gmail.com",
+          "userAdress": "Jakarta, Indonesia",
+          "userLocation": {
+            "latitude": -6.21154400,
+            "longitude": 106.84517200
+          },
           "fans": 26009,
           "following": 113,
           "pypo": 3,

@@ -41,14 +41,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             const CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage(
-                  'assets/profile_picture.png'), // Update with your image
+                  'assets/me/default_profileImages.jpeg'), // Update with your image
             ),
             const SizedBox(height: 10),
             const Text(
@@ -73,7 +73,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 backgroundColor: Colors.blue, // Button color
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 40),
             Image.asset(
               'assets/zippy.png',
               width: 200,

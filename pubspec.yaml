@@ -46,6 +46,9 @@ dependencies:
   provider: ^6.1.2
   flutter_localization: ^0.2.0
   google_maps_flutter: ^2.6.1
+  geocoding: ^3.0.0
+  url_launcher: ^6.2.6
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -111,7 +114,7 @@ flutter:
     - assets/app/navbar/icons/notification-bell.jpg
     - assets/app/navbar/icons/person.jpg
     - assets/app/signin/icons/google_logo.png
-    - assets/me/default_profileImages.jpeg
+    - assets/me/default_profileImage.png
     - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3571.jpg
     - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3570.jpg
     - assets/users/jjnaey97/pypo/username-jjnaey97-uid-204238-pypo3569.jpg

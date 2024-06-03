@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:zippy/screens/EditProfilePage.dart';
+import 'package:zippy/screens/edit_profile_screen.dart';
 import 'package:zippy/screens/share_profile_screen.dart';
+import 'package:zippy/screens/show_pypo_screen.dart';
 import 'package:zippy/screens/user_settings_screen.dart';
-import 'package:zippy/screens/user_location_screen.dart'; // 
+import 'package:zippy/screens/user_location_screen.dart'; 
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -33,14 +34,17 @@ class _ProfileState extends State<Profile> {
           userProfile = UserProfile(
             profileName: data?['profileName'] ?? 'User',
             username: data?['username'] ?? 'Unknown',
-            profileImage: data?['profileImage'] ?? 'assets/default_profile.png',
-            userLocation: data?['userLocation'] ?? 'Unknown',
+            profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+            userAddress: data?['userAddress'] ?? 'Unknown',
             fans: data?['fans'] ?? 0,
             following: data?['following'] ?? 0,
             pypo: data?['pypo'] ?? 0,
             ppy: data?['ppy'] ?? 0,
             postPypo: List<String>.from(data?['postPypo'] ?? []),
             postPpy: List<String>.from(data?['postPpy'] ?? []),
+            postReplies: List<String>.from(data?['postReplies'] ?? []),
+            likedPypo: List<String>.from(data?['likedPypo'] ?? []), 
+            likedPpy: List<String>.from(data?['likedPpy'] ?? []), 
           );
         });
       }
@@ -111,7 +115,7 @@ class _ProfileState extends State<Profile> {
                           );
                         },
                         child: Text(
-                          userProfile!.userLocation,
+                          userProfile!.userAddress,
                           style: const TextStyle(
                             color: Colors.blue,
                             fontSize: 16,
@@ -144,7 +148,7 @@ class _ProfileState extends State<Profile> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                      MaterialPageRoute(builder: (context) => const EditProfileScreen()),
                     );
                   },
                   child: const Text('Edit Profile'),
@@ -179,8 +183,8 @@ class _ProfileState extends State<Profile> {
                       children: [
                         _buildPypoGrid(),
                         _buildPpyList(),
-                        Container(), // Implement replies
-                        Container(), // Implement likes
+                        _buildRepliesList(),
+                        _buildLikesGrid(),
                       ],
                     ),
                   ),
@@ -194,27 +198,114 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildPypoGrid() {
+    if (userProfile!.postPypo.isEmpty) {
+      return Center(child: Text("Tidak ada Pypo"));
+    }
+
     return GridView.builder(
       padding: const EdgeInsets.all(8.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 2,
         crossAxisSpacing: 4,
         mainAxisSpacing: 4,
       ),
       itemCount: userProfile!.postPypo.length,
       itemBuilder: (context, index) {
-        return Image.asset(userProfile!.postPypo[index], fit: BoxFit.cover);
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShowPypoScreen(postPypo: userProfile!.postPypo, initialIndex: index),
+              ),
+            );
+          },
+          child: Image.asset(userProfile!.postPypo[index], fit: BoxFit.cover),
+        );
       },
     );
   }
 
   Widget _buildPpyList() {
+    if (userProfile!.postPpy.isEmpty) {
+      return Center(child: Text("Tidak ada Ppy"));
+    }
+
     return ListView.builder(
       itemCount: userProfile!.postPpy.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(userProfile!.postPpy[index]),
+        return Column(
+          children: [
+            ListTile(
+              title: Text(userProfile!.postPpy[index]),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.comment),
+                  onPressed: () {
+                    // Implement reply functionality
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: () {
+                    // Implement share functionality
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.favorite),
+                  color: Colors.grey, // Implement like functionality and color change
+                  onPressed: () {
+                    // Implement like functionality
+                  },
+                ),
+              ],
+            ),
+            Divider(),
+          ],
         );
+      },
+    );
+  }
+
+  Widget _buildRepliesList() {
+    if (userProfile!.postReplies.isEmpty) {
+      return Center(child: Text("Tidak ada Replies"));
+    }
+
+    return ListView.builder(
+      itemCount: userProfile!.postReplies.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(userProfile!.postReplies[index]),
+        );
+      },
+    );
+  }
+
+  Widget _buildLikesGrid() {
+    if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
+      return Center(child: Text("Tidak ada Likes"));
+    }
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 4,
+      ),
+      itemCount: userProfile!.likedPypo.length + userProfile!.likedPpy.length,
+      itemBuilder: (context, index) {
+        if (index < userProfile!.likedPypo.length) {
+          return Image.asset(userProfile!.likedPypo[index], fit: BoxFit.cover);
+        } else {
+          return ListTile(
+            title: Text(userProfile!.likedPpy[index - userProfile!.likedPypo.length]),
+          );
+        }
       },
     );
   }
@@ -227,30 +318,22 @@ class _ProfileState extends State<Profile> {
           formattedCount,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 20,
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
-          ),
-        ),
+        Text(label),
       ],
     );
   }
 
   String _formatCount(int count) {
-    if (count >= 1000000000) {
-      return '${(count / 1000000000).toStringAsFixed(1)}b';
+    if (count >= 1000 && count < 1000000) {
+      return '${(count / 1000).toStringAsFixed(1)}K';
     } else if (count >= 1000000) {
-      return '${(count / 1000000).toStringAsFixed(1)}m';
-    } else if (count >= 1000) {
-      return '${(count / 1000).toStringAsFixed(1)}k';
+      return '${(count / 1000000).toStringAsFixed(1)}M';
+    } else {
+      return count.toString();
     }
-    return count.toString();
   }
 }
 
@@ -258,24 +341,30 @@ class UserProfile {
   final String profileName;
   final String username;
   final String profileImage;
-  final String userLocation;
+  final String userAddress;
   final int fans;
   final int following;
   final int pypo;
   final int ppy;
   final List<String> postPypo;
   final List<String> postPpy;
+  final List<String> postReplies;
+  final List<String> likedPypo;
+  final List<String> likedPpy;
 
   UserProfile({
     required this.profileName,
     required this.username,
     required this.profileImage,
-    required this.userLocation,
+    required this.userAddress,
     required this.fans,
     required this.following,
     required this.pypo,
     required this.ppy,
     required this.postPypo,
     required this.postPpy,
+    required this.postReplies,
+    required this.likedPypo,
+    required this.likedPpy,
   });
 }
