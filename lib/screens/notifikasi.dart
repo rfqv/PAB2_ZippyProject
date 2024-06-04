@@ -70,6 +70,7 @@ class _NotifikasiState extends State<Notifikasi> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications Page'),
+        backgroundColor: const Color(0xFF7DABCF),
       ),
       body: ListView.builder(
         itemCount: notifications.length,

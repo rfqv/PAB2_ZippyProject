@@ -16,6 +16,7 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
   PageController? _pageController;
   int currentIndex = 0;
   Set<String> likedPypo = {};
+  String username = '';
 
   @override
   void initState() {
@@ -23,6 +24,21 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
     currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
     _loadLikedPypo();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = snapshot.snapshot.value as Map?;
+        setState(() {
+          username = data?['username'] ?? 'Unknown';
+        });
+      }
+    }
   }
 
   Future<void> _loadLikedPypo() async {
@@ -40,38 +56,39 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
   }
 
   void _likePypo(int index) async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
-    final pypo = widget.postPypo[index];
-    setState(() {
-      if (likedPypo.contains(pypo)) {
-        likedPypo.remove(pypo);
-      } else {
-        likedPypo.add(pypo);
-      }
-    });
-    await ref.set(likedPypo.toList());
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+      final pypo = widget.postPypo[index];
+      setState(() {
+        if (likedPypo.contains(pypo)) {
+          likedPypo.remove(pypo);
+        } else {
+          likedPypo.add(pypo);
+        }
+      });
+      await ref.set(likedPypo.toList());
+    }
   }
-}
 
-void _unlikePypo(int index) async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
-    final pypo = widget.postPypo[index];
-    setState(() {
-      likedPypo.remove(pypo);
-    });
-    await ref.set(likedPypo.toList());
+  void _unlikePypo(int index) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+      final pypo = widget.postPypo[index];
+      setState(() {
+        likedPypo.remove(pypo);
+      });
+      await ref.set(likedPypo.toList());
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pypo'),
+        title: Text(username.isEmpty ? 'Pypo' : username),
+        backgroundColor: const Color(0xFF7DABCF),
       ),
       body: PageView.builder(
         controller: _pageController,
@@ -87,13 +104,11 @@ void _unlikePypo(int index) async {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.comment),
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                   ),
                   IconButton(
                     icon: const Icon(Icons.share),
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                   ),
                   IconButton(
                     icon: const Icon(Icons.favorite),

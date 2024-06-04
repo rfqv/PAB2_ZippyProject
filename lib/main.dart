@@ -26,10 +26,19 @@ class MyApp extends StatelessWidget {
       create: (_) => UserSettingsService(),
       child: Consumer<UserSettingsService>(
         builder: (context, settings, child) {
+          bool isDarkMode = settings.themeMode == ThemeMode.dark || (settings.themeMode == ThemeMode.system && MediaQuery.of(context).platformBrightness == Brightness.dark);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Zippy',
-            theme: ThemeData.light(),
+            theme: ThemeData(
+              primaryColor: const Color(0xFF7DABCF),
+              scaffoldBackgroundColor: const Color(0xFFBAD6EB),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: const Color(0xFF7DABCF),
+                selectedItemColor: Colors.black,
+                unselectedItemColor: const Color(0xFFF7F7F7),
+              ),
+            ),
             darkTheme: ThemeData.dark(),
             themeMode: settings.themeMode,
             locale: settings.locale,

@@ -8,6 +8,7 @@ class NotificationSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notification'),
+        backgroundColor: const Color(0xFF7DABCF),
       ),
       body: const Center(
         child: Text('Notification Settings'),

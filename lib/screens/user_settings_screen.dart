@@ -13,6 +13,7 @@ class UserSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: const Color(0xFF7DABCF)
       ),
       body: ListView(
         children: [

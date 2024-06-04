@@ -5,7 +5,13 @@ import 'package:zippy/screens/edit_profile_screen.dart';
 import 'package:zippy/screens/share_profile_screen.dart';
 import 'package:zippy/screens/show_pypo_screen.dart';
 import 'package:zippy/screens/user_settings_screen.dart';
-import 'package:zippy/screens/user_location_screen.dart'; 
+import 'package:zippy/screens/user_location_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:zippy/services/user_settings_services.dart';
+import 'package:zippy/screens/user_fans_list_screen.dart';
+import 'package:zippy/screens/user_following_list_screen.dart';
+import 'package:zippy/screens/user_pypo_grid_screen.dart';
+import 'package:zippy/screens/user_ppy_list_screen.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -24,39 +30,60 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> fetchUserProfile() async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
-    final snapshot = await ref.once();
-    if (snapshot.snapshot.value != null) {
-      final data = snapshot.snapshot.value as Map?;
-      setState(() {
-        userProfile = UserProfile(
-          profileName: data?['profileName'] ?? 'User',
-          username: data?['username'] ?? 'Unknown',
-          profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
-          userAddress: data?['userAddress'] ?? 'Unknown',
-          fans: data?['fans'] ?? 0,
-          following: data?['following'] ?? 0,
-          pypo: data?['pypo'] ?? 0,
-          ppy: data?['ppy'] ?? 0,
-          postPypo: List<String>.from(data?['postPypo'] ?? []),
-          postPpy: List<String>.from(data?['postPpy'] ?? []),
-          postReplies: List<String>.from(data?['postReplies'] ?? []),
-          likedPypo: List<String>.from(data?['likedPypo'] ?? []),
-          likedPpy: List<String>.from(data?['likedPpy'] ?? []),
-        );
-      });
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = snapshot.snapshot.value as Map?;
+        setState(() {
+          userProfile = UserProfile(
+            profileName: data?['profileName'] ?? 'User',
+            username: data?['username'] ?? 'Unknown',
+            profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+            userAddress: data?['userAddress'] ?? 'Unknown',
+            fans: data?['fans'] ?? 0,
+            following: data?['following'] ?? 0,
+            pypo: data?['pypo'] ?? 0,
+            ppy: data?['ppy'] ?? 0,
+            postPypo: List<String>.from(data?['postPypo'] ?? []),
+            postPpy: List<String>.from(data?['postPpy'] ?? []),
+            postReplies: List<String>.from(data?['postReplies'] ?? []),
+            likedPypo: List<String>.from(data?['likedPypo'] ?? []),
+            likedPpy: List<String>.from(data?['likedPpy'] ?? []),
+          );
+        });
+      }
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<UserSettingsService>(context);
+    bool isDarkMode = settings.themeMode == ThemeMode.dark || (settings.themeMode == ThemeMode.system && MediaQuery.of(context).platformBrightness == Brightness.dark);
+
+    final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
+      foregroundColor: isDarkMode ? null : Colors.black,
+      backgroundColor: isDarkMode ? null : const Color(0xFF7DABCF),
+    );
+
+    final TabBar tabBar = TabBar(
+      tabs: const [
+        Tab(text: 'Pypo'),
+        Tab(text: 'Ppy'),
+        Tab(text: 'Replies'),
+        Tab(text: 'Likes'),
+      ],
+      labelColor: isDarkMode ? null : Colors.black,
+      unselectedLabelColor: isDarkMode ? null : Colors.black,
+      indicatorColor: isDarkMode ? null : Colors.black,
+    );
+
     if (userProfile == null) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Loading...'),
+          backgroundColor: const Color(0xFF7DABCF),
         ),
         body: const Center(
           child: CircularProgressIndicator(),
@@ -67,6 +94,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text(userProfile!.username),
+        backgroundColor: const Color(0xFF7DABCF),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -127,56 +155,94 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Container(
+              color: isDarkMode ? Colors.grey[850] : const Color(0xFF7DABCF),
+              child: Column(
                 children: [
-                  _buildStatColumn('Fans', userProfile!.fans),
-                  _buildStatColumn('Following', userProfile!.following),
-                  _buildStatColumn('Pypo', userProfile!.pypo),
-                  _buildStatColumn('Ppy', userProfile!.ppy),
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const UserFansListScreen()),
+                            );
+                          },
+                          child: _buildStatColumn('Fans', userProfile!.fans),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const UserFollowingListScreen()),
+                            );
+                          },
+                          child: _buildStatColumn('Following', userProfile!.following),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const UserPypoGridScreen()),
+                            );
+                          },
+                          child: _buildStatColumn('Pypo', userProfile!.pypo),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const UserPpyListScreen()),
+                            );
+                          },
+                          child: _buildStatColumn('Ppy', userProfile!.ppy),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const EditProfileScreen()),
-                    );
-                  },
-                  child: const Text('Edit Profile'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ShareProfileScreen()),
-                    );
-                  },
-                  child: const Text('Bagikan Profil'),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                    style: elevatedButtonStyle,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                      );
+                    },
+                    child: const Text('Edit Profile'),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    style: elevatedButtonStyle,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ShareProfileScreen()),
+                      );
+                    },
+                    child: const Text('Bagikan Profil'),
+                  ),
+                ],
+              ),
             ),
             const Divider(),
             DefaultTabController(
               length: 4,
               child: Column(
                 children: [
-                  const TabBar(
-                    tabs: [
-                      Tab(text: 'Pypo'),
-                      Tab(text: 'Ppy'),
-                      Tab(text: 'Replies'),
-                      Tab(text: 'Likes'),
-                    ],
-                  ),
+                  tabBar,
                   SizedBox(
                     height: 400,
                     child: TabBarView(
@@ -244,20 +310,16 @@ class _ProfileState extends State<Profile> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.comment),
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                 ),
                 IconButton(
                   icon: const Icon(Icons.share),
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
                 IconButton(
                   icon: const Icon(Icons.favorite),
                   color: Colors.grey,
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
               ],
             ),
@@ -284,29 +346,29 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildLikesGrid() {
-  if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
-    return const Center(child: Text("Tidak ada Likes"));
-  }
+    if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
+      return const Center(child: Text("Tidak ada Likes"));
+    }
 
-  return GridView.builder(
-    padding: const EdgeInsets.all(8.0),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      crossAxisSpacing: 4,
-      mainAxisSpacing: 4,
-    ),
-    itemCount: userProfile!.likedPypo.length + userProfile!.likedPpy.length,
-    itemBuilder: (context, index) {
-      if (index < userProfile!.likedPypo.length) {
-        return Image.asset(userProfile!.likedPypo[index], fit: BoxFit.cover);
-      } else {
-        return ListTile(
-          title: Text(userProfile!.likedPpy[index - userProfile!.likedPypo.length]),
-        );
-      }
-    },
-  );
-}
+    return GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 4,
+      ),
+      itemCount: userProfile!.likedPypo.length + userProfile!.likedPpy.length,
+      itemBuilder: (context, index) {
+        if (index < userProfile!.likedPypo.length) {
+          return Image.asset(userProfile!.likedPypo[index], fit: BoxFit.cover);
+        } else {
+          return ListTile(
+            title: Text(userProfile!.likedPpy[index - userProfile!.likedPypo.length]),
+          );
+        }
+      },
+    );
+  }
 
   Widget _buildStatColumn(String label, int count) {
     String formattedCount = _formatCount(count);

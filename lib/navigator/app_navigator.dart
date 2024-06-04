@@ -35,13 +35,13 @@ class _MyBottomNavbarState extends State<MyBottomNavbar> {
           child: BottomNavigationBar(
               backgroundColor: isDarkMode
                   ? Colors.grey[850]
-                  : const Color.fromARGB(255, 25, 157, 190),
+                  : const Color(0xFF7DABCF),
               selectedItemColor: isDarkMode
                   ? Colors.white
-                  : const Color.fromARGB(255, 5, 5, 5),
+                  : Colors.black,
               unselectedItemColor: isDarkMode
                   ? Colors.grey
-                  : const Color.fromARGB(255, 247, 247, 247),
+                  : const Color(0xFFF7F7F7),
               type: BottomNavigationBarType.fixed,
               currentIndex: myCurrentIndex,
               onTap: (Index) {

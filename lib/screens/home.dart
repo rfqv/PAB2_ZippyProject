@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
       if (mounted) {
         setState(() {
           postPypoMain = List<Map>.from(data?.values ?? []);
+          postPypoMain.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
         });
       }
     }
@@ -68,6 +69,7 @@ class _HomePageState extends State<HomePage> {
       if (mounted) {
         setState(() {
           postPpyMain = List<Map>.from(data?.values ?? []);
+          postPpyMain.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
         });
       }
     }
@@ -104,7 +106,7 @@ class _HomePageState extends State<HomePage> {
         };
         await ref.set(newPost);
         setState(() {
-          postPpyMain.add(newPost);
+          postPpyMain.insert(0, newPost); // Insert the new post at the top
           _textController.clear();
           _image = null;
         });
@@ -131,6 +133,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+        backgroundColor: const Color(0xFF7DABCF),
       ),
       body: SafeArea(
         child: Column(
@@ -163,7 +166,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     if (_image != null)
-                      Image.file(_image!),
+                      SizedBox(
+                        width: 100, // Adjust the width and height as needed
+                        height: 100,
+                        child: Image.file(_image!),
+                      ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -178,6 +185,10 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: const Color(0xFF7DABCF), // Text color
+                          ),
                           onPressed: _savePpy,
                           child: const Text('Share'),
                         ),
