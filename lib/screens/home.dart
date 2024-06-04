@@ -17,8 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String profileName = 'User';
   String profileImage = 'assets/me/default_profileImage.png';
-  List<Map> postPypoMain = [];
-  List<Map> postPpyMain = [];
+  List<Map> posts = [];
   final TextEditingController _textController = TextEditingController();
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -54,24 +53,27 @@ class _HomePageState extends State<HomePage> {
     final snapshotPypo = await refPypo.once();
     final snapshotPpy = await refPpy.once();
 
+    List<Map> tempPosts = [];
+
     if (snapshotPypo.snapshot.value != null) {
       final data = snapshotPypo.snapshot.value as Map?;
       if (mounted) {
-        setState(() {
-          postPypoMain = List<Map>.from(data?.values ?? []);
-          postPypoMain.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
-        });
+        tempPosts.addAll(List<Map>.from(data?.values ?? []));
       }
     }
 
     if (snapshotPpy.snapshot.value != null) {
       final data = snapshotPpy.snapshot.value as Map?;
       if (mounted) {
-        setState(() {
-          postPpyMain = List<Map>.from(data?.values ?? []);
-          postPpyMain.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
-        });
+        tempPosts.addAll(List<Map>.from(data?.values ?? []));
       }
+    }
+
+    if (mounted) {
+      setState(() {
+        posts = tempPosts;
+        posts.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
+      });
     }
   }
 
@@ -96,11 +98,10 @@ class _HomePageState extends State<HomePage> {
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
           'profileImage': profileImage,
-
         };
         await ref.set(newPost);
         setState(() {
-          postPpyMain.insert(0, newPost); // Insert the new post at the top
+          posts.insert(0, newPost); // Insert the new post at the top
           _textController.clear();
           _image = null;
         });
@@ -130,7 +131,7 @@ class _HomePageState extends State<HomePage> {
         };
         await ref.set(newPost);
         setState(() {
-          postPypoMain.insert(0, newPost); // Insert the new post at the top
+          posts.insert(0, newPost); // Insert the new post at the top
           _textController.clear();
         });
       }
@@ -232,15 +233,20 @@ class _HomePageState extends State<HomePage> {
             ),
             // Posts
             Expanded(
-              child: postPypoMain.isEmpty && postPpyMain.isEmpty
+              child: posts.isEmpty
                   ? const Center(
                       child: Text("Selamat datang di Zippy. Mari buat pypo/ppy pertama Anda!"),
                     )
-                  : ListView(
-                      children: [
-                        ...postPypoMain.map((post) => _buildPostPypoMainItem(post)),
-                        ...postPpyMain.map((post) => _buildPostPpyMainItem(post)),
-                      ],
+                  : ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        final post = posts[index];
+                        if (post.containsKey('mediaUrl')) {
+                          return _buildPostPypoMainItem(post);
+                        } else {
+                          return _buildPostPpyMainItem(post);
+                        }
+                      },
                     ),
             ),
           ],
@@ -261,7 +267,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                  backgroundImage: AssetImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
                 ),
                 const SizedBox(width: 8.0),
                 Column(
@@ -300,7 +306,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.share),
-                  onPressed: () {},
+                  onPressed: () {
+                    _showShareMenu(context);
+                  },
                 ),
               ],
             ),
@@ -322,7 +330,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                  backgroundImage: AssetImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
                 ),
                 const SizedBox(width: 8.0),
                 Column(
@@ -361,7 +369,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.share),
-                  onPressed: () {},
+                  onPressed: () {
+                    _showShareMenu(context);
+                  },
                 ),
               ],
             ),
@@ -369,6 +379,29 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void _showShareMenu(BuildContext context) {
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(100, 100, 0, 0),
+      items: [
+        const PopupMenuItem(
+          value: 'zippy_friends',
+          child: Text('Bagikan ke teman Zippy'),
+        ),
+        const PopupMenuItem(
+          value: 'share',
+          child: Text('Bagikan ke...'),
+        ),
+      ],
+    ).then((value) {
+      if (value == 'zippy_friends') {
+        // Handle "Bagikan ke teman Zippy"
+      } else if (value == 'share') {
+        // Handle "Bagikan ke..."
+      }
+    });
   }
 }
 
