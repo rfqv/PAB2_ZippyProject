@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'dart:io';
 
 class AddStoryScreen extends StatefulWidget {
   const AddStoryScreen({super.key});
@@ -45,8 +45,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   }
 
   Future<void> _uploadImage(XFile imageFile) async {
-    final storageRef = FirebaseStorage.instance.ref().child('stories').child(DateTime.now().toString());
-    final uploadTask = storageRef.putFile(imageFile);
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('stories')
+        .child(DateTime.now().toString());
+    final uploadTask = storageRef.putFile(File(imageFile.path));
     await uploadTask.whenComplete(() async {
       final downloadUrl = await storageRef.getDownloadURL();
       await _createStory(downloadUrl, _textController.text, 'image');
@@ -54,8 +57,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   }
 
   Future<void> _uploadVideo(XFile videoFile) async {
-    final storageRef = FirebaseStorage.instance.ref().child('stories').child(DateTime.now().toString());
-    final uploadTask = storageRef.putFile(videoFile);
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('stories')
+        .child(DateTime.now().toString());
+    final uploadTask = storageRef.putFile(File(videoFile.path));
     await uploadTask.whenComplete(() async {
       final downloadUrl = await storageRef.getDownloadURL();
       await _createStory(downloadUrl, _textController.text, 'video');
@@ -67,6 +73,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       'url': url,
       'text': text,
       'type': type,
+      'createdAt': FieldValue.serverTimestamp(),
     });
   }
 
@@ -78,7 +85,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         actions: [
           TextButton(
             onPressed: _uploadStory,
-            child: const Text('Post'),
+            child: const Text('Post', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

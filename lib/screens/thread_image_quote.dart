@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
 class AddQuoteThreadScreen extends StatefulWidget {
   const AddQuoteThreadScreen({super.key});
@@ -25,39 +26,45 @@ class _AddQuoteThreadScreenState extends State<AddQuoteThreadScreen> {
 
   Future<void> _createThread() async {
     if (_formKey.currentState!.validate()) {
+      final quoteText = _quoteController.text;
+      String? imageUrl;
+
       if (_selectedImage != null) {
-        final imageUrl = await _uploadImage(_selectedImage!);
-        final quoteText = _quoteController.text;
-
-        final firstTweet = Cuitan(
-          text: '', 
-          userId: 'your_user_id', 
-          timestamp: DateTime.now(),
-          imageUrl: imageUrl,
-        );
-
-        final secondTweet = Cuitan(
-          text: quoteText,
-          userId: 'your_user_id', 
-          timestamp: DateTime.now(),
-          isQuote: true, 
-          quoteTweetId: firstTweet.id, 
-        );
-
-        await FirebaseFirestore.instance.collection('Cuitan').add(firstTweet.toJson());
-        await FirebaseFirestore.instance.collection('Cuitan').add(secondTweet.toJson());
-
-        Navigator.pop(context);
+        imageUrl = await _uploadImage(_selectedImage!);
       }
+
+      final firstTweet = await _createCuitan(
+          '', 'your_user_id', imageUrl); // ganti user id nya
+      final secondTweet = await _createCuitan(
+          quoteText, 'your_user_id', null, true, firstTweet); // ni juga
+
+      Navigator.pop(context);
     }
   }
 
   Future<String> _uploadImage(XFile imageFile) async {
-    final storageRef = FirebaseStorage.instance.ref().child('Cuitan').child(DateTime.now().toString());
-    final uploadTask = storageRef.putFile(imageFile);
-    await uploadTask.whenComplete(() async {
-      return await storageRef.getDownloadURL();
-    });
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('Cuitan')
+        .child(DateTime.now().toString());
+    final uploadTask = storageRef.putFile(File(imageFile.path));
+    await uploadTask.whenComplete(() {});
+    return await storageRef.getDownloadURL();
+  }
+
+  Future<DocumentReference> _createCuitan(
+      String text, String userId, String? imageUrl,
+      [bool isQuote = false, DocumentReference? quoteTweetId]) async {
+    final newCuitan = {
+      'text': text,
+      'userId': userId,
+      'timestamp': FieldValue.serverTimestamp(),
+      'imageUrl': imageUrl,
+      'isQuote': isQuote,
+      'quoteTweetId': quoteTweetId,
+    };
+
+    return await FirebaseFirestore.instance.collection('Cuitan').add(newCuitan);
   }
 
   @override
@@ -68,7 +75,10 @@ class _AddQuoteThreadScreenState extends State<AddQuoteThreadScreen> {
         actions: [
           TextButton(
             onPressed: _createThread,
-            child: const Text('Post'),
+            child: const Text(
+              'Post',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -98,7 +108,7 @@ class _AddQuoteThreadScreenState extends State<AddQuoteThreadScreen> {
               ),
               const SizedBox(height: 16.0),
               if (_selectedImage != null)
-                Image.file(_selectedImage!.path),
+                Image.file(File(_selectedImage!.path)),
             ],
           ),
         ),
