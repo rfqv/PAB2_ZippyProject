@@ -89,6 +89,30 @@ class _HomePageState extends State<HomePage> {
     if (text.isNotEmpty || _image != null) {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+
+        final ref = FirebaseDatabase.instance.reference().child('postPpyMain').push();
+        final newPost = {
+          'username': profileName,
+          'text': text,
+          'timestamp': DateTime.now().toIso8601String(),
+          'profileImage': profileImage,
+
+        };
+        await ref.set(newPost);
+        setState(() {
+          postPpyMain.insert(0, newPost); // Insert the new post at the top
+          _textController.clear();
+          _image = null;
+        });
+      }
+    }
+  }
+
+  Future<void> _savePypo() async {
+    final text = _textController.text;
+    if (text.isNotEmpty) {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
         String? imageUrl;
         if (_image != null) {
           final storageRef = FirebaseStorage.instance.ref().child('post_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
@@ -96,7 +120,7 @@ class _HomePageState extends State<HomePage> {
           imageUrl = await uploadTask.ref.getDownloadURL();
         }
 
-        final ref = FirebaseDatabase.instance.reference().child('postPpyMain').push();
+        final ref = FirebaseDatabase.instance.reference().child('postPypoMain').push();
         final newPost = {
           'username': profileName,
           'text': text,
@@ -106,9 +130,8 @@ class _HomePageState extends State<HomePage> {
         };
         await ref.set(newPost);
         setState(() {
-          postPpyMain.insert(0, newPost); // Insert the new post at the top
+          postPypoMain.insert(0, newPost); // Insert the new post at the top
           _textController.clear();
-          _image = null;
         });
       }
     }
@@ -154,6 +177,7 @@ class _HomePageState extends State<HomePage> {
             ),
             // Pypo input
             Card(
+              color: const Color(0xFF7DABCF), // Change background color
               margin: const EdgeInsets.all(8.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -163,6 +187,8 @@ class _HomePageState extends State<HomePage> {
                       controller: _textController,
                       decoration: const InputDecoration(
                         hintText: 'Write ppy here...',
+                        filled: true,
+                        fillColor: Colors.white, // Background color of TextField
                       ),
                     ),
                     if (_image != null)
@@ -187,9 +213,15 @@ class _HomePageState extends State<HomePage> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,
-                            backgroundColor: const Color(0xFF7DABCF), // Text color
+                            backgroundColor: const Color(0xFFBAD6EB), // Text color
                           ),
-                          onPressed: _savePpy,
+                          onPressed: () {
+                            if (_image != null) {
+                              _savePypo();
+                            } else {
+                              _savePpy();
+                            }
+                          },
                           child: const Text('Share'),
                         ),
                       ],
