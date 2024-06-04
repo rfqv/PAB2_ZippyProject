@@ -67,7 +67,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   _errorMessage,
                   style: const TextStyle(color: Colors.red),
                 ),
-              // Add Captcha here if required
             ],
           ),
         ),

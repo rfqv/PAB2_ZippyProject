@@ -61,7 +61,6 @@ class zippy_screen extends StatelessWidget {
                 ),
                 label: const Text('Continue with Google'),
                 onPressed: () {
-                  // Tambahkan fungsi login dengan Google di sini
                 },
               ),
               const SizedBox(height: 10),
@@ -74,7 +73,6 @@ class zippy_screen extends StatelessWidget {
                 ),
                 child: const Text('Create account'),
                 onPressed: () {
-                  // Tambahkan fungsi untuk membuat akun di sini
                 },
               ),
               const SizedBox(height: 20),

@@ -242,17 +242,17 @@ class _HomePageState extends State<HomePage> {
                       icon: const Icon(Icons.favorite_border),
                       onPressed: () {},
                     ),
-                    const Text('1.8K'), // Replace with actual like count
+                    const Text('1.8K'),
                     IconButton(
                       icon: const Icon(Icons.comment),
                       onPressed: () {},
                     ),
-                    const Text('872'), // Replace with actual comment count
+                    const Text('872'),
                     IconButton(
                       icon: const Icon(Icons.save),
                       onPressed: () {},
                     ),
-                    const Text('132'), // Replace with actual save count
+                    const Text('132'),
                   ],
                 ),
                 IconButton(
@@ -303,17 +303,17 @@ class _HomePageState extends State<HomePage> {
                       icon: const Icon(Icons.favorite_border),
                       onPressed: () {},
                     ),
-                    const Text('1.8K'), // Replace with actual like count
+                    const Text('1.8K'),
                     IconButton(
                       icon: const Icon(Icons.comment),
                       onPressed: () {},
                     ),
-                    const Text('872'), // Replace with actual comment count
+                    const Text('872'),
                     IconButton(
                       icon: const Icon(Icons.save),
                       onPressed: () {},
                     ),
-                    const Text('132'), // Replace with actual save count
+                    const Text('132'),
                   ],
                 ),
                 IconButton(

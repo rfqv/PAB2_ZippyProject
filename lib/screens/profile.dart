@@ -178,7 +178,7 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   SizedBox(
-                    height: 400, // Adjust height as needed
+                    height: 400,
                     child: TabBarView(
                       children: [
                         _buildPypoGrid(),
@@ -245,20 +245,18 @@ class _ProfileState extends State<Profile> {
                 IconButton(
                   icon: const Icon(Icons.comment),
                   onPressed: () {
-                    // Implement reply functionality
+
                   },
                 ),
                 IconButton(
                   icon: const Icon(Icons.share),
                   onPressed: () {
-                    // Implement share functionality
                   },
                 ),
                 IconButton(
                   icon: const Icon(Icons.favorite),
-                  color: Colors.grey, // Implement like functionality and color change
+                  color: Colors.grey,
                   onPressed: () {
-                    // Implement like functionality
                   },
                 ),
               ],

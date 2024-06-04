@@ -17,7 +17,7 @@ class _AddCuitanScreenState extends State<AddCuitanScreen> {
       final cuitanText = _cuitanController.text;
       final newCuitan = Cuitan(
         text: cuitanText,
-        userId: 'your_user_id', // kasih nama ID user nya
+        userId: 'username',
         timestamp: DateTime.now(),
       );
 

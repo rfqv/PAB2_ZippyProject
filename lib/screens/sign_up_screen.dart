@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/screens/email_verification_screen.dart';
 import 'package:zippy/services/sign_up_services.dart';
-import 'package:zippy/screens/sign_in_screen.dart'; // Import SignInScreen
-import 'package:firebase_database/firebase_database.dart'; // Import Firebase Database
+import 'package:zippy/screens/sign_in_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -26,7 +26,6 @@ class SignUpScreenState extends State<SignUpScreen> {
   String _usernameMessage = '';
   String _generatedCaptcha = '';
 
-  // Buat instance dari SignUpService
   final SignUpService _signUpService = SignUpService();
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
 

@@ -17,21 +17,18 @@ class LupaPasswordScreen extends StatelessWidget {
             ListTile(
               title: const Text('Kirim kode ke Email untuk reset password'),
               onTap: () {
-                // Navigasi ke halaman reset password via email
               },
             ),
             const Divider(),
             ListTile(
               title: const Text('Masukkan pertanyaan rahasia'),
               onTap: () {
-                // Navigasi ke halaman pertanyaan rahasia
               },
             ),
             const Divider(),
             ListTile(
               title: const Text('Hubungi developer'),
               onTap: () {
-                // Navigasi ke halaman kontak developer
               },
             ),
           ],

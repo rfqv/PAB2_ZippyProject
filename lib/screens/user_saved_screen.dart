@@ -14,13 +14,11 @@ class UserSavedScreen extends StatelessWidget {
           ListTile(
             title: const Text('Lihat Pypo Tersimpan'),
             onTap: () {
-              // Navigate to saved Pypo screen
             },
           ),
           ListTile(
             title: const Text('Lihat Ppy Tersimpan'),
             onTap: () {
-              // Navigate to saved Ppy screen
             },
           ),
         ],

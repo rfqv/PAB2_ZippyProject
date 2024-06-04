@@ -78,22 +78,18 @@ class SignInScreenState extends State<SignInScreen> {
       _showErrorDialog('Email tidak boleh kosong. Silahkan di isi terlebih dahulu!');
     } else {
       try {
-        // Panggil metode signInWithEmailAndPassword dari SignInService
         final user = await _signInService.signInWithEmailAndPassword(email, password);
 
         if (user != null) {
-          // Jika berhasil sign in, navigasi ke MyBottomNavbar
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const MyBottomNavbar()),
           );
         } else {
-          // Tampilkan pesan error jika sign in gagal
           setState(() {
             _errorMessage = 'Failed to sign in. Please check your credentials.';
           });
         }
       } catch (error) {
-        // Tangani error
         String errorMessage = 'An error occurred during sign in!';
         setState(() {
           _errorMessage = errorMessage;

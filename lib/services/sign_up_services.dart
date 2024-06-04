@@ -22,7 +22,7 @@ class SignUpService {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        return null; // User aborted the sign in process
+        return null;
       }
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;

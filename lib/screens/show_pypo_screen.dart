@@ -88,13 +88,11 @@ void _unlikePypo(int index) async {
                   IconButton(
                     icon: const Icon(Icons.comment),
                     onPressed: () {
-                      // Implement reply functionality
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.share),
                     onPressed: () {
-                      // Implement share functionality
                     },
                   ),
                   IconButton(

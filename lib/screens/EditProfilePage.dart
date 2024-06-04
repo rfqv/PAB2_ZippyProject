@@ -48,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage(
-                  'assets/me/default_profileImages.jpeg'), // Update with your image
+                  'assets/me/default_profileImages.jpeg'),
             ),
             const SizedBox(height: 10),
             const Text(
@@ -67,10 +67,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ElevatedButton.icon(
               onPressed: () {},
               icon: Image.asset('assets/zippy.png',
-                  width: 20, height: 20), // Update with your icon
+                  width: 20, height: 20),
               label: const Text('Save'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Button color
+                backgroundColor: Colors.blue,
               ),
             ),
             const SizedBox(height: 40),

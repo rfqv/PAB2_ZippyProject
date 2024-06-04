@@ -108,7 +108,6 @@ class NotifikasiWidget extends StatefulWidget {
 class _NotifikasiWidgetState extends State<NotifikasiWidget> {
   @override
   Widget build(BuildContext context) {
-    // Get the current theme brightness
     final brightness = Theme.of(context).brightness;
     final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     final followBackBackgroundColor = brightness == Brightness.dark ? Colors.black : Colors.blue;
@@ -157,7 +156,6 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
             )
           : null,
       onTap: () {
-        // Handle notification tap
       },
     );
   }

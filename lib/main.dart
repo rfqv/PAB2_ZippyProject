@@ -57,7 +57,6 @@ class MyApp extends StatelessWidget {
               '/sign-out': (context) => const SignOutScreen(),
               '/your-account-settings': (context) => const YourAccountSettings(),
               '/accessibility-display-and-languages-settings': (context) => const AccessibilityDisplayAndLanguagesSettings(),
-              // Tambahkan rute lainnya di sini
             },
           );
         },
