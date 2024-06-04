@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddCuitanScreen extends StatefulWidget {
-  const AddCuitanScreen({Key? key}) : super(key: key);
+  const AddCuitanScreen({super.key});
 
   @override
   State<AddCuitanScreen> createState() => _AddCuitanScreenState();

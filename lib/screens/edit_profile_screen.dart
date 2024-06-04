@@ -7,7 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-import 'package:intl/intl.dart'; // Import for date formatting
 import 'package:zippy/screens/profile.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -47,7 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         setState(() {
           _nameController.text = data?['profileName'] ?? '';
           _bioController.text = data?['userBio'] ?? '';
-          _birthdayController.text = data?['userBirthday'] ?? '1970/01/01';
+          _birthdayController.text = data?['userBirthday'] ?? '01-01-1970';
           _addressController.text = data?['userAddress'] ?? '';
           _usernameController.text = data?['username'] ?? '';
           _emailController.text = user.email ?? '';
@@ -144,20 +143,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _birthdayController.text = DateFormat('yyyy/MM/dd').format(picked);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,12 +163,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SizedBox(height: 10),
             _buildTextField(controller: _nameController, label: 'Nama'),
             _buildTextField(controller: _bioController, label: 'Bio'),
-            GestureDetector(
-              onTap: () => _selectDate(context),
-              child: AbsorbPointer(
-                child: _buildTextField(controller: _birthdayController, label: 'Tanggal Lahir'),
-              ),
-            ),
+            _buildTextField(controller: _birthdayController, label: 'Tanggal Lahir'),
             _buildTextField(controller: _addressController, label: 'Alamat'),
             const SizedBox(height: 10),
             Row(

@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class AddQuoteThreadScreen extends StatefulWidget {
-  const AddQuoteThreadScreen({Key? key}) : super(key: key);
+  const AddQuoteThreadScreen({super.key});
 
   @override
   State<AddQuoteThreadScreen> createState() => _AddQuoteThreadScreenState();

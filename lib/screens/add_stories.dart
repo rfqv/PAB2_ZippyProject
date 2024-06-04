@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 
 class AddStoryScreen extends StatefulWidget {
-  const AddStoryScreen({Key? key}) : super(key: key);
+  const AddStoryScreen({super.key});
 
   @override
   State<AddStoryScreen> createState() => _AddStoryScreenState();
