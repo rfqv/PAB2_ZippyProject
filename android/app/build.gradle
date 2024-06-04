@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.9.0'  // Perbarui versi ini
+    ext.kotlin_version = '2.0.0'  // Perbarui versi ini
     repositories {
         google()
         mavenCentral()
@@ -14,7 +14,6 @@ buildscript {
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
-    id "androidx.navigation.safeargs.kotlin"
     id 'com.google.gms.google-services'  // FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
