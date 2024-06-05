@@ -70,7 +70,7 @@ class _NotifikasiState extends State<Notifikasi> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications Page'),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: ListView.builder(
         itemCount: notifications.length,
@@ -110,7 +110,8 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final textColor = brightness == Brightness.dark ?
+        Colors.white : Colors.black;
     final followBackBackgroundColor = brightness == Brightness.dark ? Colors.black : Colors.blue;
     const followBackTextColor = Colors.white;
     final followingBackgroundColor = brightness == Brightness.dark ? Colors.white : Colors.grey;
@@ -157,6 +158,7 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
             )
           : null,
       onTap: () {
+        // Add any additional functionality here if needed
       },
     );
   }

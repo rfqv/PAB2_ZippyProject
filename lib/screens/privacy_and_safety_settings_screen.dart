@@ -8,7 +8,7 @@ class PrivacyAndSafetySettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Privacy and Safety'),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: const Center(
         child: Text('Privacy and Safety Settings'),

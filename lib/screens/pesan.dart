@@ -38,7 +38,7 @@ class _PesanState extends State<Pesan> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Direct Messages'),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: ListView.builder(
         itemCount: messages.length,

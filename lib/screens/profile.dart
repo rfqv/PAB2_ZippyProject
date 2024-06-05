@@ -253,7 +253,7 @@ Future<void> fetchPostPypoMain() async {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Loading...'),
-          backgroundColor: const Color(0xFF7DABCF),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         ),
         body: const Center(
           child: CircularProgressIndicator(),
@@ -264,7 +264,7 @@ Future<void> fetchPostPypoMain() async {
     return Scaffold(
       appBar: AppBar(
         title: Text(userProfile!.username),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),

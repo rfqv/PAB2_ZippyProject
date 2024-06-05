@@ -20,7 +20,7 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
     return Scaffold(
       appBar: AppBar(
         title: const Text('Accessibility, Display, and Languages'),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: Column(
         children: [

@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: SafeArea(
         child: Column(
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
             ),
             // Pypo input
             Card(
-              color: const Color(0xFF7DABCF), // Change background color
+              color: Theme.of(context).appBarTheme.backgroundColor,
               margin: const EdgeInsets.all(8.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -262,7 +262,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostPypoMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
     return Card(
-      color: const Color(0xFF7DABCF),
+      color: Theme.of(context).appBarTheme.backgroundColor,
       margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -326,7 +326,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostPpyMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
     return Card(
-      color: const Color(0xFF7DABCF),
+      color: Theme.of(context).appBarTheme.backgroundColor,
       margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

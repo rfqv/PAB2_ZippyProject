@@ -33,13 +33,47 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primaryColor: const Color(0xFF7DABCF),
               scaffoldBackgroundColor: const Color(0xFFBAD6EB),
+              appBarTheme: const AppBarTheme(
+                color: Color(0xFF7DABCF),
+                titleTextStyle: TextStyle(
+                  fontFamily: 'MPlus1p',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
               bottomNavigationBarTheme: BottomNavigationBarThemeData(
                 backgroundColor: const Color(0xFF7DABCF),
                 selectedItemColor: Colors.black,
                 unselectedItemColor: const Color(0xFFF7F7F7),
               ),
+              textTheme: const TextTheme(
+                bodyLarge: TextStyle(fontFamily: 'MPlus1p', fontWeight: FontWeight.bold),
+                bodyMedium: TextStyle(fontFamily: 'MPlus1p', fontWeight: FontWeight.bold),
+                headlineSmall: TextStyle(fontFamily: 'MPlus1p', fontWeight: FontWeight.bold),
+              ),
             ),
-            darkTheme: ThemeData.dark(),
+            darkTheme: ThemeData.dark().copyWith(
+              primaryColor: const Color(0xFF212121),
+              scaffoldBackgroundColor: const Color(0xFF121212),
+              appBarTheme: const AppBarTheme(
+                color: Color(0xFF212121),
+                titleTextStyle: TextStyle(
+                  fontFamily: 'MPlus1p',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: const Color(0xFF212121),
+                selectedItemColor: Colors.white,
+                unselectedItemColor: const Color(0xFFB0BEC5),
+              ),
+              textTheme: const TextTheme(
+                bodyLarge: TextStyle(fontFamily: 'MPlus1p', fontWeight: FontWeight.bold),
+                bodyMedium: TextStyle(fontFamily: 'MPlus1p', fontWeight: FontWeight.bold),
+                headlineSmall: TextStyle(fontFamily: 'MPlus1p', fontWeight: FontWeight.bold),
+              ),
+            ),
             themeMode: settings.themeMode,
             locale: settings.locale,
             supportedLocales: const [

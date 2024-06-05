@@ -10,7 +10,7 @@ class YourAccountSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Account'),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: Center(
         child: ElevatedButton(

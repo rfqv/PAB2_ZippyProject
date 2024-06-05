@@ -8,7 +8,7 @@ class SecurityAndAccountAccessSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Security and Account Access'),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: const Center(
         child: Text('Security and Account Access Settings'),
