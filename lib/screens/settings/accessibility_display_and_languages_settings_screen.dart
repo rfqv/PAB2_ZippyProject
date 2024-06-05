@@ -15,12 +15,20 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
 
   @override
   Widget build(BuildContext context) {
-    final settings = Provider.of<UserSettingsService>(context);
+    final brightness = Theme.of(context).brightness;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final buttonBackgroundColor = brightness == Brightness.dark ? const Color(0xFF555555) : const Color(0xFF7DABCF);
+    final buttonTextColor = brightness == Brightness.dark ? Colors.white : Colors.black;
 
+    final settings = Provider.of<UserSettingsService>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accessibility, Display, and Languages'),
+        title: Text(
+          'Accessibility, Display, and Languages',
+          style: TextStyle(color: textColor),
+        ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: Column(
         children: [
@@ -85,6 +93,10 @@ class _AccessibilityDisplayAndLanguagesSettingsState extends State<Accessibility
             ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: buttonTextColor, // Font color
+              backgroundColor: buttonBackgroundColor, // Background color
+            ),
             onPressed: () {
               settings.updateThemeMode(_themeMode);
               settings.updateLocale(_locale);

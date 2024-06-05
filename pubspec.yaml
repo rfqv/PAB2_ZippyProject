@@ -75,7 +75,7 @@ flutter:
   fonts:
     - family: MPlus1p
       fonts:
-        - asset: fonts/MPlus1p-Bold.ttf
+        - asset: assets/fonts/MPlus1p-Bold.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

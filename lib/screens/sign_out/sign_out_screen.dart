@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zippy/screens/sign_in_screen.dart';
+import 'package:zippy/screens/sign_in/sign_in_screen.dart';
 
 class SignOutScreen extends StatelessWidget {
   const SignOutScreen({super.key});

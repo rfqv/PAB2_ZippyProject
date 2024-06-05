@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:zippy/screens/edit_profile_screen.dart';
-import 'package:zippy/screens/share_profile_screen.dart';
-import 'package:zippy/screens/show_pypo_screen.dart';
-import 'package:zippy/screens/user_settings_screen.dart';
-import 'package:zippy/screens/user_location_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/edit_profile_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/share_profile_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/show_pypo_screen.dart';
+import 'package:zippy/screens/settings/user_settings_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/user_location_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:zippy/services/user_settings_services.dart';
-import 'package:zippy/screens/user_fans_list_screen.dart';
-import 'package:zippy/screens/user_following_list_screen.dart';
-import 'package:zippy/screens/user_pypo_grid_screen.dart';
-import 'package:zippy/screens/user_ppy_list_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/user_fans_list_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/user_following_list_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/user_pypo_grid_screen.dart';
+import 'package:zippy/screens/major_features/profile_features/user_ppy_list_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Profile extends StatefulWidget {
@@ -229,6 +229,8 @@ Future<void> fetchPostPypoMain() async {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     final settings = Provider.of<UserSettingsService>(context);
     bool isDarkMode = settings.themeMode == ThemeMode.dark || (settings.themeMode == ThemeMode.system && MediaQuery.of(context).platformBrightness == Brightness.dark);
 
@@ -252,8 +254,12 @@ Future<void> fetchPostPypoMain() async {
     if (userProfile == null) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Loading...'),
+          title: Text(
+          'Loading...',
+          style: TextStyle(color: textColor),
+        ),
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          iconTheme: IconThemeData(color: textColor),
         ),
         body: const Center(
           child: CircularProgressIndicator(),
@@ -263,8 +269,12 @@ Future<void> fetchPostPypoMain() async {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(userProfile!.username),
+        title: Text(
+          '@' + userProfile!.username,
+          style: TextStyle(color: textColor),
+        ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),

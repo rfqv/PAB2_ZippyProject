@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/screens/home.dart';
-import 'package:zippy/screens/phone_number_verification_screen.dart';
+import 'package:zippy/screens/major_features/sign_up_features/phone_number_verification_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

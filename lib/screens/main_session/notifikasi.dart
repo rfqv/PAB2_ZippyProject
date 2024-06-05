@@ -67,10 +67,16 @@ class _NotifikasiState extends State<Notifikasi> {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications Page'),
+        title: Text(
+          'Notifications Page',
+          style: TextStyle(color: textColor),
+        ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: ListView.builder(
         itemCount: notifications.length,
@@ -110,8 +116,7 @@ class _NotifikasiWidgetState extends State<NotifikasiWidget> {
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    final textColor = brightness == Brightness.dark ?
-        Colors.white : Colors.black;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     final followBackBackgroundColor = brightness == Brightness.dark ? Colors.black : Colors.blue;
     const followBackTextColor = Colors.white;
     final followingBackgroundColor = brightness == Brightness.dark ? Colors.white : Colors.grey;

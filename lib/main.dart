@@ -4,10 +4,10 @@ import 'package:zippy/navigator/app_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:zippy/screens/sign_in_screen.dart';
-import 'package:zippy/screens/sign_out_screen.dart';
-import 'package:zippy/screens/your_account_settings_screen.dart';
-import 'package:zippy/screens/accessibility_display_and_languages_settings_screen.dart';
+import 'package:zippy/screens/sign_in/sign_in_screen.dart';
+import 'package:zippy/screens/sign_out/sign_out_screen.dart';
+import 'package:zippy/screens/settings/your_account_settings_screen.dart';
+import 'package:zippy/screens/settings/accessibility_display_and_languages_settings_screen.dart';
 import 'package:zippy/services/user_settings_services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

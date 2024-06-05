@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zippy/screens/home.dart';
-import 'package:zippy/screens/notifikasi.dart';
-import 'package:zippy/screens/pesan.dart';
-import 'package:zippy/screens/profile.dart';
+import 'package:zippy/screens/main_session/home.dart';
+import 'package:zippy/screens/main_session/notifikasi.dart';
+import 'package:zippy/screens/main_session/pesan.dart';
+import 'package:zippy/screens/main_session/profile.dart';
 import 'package:zippy/services/user_settings_services.dart';
 
 class MyBottomNavbar extends StatefulWidget {

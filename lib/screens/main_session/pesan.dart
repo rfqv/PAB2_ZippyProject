@@ -35,10 +35,16 @@ class _PesanState extends State<Pesan> {
   ];
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Direct Messages'),
+        title: Text(
+          'Direct Message',
+          style: TextStyle(color: textColor),
+        ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: ListView.builder(
         itemCount: messages.length,

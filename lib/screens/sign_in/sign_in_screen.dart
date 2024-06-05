@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zippy/navigator/app_navigator.dart'; // Import MyBottomNavbar
-import 'package:zippy/screens/sign_up_screen.dart';
-import 'package:zippy/screens/lupa_password.dart'; // Import LupaPasswordScreen
+import 'package:zippy/screens/sign_up/sign_up_screen.dart';
+import 'package:zippy/screens/major_features/sign_in_features/lupa_password.dart'; // Import LupaPasswordScreen
 import 'package:zippy/services/sign_in_services.dart'; // Import SignInService
 
 class SignInScreen extends StatefulWidget {
