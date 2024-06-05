@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String username = 'Username';
   String profileName = 'User';
   String profileImage = 'assets/me/default_profileImage.png';
   List<Map> posts = [];
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
         if (mounted) {
           setState(() {
             profileName = data?['profileName'] ?? 'User';
+            username = data?['username'] ?? 'Username';
             profileImage = data?['profileImage'] ?? 'assets/me/default_profileImage.png';
           });
         }
@@ -94,7 +96,8 @@ class _HomePageState extends State<HomePage> {
 
         final ref = FirebaseDatabase.instance.reference().child('postPpyMain').push();
         final newPost = {
-          'username': profileName,
+          'profileName': profileName,
+          'username': username,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
           'profileImage': profileImage,
@@ -123,7 +126,8 @@ class _HomePageState extends State<HomePage> {
 
         final ref = FirebaseDatabase.instance.reference().child('postPypoMain').push();
         final newPost = {
-          'username': profileName,
+          'profileName': profileName,
+          'username': username,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
           'profileImage': profileImage,
@@ -258,6 +262,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostPypoMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
     return Card(
+      color: const Color(0xFF7DABCF),
       margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -321,6 +326,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPostPpyMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
     return Card(
+      color: const Color(0xFF7DABCF),
       margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

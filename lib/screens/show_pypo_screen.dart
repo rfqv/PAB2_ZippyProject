@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class ShowPypoScreen extends StatefulWidget {
-  final List<String> postPypo;
+  final List<Map<String, dynamic>> postPypo;
   final int initialIndex;
 
   const ShowPypoScreen({required this.postPypo, required this.initialIndex, super.key});
@@ -55,33 +55,52 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
     }
   }
 
-  void _likePypo(int index) async {
+  Future<void> _updateLikedBy(String postId, bool isLiked, String postType) async {
+  final ref = FirebaseDatabase.instance.ref().child('posts').child(postType).child(postId).child('likedBy');
+  final snapshot = await ref.once();
+  if (snapshot.snapshot.value != null) {
+    final likedBy = List<String>.from(snapshot.snapshot.value as List);
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
-      final pypo = widget.postPypo[index];
-      setState(() {
-        if (likedPypo.contains(pypo)) {
-          likedPypo.remove(pypo);
-        } else {
-          likedPypo.add(pypo);
-        }
-      });
-      await ref.set(likedPypo.toList());
+      if (isLiked) {
+        likedBy.add(user.uid);
+      } else {
+        likedBy.remove(user.uid);
+      }
+      await ref.set(likedBy);
     }
   }
+}
+
+  void _likePypo(int index) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+    final pypo = widget.postPypo[index]['mediaUrl'] ?? '';
+    setState(() {
+      likedPypo.add(pypo);
+    });
+    await ref.set(likedPypo.toList());
+
+    final postId = widget.postPypo[index]['postId'] ?? '';
+    await _updateLikedBy(postId, true, 'postPypoMain');
+  }
+}
 
   void _unlikePypo(int index) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
-      final pypo = widget.postPypo[index];
-      setState(() {
-        likedPypo.remove(pypo);
-      });
-      await ref.set(likedPypo.toList());
-    }
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+    final pypo = widget.postPypo[index]['mediaUrl'] ?? '';
+    setState(() {
+      likedPypo.remove(pypo);
+    });
+    await ref.set(likedPypo.toList());
+
+    final postId = widget.postPypo[index]['postId'] ?? '';
+    await _updateLikedBy(postId, false, 'postPypoMain');
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +116,10 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
           return Column(
             children: [
               Expanded(
-                child: Image.asset(widget.postPypo[index], fit: BoxFit.cover),
+                child: Image.network(
+                  widget.postPypo[index]['mediaUrl'] ?? 'assets/me/default_profileImage.png',  // Menggunakan mediaUrl
+                  fit: BoxFit.contain,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -112,9 +134,9 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.favorite),
-                    color: likedPypo.contains(widget.postPypo[index]) ? Colors.red : Colors.grey,
+                    color: likedPypo.contains(widget.postPypo[index]['mediaUrl'] ?? '') ? Colors.red : Colors.grey,  // Menggunakan mediaUrl
                     onPressed: () {
-                      if (likedPypo.contains(widget.postPypo[index])) {
+                      if (likedPypo.contains(widget.postPypo[index]['mediaUrl'] ?? '')) {  // Menggunakan mediaUrl
                         _unlikePypo(index);
                       } else {
                         _likePypo(index);

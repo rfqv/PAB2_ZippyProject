@@ -12,6 +12,7 @@ import 'package:zippy/screens/user_fans_list_screen.dart';
 import 'package:zippy/screens/user_following_list_screen.dart';
 import 'package:zippy/screens/user_pypo_grid_screen.dart';
 import 'package:zippy/screens/user_ppy_list_screen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -22,11 +23,18 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   UserProfile? userProfile;
+  List<Map<String, dynamic>> pypoPosts = [];
+  List<Map<String, dynamic>> ppyPosts = [];
+  List<Map<String, dynamic>> likedPosts = [];
+  List<Map<String, dynamic>> likedPypoPosts = [];
+  List<Map<String, dynamic>> likedPpyPosts = [];
 
   @override
   void initState() {
     super.initState();
     fetchUserProfile();
+    fetchPostPpyMain();
+    fetchPostPypoMain(); // Tambahkan ini
   }
 
   Future<void> fetchUserProfile() async {
@@ -35,7 +43,7 @@ class _ProfileState extends State<Profile> {
       final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
       final snapshot = await ref.once();
       if (snapshot.snapshot.value != null) {
-        final data = snapshot.snapshot.value as Map?;
+        final data = Map<String, dynamic>.from(snapshot.snapshot.value as Map);
         setState(() {
           userProfile = UserProfile(
             profileName: data?['profileName'] ?? 'User',
@@ -44,8 +52,6 @@ class _ProfileState extends State<Profile> {
             userAddress: data?['userAddress'] ?? 'Unknown',
             fans: data?['fans'] ?? 0,
             following: data?['following'] ?? 0,
-            pypo: data?['pypo'] ?? 0,
-            ppy: data?['ppy'] ?? 0,
             postPypo: List<String>.from(data?['postPypo'] ?? []),
             postPpy: List<String>.from(data?['postPpy'] ?? []),
             postReplies: List<String>.from(data?['postReplies'] ?? []),
@@ -53,9 +59,173 @@ class _ProfileState extends State<Profile> {
             likedPpy: List<String>.from(data?['likedPpy'] ?? []),
           );
         });
+        await fetchPostCounts(userProfile!.username);
+        await fetchUserPosts();
+        await fetchLikedPosts();
       }
     }
   }
+
+  Future<void> fetchUserPosts() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('posts').orderByChild('userId').equalTo(user.uid);
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = Map<String, dynamic>.from(snapshot.snapshot.value as Map);
+        final pypoList = [];
+        final ppyList = [];
+        data.forEach((key, value) {
+          if (value['type'] == 'pypo') {
+            pypoList.add(value);
+          } else if (value['type'] == 'ppy') {
+            ppyList.add(value);
+          }
+        });
+        setState(() {
+          pypoPosts = pypoList.cast<Map<String, dynamic>>();
+          ppyPosts = ppyList.cast<Map<String, dynamic>>();
+          ppyPosts.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
+        });
+      }
+    }
+  }
+
+  Future<void> fetchPostCounts(String username) async {
+    final pypoRef = FirebaseDatabase.instance.ref().child('postPypoMain').orderByChild('username').equalTo(username);
+    final ppyRef = FirebaseDatabase.instance.ref().child('postPpyMain').orderByChild('username').equalTo(username);
+
+    final pypoSnapshot = await pypoRef.once();
+    final ppySnapshot = await ppyRef.once();
+
+    int pypoCount = 0;
+    int ppyCount = 0;
+
+    if (pypoSnapshot.snapshot.value != null) {
+      pypoCount = (pypoSnapshot.snapshot.value as Map).length;
+    }
+
+    if (ppySnapshot.snapshot.value != null) {
+      ppyCount = (ppySnapshot.snapshot.value as Map).length;
+    }
+
+    setState(() {
+      userProfile!.pypoCount = pypoCount;
+      userProfile!.ppyCount = ppyCount;
+    });
+  }
+
+  Future<void> _updateLikedBy(String postId, bool isLiked, String postType) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final ref = FirebaseDatabase.instance.ref().child(postType).child(postId).child('likedBy');
+    if (isLiked) {
+      await ref.child(user.uid).set(true);
+    } else {
+      await ref.child(user.uid).remove();
+    }
+  }
+}
+
+  Future<void> fetchLikedPosts() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final likedPypoRef = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+      final likedPpyRef = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+
+      final likedPypoSnapshot = await likedPypoRef.once();
+      final likedPpySnapshot = await likedPpyRef.once();
+
+      final likedPypoList = [];
+      final likedPpyList = [];
+
+      if (likedPypoSnapshot.snapshot.value != null) {
+        final likedPypoData = List<String>.from(likedPypoSnapshot.snapshot.value as List);
+        for (final url in likedPypoData) {
+          final postSnapshot = await FirebaseDatabase.instance.ref().child('postPypoMain').orderByChild('mediaUrl').equalTo(url).once();
+          if (postSnapshot.snapshot.value != null) {
+            final postData = Map<String, dynamic>.from(postSnapshot.snapshot.value as Map);
+            postData.forEach((key, value) {
+              likedPypoList.add(value);
+            });
+          }
+        }
+      }
+
+      if (likedPpySnapshot.snapshot.value != null) {
+        final likedPpyData = List<String>.from(likedPpySnapshot.snapshot.value as List);
+        for (final url in likedPpyData) {
+          final postSnapshot = await FirebaseDatabase.instance.ref().child('postPpyMain').orderByChild('mediaUrl').equalTo(url).once();
+          if (postSnapshot.snapshot.value != null) {
+            final postData = Map<String, dynamic>.from(postSnapshot.snapshot.value as Map);
+            postData.forEach((key, value) {
+              likedPpyList.add(value);
+            });
+          }
+        }
+      }
+
+      setState(() {
+        likedPypoPosts = likedPypoList.cast<Map<String, dynamic>>();
+        likedPpyPosts = likedPpyList.cast<Map<String, dynamic>>();
+      });
+    }
+  }
+
+
+Future<void> fetchPostPypoMain() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final userRef = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+    final userSnapshot = await userRef.once();
+    if (userSnapshot.snapshot.value != null) {
+      final userData = Map<String, dynamic>.from(userSnapshot.snapshot.value as Map);
+      final username = userData?['username'] ?? 'Unknown';
+
+      final postPypoMainRef = FirebaseDatabase.instance.ref().child('postPypoMain').orderByChild('username').equalTo(username);
+      final postPypoMainSnapshot = await postPypoMainRef.once();
+      if (postPypoMainSnapshot.snapshot.value != null) {
+        final postData = postPypoMainSnapshot.snapshot.value as Map<Object?, Object?>;
+        final pypoList = postData.entries.map((entry) {
+          final value = entry.value as Map<Object?, Object?>;
+          return Map<String, dynamic>.from(value);
+        }).toList();
+        setState(() {
+          pypoPosts = pypoList;
+          pypoPosts.sort((a, b) => DateTime.parse(b['timestamp'] ?? DateTime.now().toString()).compareTo(DateTime.parse(a['timestamp'] ?? DateTime.now().toString())));
+        });
+      }
+    }
+  }
+}
+
+  Future<void> fetchPostPpyMain() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final userRef = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+    final userSnapshot = await userRef.once();
+    if (userSnapshot.snapshot.value != null) {
+      final userData = Map<String, dynamic>.from(userSnapshot.snapshot.value as Map);
+      final username = userData?['username'] ?? 'Unknown';
+
+      final postPpyMainRef = FirebaseDatabase.instance.ref().child('postPpyMain').orderByChild('username').equalTo(username);
+      final postPpyMainSnapshot = await postPpyMainRef.once();
+      if (postPpyMainSnapshot.snapshot.value != null) {
+        final postData = Map<String, dynamic>.from(postPpyMainSnapshot.snapshot.value as Map);
+        final ppyList = [];
+        postData.forEach((key, value) {
+          if (value is Map<Object?, Object?>) {
+            ppyList.add(Map<String, dynamic>.from(value as Map));
+          }
+        });
+        setState(() {
+          ppyPosts = ppyList.cast<Map<String, dynamic>>();
+          ppyPosts.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
+        });
+      }
+    }
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +360,7 @@ class _ProfileState extends State<Profile> {
                               MaterialPageRoute(builder: (context) => const UserPypoGridScreen()),
                             );
                           },
-                          child: _buildStatColumn('Pypo', userProfile!.pypo),
+                          child: _buildStatColumn('Pypo', userProfile!.pypoCount),
                         ),
                         InkWell(
                           onTap: () {
@@ -199,7 +369,7 @@ class _ProfileState extends State<Profile> {
                               MaterialPageRoute(builder: (context) => const UserPpyListScreen()),
                             );
                           },
-                          child: _buildStatColumn('Ppy', userProfile!.ppy),
+                          child: _buildStatColumn('Ppy', userProfile!.ppyCount),
                         ),
                       ],
                     ),
@@ -250,7 +420,7 @@ class _ProfileState extends State<Profile> {
                         _buildPypoGrid(),
                         _buildPpyList(),
                         _buildRepliesList(),
-                        _buildLikesGrid(),
+                        _buildLikesList(),
                       ],
                     ),
                   ),
@@ -264,68 +434,54 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildPypoGrid() {
-    if (userProfile!.postPypo.isEmpty) {
-      return const Center(child: Text("Tidak ada Pypo"));
-    }
-
-    return GridView.builder(
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-      ),
-      itemCount: userProfile!.postPypo.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ShowPypoScreen(postPypo: userProfile!.postPypo, initialIndex: index),
-              ),
-            );
-          },
-          child: Image.asset(userProfile!.postPypo[index], fit: BoxFit.cover),
-        );
-      },
-    );
+  if (pypoPosts.isEmpty) {
+    return const Center(child: Text("Tidak ada Pypo"));
   }
 
+  return GridView.builder(
+    padding: const EdgeInsets.all(8.0),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      crossAxisSpacing: 4,
+      mainAxisSpacing: 4,
+    ),
+    itemCount: pypoPosts.length,
+    itemBuilder: (context, index) {
+      final post = pypoPosts[index];
+      final mediaUrl = post['mediaUrl'] ?? 'https://example.com/default_image.png'; // URL gambar default jika null
+
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ShowPypoScreen(postPypo: pypoPosts, initialIndex: index),
+            ),
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Image.network(mediaUrl, fit: BoxFit.cover),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
   Widget _buildPpyList() {
-    if (userProfile!.postPpy.isEmpty) {
+    if (ppyPosts.isEmpty) {
       return const Center(child: Text("Tidak ada Ppy"));
     }
 
     return ListView.builder(
-      itemCount: userProfile!.postPpy.length,
+      itemCount: ppyPosts.length,
       itemBuilder: (context, index) {
-        return Column(
-          children: [
-            ListTile(
-              title: Text(userProfile!.postPpy[index]),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.comment),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.share),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.favorite),
-                  color: Colors.grey,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            const Divider(),
-          ],
-        );
+        final post = ppyPosts[index];
+        return _buildPostPpyMainItem(post);
       },
     );
   }
@@ -345,37 +501,137 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _buildLikesGrid() {
-    if (userProfile!.likedPypo.isEmpty && userProfile!.likedPpy.isEmpty) {
-      return const Center(child: Text("Tidak ada Likes"));
-    }
-
-    return GridView.builder(
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-      ),
-      itemCount: userProfile!.likedPypo.length + userProfile!.likedPpy.length,
-      itemBuilder: (context, index) {
-        if (index < userProfile!.likedPypo.length) {
-          return Image.asset(userProfile!.likedPypo[index], fit: BoxFit.cover);
-        } else {
-          return ListTile(
-            title: Text(userProfile!.likedPpy[index - userProfile!.likedPypo.length]),
-          );
-        }
-      },
-    );
+  Widget _buildLikesList() {
+  if (likedPosts.isEmpty) {
+    return const Center(child: Text("Tidak ada Likes"));
   }
+
+  // Gabungkan pypoPosts dan ppyPosts ke dalam satu daftar
+  List<Map<String, dynamic>> allLikedPosts = [];
+  allLikedPosts.addAll(pypoPosts);
+  allLikedPosts.addAll(ppyPosts);
+
+  // Urutkan daftar berdasarkan timestamp
+  allLikedPosts.sort((a, b) => DateTime.parse(b['timestamp'] ?? DateTime.now().toString())
+      .compareTo(DateTime.parse(a['timestamp'] ?? DateTime.now().toString())));
+
+  return ListView.builder(
+    itemCount: allLikedPosts.length,
+    itemBuilder: (context, index) {
+      final post = allLikedPosts[index];
+      // Periksa jenis postingan dan tampilkan sesuai dengan jenisnya
+      if (post['type'] == 'pypo') {
+        // Menggunakan widget yang sesuai untuk postingan pypo
+        return _buildPostPypoMainItem(post);
+      } else if (post['type'] == 'ppy') {
+        // Menggunakan widget yang sesuai untuk postingan ppy
+        return _buildPostPpyMainItem(post);
+      }
+      // Jika jenis tidak dikenali, kembalikan widget kosong
+      return Container();
+    },
+  );
+}
+
+// Import widget _buildPostPypoMainItem dari home.dart
+Widget _buildPostPypoMainItem(Map post) {
+  final timestamp = DateTime.parse(post['timestamp']);
+  return Card(
+    color: const Color(0xFF7DABCF),
+    margin: const EdgeInsets.all(8.0),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+              ),
+              const SizedBox(width: 8.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(timeago.format(timestamp)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8.0),
+          Text(post['text']),
+          if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.favorite_border),
+                    onPressed: () {},
+                  ),
+                  const Text('1.8K'),
+                  IconButton(
+                    icon: const Icon(Icons.comment),
+                    onPressed: () {},
+                  ),
+                  const Text('872'),
+                  IconButton(
+                    icon: const Icon(Icons.save),
+                    onPressed: () {},
+                  ),
+                  const Text('132'),
+                ],
+              ),
+              IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () {
+                  _showShareMenu(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+  Widget _buildPostPpyMainItem(Map<String, dynamic> post) {
+  final content = post['text'] ?? 'No content available';
+  final timestamp = post['timestamp'] ?? DateTime.now().toString();
+
+  return ListTile(
+    title: Text(content),
+    subtitle: Text(timeago.format(DateTime.parse(timestamp))),
+    trailing: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.comment),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.share),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.favorite),
+          color: Colors.grey,
+          onPressed: () {},
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildStatColumn(String label, int count) {
     String formattedCount = _formatCount(count);
     return Column(
       children: [
         Text(
-          formattedCount,
+          count.toString(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -397,6 +653,29 @@ class _ProfileState extends State<Profile> {
   }
 }
 
+void _showShareMenu(BuildContext context) {
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(100, 100, 0, 0),
+      items: [
+        const PopupMenuItem(
+          value: 'zippy_friends',
+          child: Text('Bagikan ke teman Zippy'),
+        ),
+        const PopupMenuItem(
+          value: 'share',
+          child: Text('Bagikan ke...'),
+        ),
+      ],
+    ).then((value) {
+      if (value == 'zippy_friends') {
+        // Handle "Bagikan ke teman Zippy"
+      } else if (value == 'share') {
+        // Handle "Bagikan ke..."
+      }
+    });
+  }
+
 class UserProfile {
   final String profileName;
   final String username;
@@ -404,8 +683,8 @@ class UserProfile {
   final String userAddress;
   final int fans;
   final int following;
-  final int pypo;
-  final int ppy;
+  int pypoCount;
+  int ppyCount;
   final List<String> postPypo;
   final List<String> postPpy;
   final List<String> postReplies;
@@ -419,8 +698,8 @@ class UserProfile {
     required this.userAddress,
     required this.fans,
     required this.following,
-    required this.pypo,
-    required this.ppy,
+    this.pypoCount = 0,
+    this.ppyCount = 0,
     required this.postPypo,
     required this.postPpy,
     required this.postReplies,
