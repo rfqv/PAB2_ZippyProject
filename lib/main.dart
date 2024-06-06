@@ -86,16 +86,38 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: const LandingPage(), // Set LandingPage as the home screen
+            home: const AuthWrapper(), // Set AuthWrapper as the home screen
             routes: {
               '/sign-in': (context) => const SignInScreen(),
               '/sign-out': (context) => const SignOutScreen(),
               '/your-account-settings': (context) => const YourAccountSettings(),
               '/accessibility-display-and-languages-settings': (context) => const AccessibilityDisplayAndLanguagesSettings(),
+              '/home': (context) => const MyBottomNavbar(), // Add HomePage to the routes
             },
           );
         },
       ),
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator(); // or a splash screen
+        }
+        if (snapshot.hasData) {
+          return const MyBottomNavbar();
+        } else {
+          return const LandingPage();
+        }
+      },
     );
   }
 }

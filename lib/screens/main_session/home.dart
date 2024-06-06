@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'dart:io';
@@ -113,6 +114,21 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _savePypo() async {
     final text = _textController.text;
+    // try{
+    //   Get.dialog(
+    //     Center(
+    //       child: SizedBox(
+    //         width: 15.0,
+    //         height: 15.0,
+    //         child: CircularProgressIndicator(),
+    //       ),
+    //       ),
+    //       );
+    // }catch(e){
+    //   Get.back();
+    // }finally{
+    //   Get.back();
+    // }
     if (text.isNotEmpty) {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {

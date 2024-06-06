@@ -28,13 +28,15 @@ class _ProfileState extends State<Profile> {
   List<Map<String, dynamic>> likedPosts = [];
   List<Map<String, dynamic>> likedPypoPosts = [];
   List<Map<String, dynamic>> likedPpyPosts = [];
+  Set<String> likedPpy = {};
 
   @override
   void initState() {
     super.initState();
     fetchUserProfile();
     fetchPostPpyMain();
-    fetchPostPypoMain(); // Tambahkan ini
+    fetchPostPypoMain();
+    _loadLikedPpy(); // Tambahkan ini
   }
 
   Future<void> fetchUserProfile() async {
@@ -116,16 +118,16 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _updateLikedBy(String postId, bool isLiked, String postType) async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    final ref = FirebaseDatabase.instance.ref().child(postType).child(postId).child('likedBy');
-    if (isLiked) {
-      await ref.child(user.uid).set(true);
-    } else {
-      await ref.child(user.uid).remove();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child(postType).child(postId).child('likedBy');
+      if (isLiked) {
+        await ref.child(user.uid).set(true);
+      } else {
+        await ref.child(user.uid).remove();
+      }
     }
   }
-}
 
   Future<void> fetchLikedPosts() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -226,6 +228,20 @@ Future<void> fetchPostPypoMain() async {
     }
   }
 }
+
+Future<void> _loadLikedPpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = List<String>.from(snapshot.snapshot.value as List);
+        setState(() {
+          likedPpy = Set<String>.from(data);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -609,32 +625,40 @@ Widget _buildPostPypoMainItem(Map post) {
 }
 
   Widget _buildPostPpyMainItem(Map<String, dynamic> post) {
-  final content = post['text'] ?? 'No content available';
-  final timestamp = post['timestamp'] ?? DateTime.now().toString();
+    final content = post['text'] ?? 'No content available';
+    final timestamp = post['timestamp'] ?? DateTime.now().toString();
+    final isLiked = likedPpy.contains(post['postId']);
 
-  return ListTile(
-    title: Text(content),
-    subtitle: Text(timeago.format(DateTime.parse(timestamp))),
-    trailing: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: const Icon(Icons.comment),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.share),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.favorite),
-          color: Colors.grey,
-          onPressed: () {},
-        ),
-      ],
-    ),
-  );
-}
+    return ListTile(
+      title: Text(content),
+      subtitle: Text(timeago.format(DateTime.parse(timestamp))),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.comment),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            color: isLiked ? Colors.red : Colors.grey,
+            onPressed: () {
+              if (isLiked) {
+                _unlikePpy();
+              } else {
+                _likePpy();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget _buildStatColumn(String label, int count) {
     String formattedCount = _formatCount(count);
@@ -662,6 +686,32 @@ Widget _buildPostPypoMainItem(Map post) {
     }
   }
 }
+
+void _likePpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      setState(() {
+        likedPpy.add(widget.postId);
+      });
+      await ref.set(likedPpy.toList());
+
+      await _updateLikedBy(widget.postId, true);
+    }
+  }
+
+  void _unlikePpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      setState(() {
+        likedPpy.remove(widget.postId);
+      });
+      await ref.set(likedPpy.toList());
+
+      await _updateLikedBy(widget.postId, false);
+    }
+  }
 
 void _showShareMenu(BuildContext context) {
     showMenu(
