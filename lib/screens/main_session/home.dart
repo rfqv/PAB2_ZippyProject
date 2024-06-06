@@ -39,13 +39,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchUserProfile(); // Ganti fetchProfileName menjadi fetchUserProfile
+    fetchUserProfile();
     fetchPosts();
     fetchLikedPypo();
     fetchLikedPpy();
   }
 
-  // Ubah fetchProfileName menjadi fetchUserProfile
   Future<void> fetchUserProfile() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
