@@ -113,6 +113,8 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
+    - assets/logo/zippynotulisan.png
+    - assets/logo/zippyadatulisan.png
     - assets/users/katarinabluu/favicon/username-katarinabluu-uid-129466.jpg
     - assets/users/leedongwook_official/favicon/username-leedongwook_official-uid-130743.jpg
     - assets/users/renebaebae/favicon/username-renebaebae-uid-151135.jpg

@@ -77,9 +77,20 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final backgroundColor = brightness == Brightness.dark ? Colors.black : Colors.white;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final buttonColor = brightness == Brightness.dark ? Colors.grey[800] : const Color(0xFF7DABCF);
+    final buttonTextColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: Text(
+          'Sign Up',
+          style: TextStyle(color: textColor),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -178,6 +189,10 @@ class SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: buttonColor,
+                  foregroundColor: buttonTextColor,
+                ),
                 onPressed: _isCaptchaCorrect ? () async {
                   if (_passwordController.text != _confirmPasswordController.text) {
                     setState(() {
@@ -221,6 +236,10 @@ class SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: buttonColor,
+                  foregroundColor: buttonTextColor,
+                ),
                 onPressed: () async {
                   try {
                     final user = await _signUpService.signUpWithGoogle();
@@ -263,6 +282,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                     MaterialPageRoute(builder: (context) => const SignInScreen()),
                   );
                 },
+                style: TextButton.styleFrom(
+                  foregroundColor: buttonTextColor,
+                ),
                 child: const Text('Already have an account? Sign in'),
               ),
               if (_errorMessage.isNotEmpty)

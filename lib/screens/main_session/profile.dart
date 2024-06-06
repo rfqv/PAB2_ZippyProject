@@ -412,7 +412,7 @@ Future<void> fetchPostPypoMain() async {
                         MaterialPageRoute(builder: (context) => const ShareProfileScreen()),
                       );
                     },
-                    child: const Text('Bagikan Profil'),
+                    child: const Text('Share Profile'),
                   ),
                 ],
               ),

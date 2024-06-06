@@ -10,6 +10,7 @@ import 'package:zippy/screens/settings/your_account_settings_screen.dart';
 import 'package:zippy/screens/settings/accessibility_display_and_languages_settings_screen.dart';
 import 'package:zippy/services/user_settings_services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:zippy/screens/landing/landing_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,16 +86,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: StreamBuilder(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return const MyBottomNavbar();
-                } else {
-                  return const SignInScreen();
-                }
-              },
-            ),
+            home: const LandingPage(), // Set LandingPage as the home screen
             routes: {
               '/sign-in': (context) => const SignInScreen(),
               '/sign-out': (context) => const SignOutScreen(),

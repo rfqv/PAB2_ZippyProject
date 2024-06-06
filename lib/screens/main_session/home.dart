@@ -196,11 +196,15 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     TextField(
                       controller: _textController,
-                      decoration: const InputDecoration(
-                        hintText: 'Write ppy here...',
+                      decoration: InputDecoration(
+                        hintText: 'Create your Pypo/Ppy here!',
                         filled: true,
-                        fillColor: Colors.white, // Background color of TextField
+                        fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
+                        hintStyle: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
                       ),
+                      style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
                     ),
                     if (_image != null)
                       SizedBox(
@@ -223,8 +227,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor: const Color(0xFFBAD6EB), // Text color
+                            foregroundColor: isDarkMode ? Colors.white : Colors.black,
+                            backgroundColor: isDarkMode ? Colors.grey[800] : const Color(0xFFBAD6EB),
                           ),
                           onPressed: () {
                             if (_image != null) {

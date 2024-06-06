@@ -3,9 +3,12 @@ import 'package:zippy/navigator/app_navigator.dart'; // Import MyBottomNavbar
 import 'package:zippy/screens/sign_up/sign_up_screen.dart';
 import 'package:zippy/screens/major_features/sign_in_features/lupa_password.dart'; // Import LupaPasswordScreen
 import 'package:zippy/services/sign_in_services.dart'; // Import SignInService
+import 'package:provider/provider.dart';
+import 'package:zippy/services/user_settings_services.dart'; // Import UserSettingsService
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key, Key? Key});
+  const SignInScreen({super.key});
+
   @override
   SignInScreenState createState() => SignInScreenState();
 }
@@ -108,10 +111,17 @@ class SignInScreenState extends State<SignInScreen> {
     final brightness = Theme.of(context).brightness;
     final backgroundColor = brightness == Brightness.dark ? Colors.black : Colors.white;
     final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final buttonColor = brightness == Brightness.dark ? Colors.grey[800] : const Color(0xFF7DABCF);
+    final buttonTextColor = brightness == Brightness.dark ? Colors.white : Colors.black;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign In'),
+        title: Text(
+          'Sign In',
+          style: TextStyle(color: textColor),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -151,7 +161,10 @@ class SignInScreenState extends State<SignInScreen> {
                       MaterialPageRoute(builder: (context) => const LupaPasswordScreen()),
                     );
                   },
-                  child: const Text('Lupa password?'),
+                  child: Text(
+                    'Lupa password?',
+                    style: TextStyle(color: textColor),
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -183,6 +196,9 @@ class SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _isCaptchaCorrect ? _handleSignIn : null,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: buttonTextColor, backgroundColor: buttonColor,
+                ),
                 child: const Text('Sign In'),
               ),
               const SizedBox(height: 16.0),
@@ -215,6 +231,9 @@ class SignInScreenState extends State<SignInScreen> {
                     );
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: buttonTextColor, backgroundColor: buttonColor,
+                ),
                 icon: Image.asset(
                   'assets/app/signin/icons/google_logo.png', // Path to your Google logo asset
                   height: 24.0,
@@ -230,7 +249,10 @@ class SignInScreenState extends State<SignInScreen> {
                     MaterialPageRoute(builder: (context) => const SignUpScreen()),
                   );
                 },
-                child: const Text('Don\'t have an account? Sign up'),
+                child: Text(
+                  'Don\'t have an account? Sign up',
+                  style: TextStyle(color: textColor),
+                ),
               ),
               if (_errorMessage.isNotEmpty)
                 Text(
