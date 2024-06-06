@@ -7,46 +7,66 @@ import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'dart:io';
 
+class UserProfile {
+  final String profileName;
+  final String username;
+  final String profileImage;
+
+  UserProfile({
+    required this.profileName,
+    required this.username,
+    required this.profileImage,
+  });
+}
+
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  String username = 'Username';
-  String profileName = 'User';
-  String profileImage = 'assets/me/default_profileImage.png';
+  // Ganti tipe variabel profileName, username, dan profileImage menjadi UserProfile
+  late UserProfile userProfile = UserProfile(profileName: 'User', username: 'Username', profileImage: 'assets/me/default_profileImage.png');
   List<Map> posts = [];
   final TextEditingController _textController = TextEditingController();
   File? _image;
   final ImagePicker _picker = ImagePicker();
+  Set<String> likedPypo = {};
+  Set<String> likedPpy = {};
 
   @override
   void initState() {
     super.initState();
-    fetchProfileName();
+    fetchUserProfile(); // Ganti fetchProfileName menjadi fetchUserProfile
     fetchPosts();
+    fetchLikedPypo();
+    fetchLikedPpy();
   }
 
-  Future<void> fetchProfileName() async {
+  // Ubah fetchProfileName menjadi fetchUserProfile
+  Future<void> fetchUserProfile() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final ref = FirebaseDatabase.instance.reference().child('users').child(user.uid);
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
       final snapshot = await ref.once();
       if (snapshot.snapshot.value != null) {
         final data = snapshot.snapshot.value as Map?;
         if (mounted) {
           setState(() {
-            profileName = data?['profileName'] ?? 'User';
-            username = data?['username'] ?? 'Username';
-            profileImage = data?['profileImage'] ?? 'assets/me/default_profileImage.png';
+            // Gunakan data yang diperoleh untuk membuat UserProfile
+            userProfile = UserProfile(
+              profileName: data?['profileName'] ?? 'User',
+              username: data?['username'] ?? 'Username',
+              profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+            );
           });
         }
       }
     }
   }
+
 
   Future<void> fetchPosts() async {
     final refPypo = FirebaseDatabase.instance.ref().child('postPypoMain');
@@ -79,6 +99,93 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> fetchLikedPypo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPypo');
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = List<String>.from(snapshot.snapshot.value as List);
+        if (mounted) {
+          setState(() {
+            likedPypo = Set<String>.from(data);
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> fetchLikedPpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = List<String>.from(snapshot.snapshot.value as List);
+        if (mounted) {
+          setState(() {
+            likedPpy = Set<String>.from(data);
+          });
+        }
+      }
+    }
+  }
+
+  void likePost(String postId, String postType) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+      if (postType == 'postPypoMain') {
+        setState(() {
+          likedPypo.add(postId);
+        });
+        await ref.child('likedPypo').set(likedPypo.toList());
+      } else {
+        setState(() {
+          likedPpy.add(postId);
+        });
+        await ref.child('likedPpy').set(likedPpy.toList());
+      }
+      await updateLikedStatus(postId, true, postType);
+    }
+  }
+
+  Future<void> updateLikedStatus(String postId, bool isLiked, String postType) async {
+    final ref = FirebaseDatabase.instance.ref().child('posts').child(postType).child(postId).child('likedBy');
+    final snapshot = await ref.once();
+    if (snapshot.snapshot.value != null) {
+      final likedBy = List<String>.from(snapshot.snapshot.value as List);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        if (isLiked) {
+          likedBy.add(user.uid);
+        } else {
+          likedBy.remove(user.uid);
+        }
+        await ref.set(likedBy);
+      }
+    }
+  }
+
+  void unlikePost(String postId, String postType) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+      if (postType == 'postPypoMain') {
+        setState(() {
+          likedPypo.remove(postId);
+        });
+        await ref.child('likedPypo').set(likedPypo.toList());
+      } else {
+        setState(() {
+          likedPpy.remove(postId);
+        });
+        await ref.child('likedPpy').set(likedPpy.toList());
+      }
+      await updateLikedStatus(postId, false, postType);
+    }
+  }
+
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -93,18 +200,18 @@ class _HomePageState extends State<HomePage> {
     if (text.isNotEmpty || _image != null) {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-
         final ref = FirebaseDatabase.instance.reference().child('postPpyMain').push();
         final newPost = {
-          'profileName': profileName,
-          'username': username,
+          'postId': ref.key,
+          'profileName': userProfile!.profileName,
+          'username': userProfile!.username,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
-          'profileImage': profileImage,
+          'profileImage': userProfile!.profileImage,
         };
         await ref.set(newPost);
         setState(() {
-          posts.insert(0, newPost); // Insert the new post at the top
+          posts.insert(0, newPost);
           _textController.clear();
           _image = null;
         });
@@ -114,21 +221,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _savePypo() async {
     final text = _textController.text;
-    // try{
-    //   Get.dialog(
-    //     Center(
-    //       child: SizedBox(
-    //         width: 15.0,
-    //         height: 15.0,
-    //         child: CircularProgressIndicator(),
-    //       ),
-    //       ),
-    //       );
-    // }catch(e){
-    //   Get.back();
-    // }finally{
-    //   Get.back();
-    // }
     if (text.isNotEmpty) {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
@@ -141,17 +233,19 @@ class _HomePageState extends State<HomePage> {
 
         final ref = FirebaseDatabase.instance.reference().child('postPypoMain').push();
         final newPost = {
-          'profileName': profileName,
-          'username': username,
+          'postId': ref.key,
+          'profileName': userProfile!.profileName,
+          'username': userProfile!.username,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
-          'profileImage': profileImage,
+          'profileImage': userProfile!.profileImage,
           'mediaUrl': imageUrl,
         };
         await ref.set(newPost);
         setState(() {
-          posts.insert(0, newPost); // Insert the new post at the top
+          posts.insert(0, newPost);
           _textController.clear();
+          _image = null;
         });
       }
     }
@@ -196,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    backgroundImage: AssetImage(profileImage),
+                    backgroundImage: AssetImage(userProfile!.profileImage),
                   ),
                   // Add more CircleAvatars for other users if needed
                 ],
@@ -319,8 +413,15 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.favorite_border),
-                      onPressed: () {},
+                      icon: const Icon(Icons.favorite),
+                      color: likedPypo.contains(post['postId']) ? Colors.red : Colors.grey,
+                      onPressed: () {
+                        if (likedPypo.contains(post['postId'])) {
+                          unlikePost(post['postId'], 'postPypoMain');
+                        } else {
+                          likePost(post['postId'], 'postPypoMain');
+                        }
+                      },
                     ),
                     const Text('1.8K'),
                     IconButton(
@@ -328,11 +429,6 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {},
                     ),
                     const Text('872'),
-                    IconButton(
-                      icon: const Icon(Icons.save),
-                      onPressed: () {},
-                    ),
-                    const Text('132'),
                   ],
                 ),
                 IconButton(
@@ -383,8 +479,15 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.favorite_border),
-                      onPressed: () {},
+                      icon: const Icon(Icons.favorite),
+                      color: likedPpy.contains(post['postId']) ? Colors.red : Colors.grey,
+                      onPressed: () {
+                        if (likedPpy.contains(post['postId'])) {
+                          unlikePost(post['postId'], 'postPpyMain');
+                        } else {
+                          likePost(post['postId'], 'postPpyMain');
+                        }
+                      },
                     ),
                     const Text('1.8K'),
                     IconButton(
@@ -392,11 +495,6 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {},
                     ),
                     const Text('872'),
-                    IconButton(
-                      icon: const Icon(Icons.save),
-                      onPressed: () {},
-                    ),
-                    const Text('132'),
                   ],
                 ),
                 IconButton(

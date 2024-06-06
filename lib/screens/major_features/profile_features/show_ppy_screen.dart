@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ShowPpyScreen extends StatefulWidget {
   final String postId;
@@ -14,118 +14,150 @@ class ShowPpyScreen extends StatefulWidget {
 
 class _ShowPpyScreenState extends State<ShowPpyScreen> {
   Map<String, dynamic>? postDetails;
+  Set<String> likedPpy = {};
+  String username = '';
 
   @override
   void initState() {
     super.initState();
-    fetchPostDetails();
+    _loadPostDetails();
+    _loadLikedPpy();
+    _loadUsername();
   }
 
-  Future<void> fetchPostDetails() async {
+  Future<void> _loadPostDetails() async {
     final ref = FirebaseDatabase.instance.ref().child(widget.postType).child(widget.postId);
     final snapshot = await ref.once();
     if (snapshot.snapshot.value != null) {
+      final data = snapshot.snapshot.value as Map?;
       setState(() {
-        postDetails = Map<String, dynamic>.from(snapshot.snapshot.value as Map);
+        postDetails = data?.cast<String, dynamic>();
       });
+    }
+  }
+
+  Future<void> _loadUsername() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = snapshot.snapshot.value as Map?;
+        setState(() {
+          username = data?['username'] ?? 'Unknown';
+        });
+      }
+    }
+  }
+
+  Future<void> _loadLikedPpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      final snapshot = await ref.once();
+      if (snapshot.snapshot.value != null) {
+        final data = List<String>.from(snapshot.snapshot.value as List);
+        setState(() {
+          likedPpy = Set<String>.from(data);
+        });
+      }
+    }
+  }
+
+  Future<void> _updateLikedBy(String postId, bool isLiked) async {
+    final ref = FirebaseDatabase.instance.ref().child(widget.postType).child(postId).child('likedBy');
+    final snapshot = await ref.once();
+    if (snapshot.snapshot.value != null) {
+      final likedBy = List<String>.from(snapshot.snapshot.value as List);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        if (isLiked) {
+          likedBy.add(user.uid);
+        } else {
+          likedBy.remove(user.uid);
+        }
+        await ref.set(likedBy);
+      }
+    }
+  }
+
+  void _likePpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      setState(() {
+        likedPpy.add(widget.postId);
+      });
+      await ref.set(likedPpy.toList());
+
+      await _updateLikedBy(widget.postId, true);
+    }
+  }
+
+  void _unlikePpy() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid).child('likedPpy');
+      setState(() {
+        likedPpy.remove(widget.postId);
+      });
+      await ref.set(likedPpy.toList());
+
+      await _updateLikedBy(widget.postId, false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (postDetails == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Loading...'),
-        ),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    final timestamp = DateTime.parse(postDetails!['timestamp']);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Post Details'),
+        title: Text(username.isEmpty ? 'Ppy' : username),
+        backgroundColor: const Color(0xFF7DABCF),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      body: postDetails == null
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(postDetails!['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                Expanded(
+                  child: Image.network(
+                    postDetails!['mediaUrl'] ?? 'assets/me/default_profileImage.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                const SizedBox(width: 8.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(postDetails!['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(timeago.format(timestamp)),
+                    IconButton(
+                      icon: const Icon(Icons.comment),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.share),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.favorite),
+                      color: likedPpy.contains(widget.postId) ? Colors.red : Colors.grey,
+                      onPressed: () {
+                        if (likedPpy.contains(widget.postId)) {
+                          _unlikePpy();
+                        } else {
+                          _likePpy();
+                        }
+                      },
+                    ),
                   ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            Text(postDetails!['text'] ?? ''),
-            if (postDetails!['mediaUrl'] != null) Image.network(postDetails!['mediaUrl']),
-            const SizedBox(height: 16.0),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.favorite),
-                  color: Colors.grey,
-                  onPressed: () {},
-                ),
-                const Text('1.8K'),
-                IconButton(
-                  icon: const Icon(Icons.comment),
-                  onPressed: () {},
-                ),
-                const Text('872'),
-                IconButton(
-                  icon: const Icon(Icons.save),
-                  onPressed: () {},
-                ),
-                const Text('132'),
-                IconButton(
-                  icon: const Icon(Icons.share),
-                  onPressed: () {
-                    _showShareMenu(context);
-                  },
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    postDetails!['content'] ?? '',
+                    style: const TextStyle(fontSize: 16),
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
-      ),
     );
-  }
-
-  void _showShareMenu(BuildContext context) {
-    showMenu(
-      context: context,
-      position: const RelativeRect.fromLTRB(100, 100, 0, 0),
-      items: [
-        const PopupMenuItem(
-          value: 'zippy_friends',
-          child: Text('Bagikan ke teman Zippy'),
-        ),
-        const PopupMenuItem(
-          value: 'share',
-          child: Text('Bagikan ke...'),
-        ),
-      ],
-    ).then((value) {
-      if (value == 'zippy_friends') {
-        // Handle "Bagikan ke teman Zippy"
-      } else if (value == 'share') {
-        // Handle "Bagikan ke..."
-      }
-    });
   }
 }
