@@ -166,7 +166,6 @@ class _ProfileState extends State<Profile> {
           }
         }
       }
-
       setState(() {
         likedPypoPosts = likedPypoList.cast<Map<String, dynamic>>();
         likedPpyPosts = likedPpyList.cast<Map<String, dynamic>>();
