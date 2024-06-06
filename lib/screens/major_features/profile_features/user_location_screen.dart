@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zippy/screens/main_session/profile.dart';
 
 class UserLocationScreen extends StatefulWidget {
   const UserLocationScreen({super.key});

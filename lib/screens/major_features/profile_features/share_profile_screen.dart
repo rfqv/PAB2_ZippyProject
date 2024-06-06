@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zippy/screens/main_session/profile.dart';
 
 class ShareProfileScreen extends StatelessWidget {
   const ShareProfileScreen({super.key});
