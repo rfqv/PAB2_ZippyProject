@@ -199,14 +199,15 @@ class _HomePageState extends State<HomePage> {
     if (text.isNotEmpty || _image != null) {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        final ref = FirebaseDatabase.instance.reference().child('postPpyMain').push();
+        final ref = FirebaseDatabase.instance.ref().child('postPpyMain').push();
         final newPost = {
           'postId': ref.key,
+          'postType': 'ppy',
+          'profileImage': userProfile!.profileImage,
           'profileName': userProfile!.profileName,
           'username': userProfile!.username,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
-          'profileImage': userProfile!.profileImage,
         };
         await ref.set(newPost);
         setState(() {
@@ -225,20 +226,21 @@ class _HomePageState extends State<HomePage> {
       if (user != null) {
         String? imageUrl;
         if (_image != null) {
-          final storageRef = FirebaseStorage.instance.ref().child('post_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+          final storageRef = FirebaseStorage.instance.ref().child('post_images/${userProfile!.username}_${DateTime.now().millisecondsSinceEpoch}.jpg');
           final uploadTask = await storageRef.putFile(_image!);
           imageUrl = await uploadTask.ref.getDownloadURL();
         }
 
-        final ref = FirebaseDatabase.instance.reference().child('postPypoMain').push();
+        final ref = FirebaseDatabase.instance.ref().child('postPypoMain').push();
         final newPost = {
+          'mediaUrl': imageUrl,
           'postId': ref.key,
+          'postType': 'pypo',
+          'profileImage': userProfile!.profileImage,
           'profileName': userProfile!.profileName,
           'username': userProfile!.username,
           'text': text,
           'timestamp': DateTime.now().toIso8601String(),
-          'profileImage': userProfile!.profileImage,
-          'mediaUrl': imageUrl,
         };
         await ref.set(newPost);
         setState(() {
