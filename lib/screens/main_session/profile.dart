@@ -572,7 +572,7 @@ Widget _buildPostPypoMainItem(Map post) {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
               ),
               const SizedBox(width: 8.0),
               Column(

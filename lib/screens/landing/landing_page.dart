@@ -20,10 +20,12 @@ class _LandingPageState extends State<LandingPage> {
 
   _navigateToSignIn() async {
     await Future.delayed(const Duration(seconds: 3), () {});
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const SignInScreen()),
-    );
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SignInScreen()),
+      );
+    }
   }
 
   @override

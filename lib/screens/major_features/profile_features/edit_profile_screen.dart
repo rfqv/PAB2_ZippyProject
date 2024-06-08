@@ -79,7 +79,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         final uploadTask = await storageRef.putFile(_imageFile!);
         imageUrl = await uploadTask.ref.getDownloadURL();
       }
-
+      
       final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
       await ref.update({
         'profileImage': imageUrl ?? _profileImageUrl,
