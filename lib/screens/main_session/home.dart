@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'dart:io';
+import 'package:zippy/screens/major_features/home_features/profile_screen.dart';
 
 class UserProfile {
   final String profileName;
@@ -35,6 +36,14 @@ class _HomePageState extends State<HomePage> {
   final ImagePicker _picker = ImagePicker();
   Set<String> likedPypo = {};
   Set<String> likedPpy = {};
+  List<Map> searchPosts(String query) {
+    final searchResult = posts.where((post) {
+      final username = post['username'].toLowerCase();
+      final text = post['text'].toLowerCase();
+      return username.contains(query.toLowerCase()) || text.contains(query.toLowerCase());
+    }).toList();
+    return searchResult;
+  }
 
   @override
   void initState() {
@@ -379,152 +388,180 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPostPypoMainItem(Map post) {
-  final timestamp = DateTime.parse(post['timestamp']);
-  final profileImageUrl = post['profileImage'] ?? 'assets/me/default_profileImage.png'; // Default placeholder image
+    final timestamp = DateTime.parse(post['timestamp']);
+    final profileImageUrl = post['profileImage'] ?? 'assets/me/default_profileImage.png'; // Default placeholder image
 
-  return Card(
-    color: Theme.of(context).appBarTheme.backgroundColor,
-    margin: const EdgeInsets.all(8.0),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(profileImageUrl),
-                onBackgroundImageError: (_, __) {
-                  // Display a default image if loading fails
-                  setState(() {
-                    post['profileImage'] = 'assets/me/default_profileImage.png';
-                  });
-                },
-              ),
-              const SizedBox(width: 8.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(timeago.format(timestamp)),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8.0),
-          Text(post['text']),
-          if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.favorite),
-                    color: likedPypo.contains(post['postId']) ? Colors.red : Colors.grey,
-                    onPressed: () {
-                      if (likedPypo.contains(post['postId'])) {
-                        unlikePost(post['postId'], 'postPypoMain');
-                      } else {
-                        likePost(post['postId'], 'postPypoMain');
-                      }
+    return Card(
+      color: Theme.of(context).appBarTheme.backgroundColor,
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                          username: post['username'],
+                          profileName: post['profileName'],
+                          profileImage: profileImageUrl,
+                        ),
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(profileImageUrl),
+                    onBackgroundImageError: (_, __) {
+                      // Display a default image if loading fails
+                      setState(() {
+                        post['profileImage'] = 'assets/me/default_profileImage.png';
+                      });
                     },
                   ),
-                  const Text('1.8K'),
-                  IconButton(
-                    icon: const Icon(Icons.comment),
-                    onPressed: () {},
-                  ),
-                  const Text('872'),
-                ],
-              ),
-              IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: () {
-                  _showShareMenu(context);
-                },
-              ),
-            ],
-          ),
-        ],
+                ),
+                const SizedBox(width: 8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(timeago.format(timestamp)),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 8.0),
+            Text(post['text']),
+            if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.favorite),
+                      color: likedPypo.contains(post['postId']) ? Colors.red : Colors.grey,
+                      onPressed: () {
+                        if (likedPypo.contains(post['postId'])) {
+                          unlikePost(post['postId'], 'postPypoMain');
+                        } else {
+                          likePost(post['postId'], 'postPypoMain');
+                        }
+                      },
+                    ),
+                    const Text('1.8K'),
+                    IconButton(
+                      icon: const Icon(Icons.comment),
+                      onPressed: () {},
+                    ),
+                    const Text('872'),
+                  ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () {
+                    _showShareMenu(context);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
 Widget _buildPostPpyMainItem(Map post) {
-  final timestamp = DateTime.parse(post['timestamp']);
-  final profileImageUrl = post['profileImage'] ?? 'assets/me/default_profileImage.png'; // Default placeholder image
+    final timestamp = DateTime.parse(post['timestamp']);
+    final profileImageUrl = post['profileImage'] ?? 'assets/me/default_profileImage.png'; // Default placeholder image
 
-  return Card(
-    color: Theme.of(context).appBarTheme.backgroundColor,
-    margin: const EdgeInsets.all(8.0),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(profileImageUrl),
-                onBackgroundImageError: (_, __) {
-                  // Display a default image if loading fails
-                  setState(() {
-                    post['profileImage'] = 'assets/me/default_profileImage.png';
-                  });
-                },
-              ),
-              const SizedBox(width: 8.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(timeago.format(timestamp)),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8.0),
-          Text(post['text']),
-          if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.favorite),
-                    color: likedPpy.contains(post['postId']) ? Colors.red : Colors.grey,
-                    onPressed: () {
-                      if (likedPpy.contains(post['postId'])) {
-                        unlikePost(post['postId'], 'postPpyMain');
-                      } else {
-                        likePost(post['postId'], 'postPpyMain');
-                      }
+    return Card(
+      color: Theme.of(context).appBarTheme.backgroundColor,
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                          username: post['username'],
+                          profileName: post['profileName'],
+                          profileImage: profileImageUrl,
+                        ),
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(profileImageUrl),
+                    onBackgroundImageError: (_, __) {
+                      // Display a default image if loading fails
+                      setState(() {
+                        post['profileImage'] = 'assets/me/default_profileImage.png';
+                      });
                     },
                   ),
-                  const Text('1.8K'),
-                  IconButton(
-                    icon: const Icon(Icons.comment),
-                    onPressed: () {},
-                  ),
-                  const Text('872'),
-                ],
-              ),
-              IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: () {
-                  _showShareMenu(context);
-                },
-              ),
-            ],
-          ),
-        ],
+                ),
+                const SizedBox(width: 8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(post['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(timeago.format(timestamp)),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 8.0),
+            Text(post['text']),
+            if (post['mediaUrl'] != null) Image.network(post['mediaUrl']),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.favorite),
+                      color: likedPpy.contains(post['postId']) ? Colors.red : Colors.grey,
+                      onPressed: () {
+                        if (likedPpy.contains(post['postId'])) {
+                          unlikePost(post['postId'], 'postPpyMain');
+                        } else {
+                          likePost(post['postId'], 'postPpyMain');
+                        }
+                      },
+                    ),
+                    const Text('1.8K'),
+                    IconButton(
+                      icon: const Icon(Icons.comment),
+                      onPressed: () {},
+                    ),
+                    const Text('872'),
+                  ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () {
+                    _showShareMenu(context);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
 
   void _showShareMenu(BuildContext context) {
