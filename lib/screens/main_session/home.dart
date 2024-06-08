@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
         final data = snapshot.snapshot.value as Map?;
         if (mounted) {
           setState(() {
-            // Gunakan data yang diperoleh untuk membuat UserProfile
             userProfile = UserProfile(
               profileName: data?['profileName'] ?? 'User',
               username: data?['username'] ?? 'Username',
@@ -291,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    backgroundImage: AssetImage(userProfile!.profileImage),
+                    backgroundImage: NetworkImage(userProfile!.profileImage),
                   ),
                   // Add more CircleAvatars for other users if needed
                 ],
@@ -393,7 +392,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                  backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
                 ),
                 const SizedBox(width: 8.0),
                 Column(
@@ -459,7 +458,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                  backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
                 ),
                 const SizedBox(width: 8.0),
                 Column(

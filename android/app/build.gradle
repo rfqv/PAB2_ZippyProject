@@ -57,7 +57,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.zippy"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

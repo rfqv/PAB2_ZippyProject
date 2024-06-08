@@ -308,7 +308,7 @@ Future<void> _loadLikedPpy() async {
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage(userProfile!.profileImage),
+                    backgroundImage: NetworkImage(userProfile!.profileImage),
                   ),
                   const SizedBox(width: 10),
                   Column(

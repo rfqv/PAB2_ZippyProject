@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -26,6 +27,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   String? _userGender;
   File? _imageFile;
+  String? _profileImageUrl;
   bool _showAdditionalFields = false;
   Position? _currentPosition;
 
@@ -44,13 +46,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (snapshot.snapshot.value != null) {
         final data = snapshot.snapshot.value as Map?;
         setState(() {
-          _nameController.text = data?['profileName'] ?? '';
-          _bioController.text = data?['userBio'] ?? '';
-          _birthdayController.text = data?['userBirthday'] ?? '01-01-1970';
-          _addressController.text = data?['userAddress'] ?? '';
-          _usernameController.text = data?['username'] ?? '';
-          _emailController.text = user.email ?? '';
-          _userGender = data?['userGender'];
+          UserProfile userProfile = UserProfile(
+            profileName: data?['profileName'] ?? '',
+            userBio: data?['userBio'] ?? '',
+            userBirthday: data?['userBirthday'] ?? '01-01-1970',
+            userAddress: data?['userAddress'] ?? '',
+            username: data?['username'] ?? '',
+            userEmail: user.email ?? '',
+            userGender: data?['userGender'],
+            profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+          );
+
+          _nameController.text = userProfile.profileName;
+          _bioController.text = userProfile.userBio;
+          _birthdayController.text = userProfile.userBirthday;
+          _addressController.text = userProfile.userAddress;
+          _usernameController.text = userProfile.username;
+          _emailController.text = userProfile.userEmail;
+          _userGender = userProfile.userGender;
+          _profileImageUrl = userProfile.profileImage;
         });
       }
     }
@@ -59,8 +73,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> _saveProfile() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      String? imageUrl;
+      if (_imageFile != null) {
+        final storageRef = FirebaseStorage.instance.ref().child('user_profileImage/${_usernameController.text}_${DateTime.now().millisecondsSinceEpoch}.jpg');
+        final uploadTask = await storageRef.putFile(_imageFile!);
+        imageUrl = await uploadTask.ref.getDownloadURL();
+      }
+
       final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
       await ref.update({
+        'profileImage': imageUrl ?? _profileImageUrl,
         'profileName': _nameController.text,
         'userBio': _bioController.text,
         'userBirthday': _birthdayController.text,
@@ -105,24 +127,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         _imageFile = File(pickedFile.path);
       });
-
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        Directory appDocDir = await getApplicationDocumentsDirectory();
-        String appDocPath = appDocDir.path;
-        String username = _usernameController.text;
-        String userUniqueIdentifier = user.uid;
-        String extension = path.extension(_imageFile!.path);
-        String newFileName = '$username-$userUniqueIdentifier$extension';
-        String newPath = path.join(appDocPath, 'assets/users/$username/favicon', newFileName);
-
-        final newFile = await _imageFile!.copy(newPath);
-
-        final ref = FirebaseDatabase.instance.ref().child('users').child(user.uid);
-        await ref.update({
-          'profileImage': 'assets/users/$username/favicon/$newFileName',
-        });
-      }
     }
   }
 
@@ -157,8 +161,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onTap: _pickImage,
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: _imageFile != null ? FileImage(_imageFile!) : const AssetImage('assets/me/default_profileImage.png') as ImageProvider,
-              ),
+                backgroundImage: _imageFile != null 
+        ? FileImage(_imageFile!) 
+        : (_profileImageUrl != null && _profileImageUrl!.startsWith('http'))
+            ? NetworkImage(_profileImageUrl!) 
+            : const AssetImage('assets/me/default_profileImage.png') as ImageProvider,
+  ),
             ),
             const SizedBox(height: 10),
             _buildTextField(controller: _nameController, label: 'Nama'),
@@ -232,4 +240,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
+}
+
+class UserProfile {
+  String profileName;
+  String userBio;
+  String userBirthday;
+  String userAddress;
+  String username;
+  String userEmail;
+  String? userGender;
+  String profileImage;
+
+  UserProfile({
+    required this.profileName,
+    required this.userBio,
+    required this.userBirthday,
+    required this.userAddress,
+    required this.username,
+    required this.userEmail,
+    this.userGender,
+    required this.profileImage,
+  });
 }
