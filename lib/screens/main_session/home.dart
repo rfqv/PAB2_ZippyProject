@@ -29,7 +29,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Ganti tipe variabel profileName, username, dan profileImage menjadi UserProfile
-  late UserProfile userProfile = UserProfile(profileName: 'User', username: 'Username', profileImage: 'assets/me/default_profileImage.png');
+  late UserProfile userProfile = UserProfile(profileName: 'User', username: 'Username', profileImage: 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674');
   List<Map> posts = [];
   final TextEditingController _textController = TextEditingController();
   File? _image;
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             userProfile = UserProfile(
               profileName: data?['profileName'] ?? 'User',
               username: data?['username'] ?? 'Username',
-              profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+              profileImage: data?['profileImage'] ?? 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674',
             );
           });
         }
@@ -389,7 +389,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildPostPypoMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
-    final profileImageUrl = post['profileImage'] ?? 'assets/me/default_profileImage.png'; // Default placeholder image
+    final profileImageUrl = post['profileImage'] ?? 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674';
 
     return Card(
       color: Theme.of(context).appBarTheme.backgroundColor,
@@ -419,7 +419,7 @@ class _HomePageState extends State<HomePage> {
                     onBackgroundImageError: (_, __) {
                       // Display a default image if loading fails
                       setState(() {
-                        post['profileImage'] = 'assets/me/default_profileImage.png';
+                        post['profileImage'] = 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674';
                       });
                     },
                   ),
@@ -477,7 +477,7 @@ class _HomePageState extends State<HomePage> {
 
 Widget _buildPostPpyMainItem(Map post) {
     final timestamp = DateTime.parse(post['timestamp']);
-    final profileImageUrl = post['profileImage'] ?? 'assets/me/default_profileImage.png'; // Default placeholder image
+    final profileImageUrl = post['profileImage'] ?? 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674'; // Default placeholder image
 
     return Card(
       color: Theme.of(context).appBarTheme.backgroundColor,
@@ -507,7 +507,7 @@ Widget _buildPostPpyMainItem(Map post) {
                     onBackgroundImageError: (_, __) {
                       // Display a default image if loading fails
                       setState(() {
-                        post['profileImage'] = 'assets/me/default_profileImage.png';
+                        post['profileImage'] = 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674';
                       });
                     },
                   ),

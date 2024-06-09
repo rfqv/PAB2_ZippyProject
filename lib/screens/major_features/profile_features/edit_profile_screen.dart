@@ -134,7 +134,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (await Permission.location.isGranted) {
       try {
         Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high,
+          desiredAccuracy: LocationAccuracy.best,
         );
         setState(() {
           _currentPosition = position;
@@ -165,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ? FileImage(_imageFile!) 
         : (_profileImageUrl != null && _profileImageUrl!.startsWith('http'))
             ? NetworkImage(_profileImageUrl!) 
-            : const AssetImage('assets/me/default_profileImage.png') as ImageProvider,
+            : const NetworkImage('https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674') as ImageProvider,
   ),
             ),
             const SizedBox(height: 10),

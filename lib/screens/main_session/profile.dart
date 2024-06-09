@@ -50,7 +50,7 @@ class _ProfileState extends State<Profile> {
           userProfile = UserProfile(
             profileName: data?['profileName'] ?? 'User',
             username: data?['username'] ?? 'Unknown',
-            profileImage: data?['profileImage'] ?? 'assets/me/default_profileImage.png',
+            profileImage: data?['profileImage'] ?? 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674',
             userAddress: data?['userAddress'] ?? 'Unknown',
             fans: data?['fans'] ?? 0,
             following: data?['following'] ?? 0,
@@ -572,7 +572,7 @@ Widget _buildPostPypoMainItem(Map post) {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(post['profileImage'] ?? 'assets/me/default_profileImage.png'),
+                backgroundImage: NetworkImage(post['profileImage'] ?? 'https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fdefault_profileImage.png?alt=media&token=098f227e-5324-4f6d-95c0-4c079797f674'),
               ),
               const SizedBox(width: 8.0),
               Column(
