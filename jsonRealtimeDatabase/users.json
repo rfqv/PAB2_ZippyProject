@@ -1,9 +1,23 @@
 {
+  "messages": {
+    "-Nzzd6L3XG6y_6kTT3gW": {
+      "message": "Test",
+      "receiver": "",
+      "sender": "",
+      "timestamp": 1717980919172
+    },
+    "-Nzze7-oCx1xRe5Rls7x": {
+      "message": "Hi mate!",
+      "receiver": "",
+      "sender": "",
+      "timestamp": 1717981184052
+    }
+  },
   "postPpyMain": {
     "-NzS2NmpWDpNNXsA7irs": {
       "postType": "ppy",
       "ppyID": "-NzS2NmpWDpNNXsA7irs",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "tes",
       "timestamp": "2024-06-03T14:43:23.829452",
@@ -11,7 +25,7 @@
     },
     "-NzWgM1tRzPVUQosIBij": {
       "postType": "ppy",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "Gimana kabar kalian hari ini??",
       "timestamp": "2024-06-04T12:20:53.447086",
@@ -27,7 +41,7 @@
     },
     "-NzX-lhO5Wxv0jrnapEk": {
       "postType": "ppy",
-      "profileImage": "assets/users/katarinabluu/favicon/username-katarinabluu-uid-129466.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fkatarinabluu_1717825580925.jpg?alt=media&token=ed8783a9-00a1-4fd0-93b7-f62957e56b7c",
       "profileName": "Karina Han",
       "text": "Tes",
       "timestamp": "2024-06-04T13:50:05.529989",
@@ -43,7 +57,7 @@
     },
     "-NzXJxZ-VXbJbpXNrUfl": {
       "postType": "ppy",
-      "profileImage": "assets/users/katarinabluu/favicon/username-katarinabluu-uid-129466.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fkatarinabluu_1717825580925.jpg?alt=media&token=ed8783a9-00a1-4fd0-93b7-f62957e56b7c",
       "profileName": "Karina Han",
       "text": "1 + 1 = Kita",
       "timestamp": "2024-06-04T15:18:16.968373",
@@ -52,7 +66,7 @@
     "-NzXKT9glmCbcx89Na8D": {
       "postType": "ppy",
       "ppyID": "-NzXKT9glmCbcx89Na8D",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "Don't compare me to others. I'm one of a kind. 👑",
       "timestamp": "2024-06-04T15:20:30.508634",
@@ -60,7 +74,7 @@
     },
     "-NzXhHLD1cw004nAyNCn": {
       "postType": "ppy",
-      "profileImage": "assets/users/katarinabluu/favicon/username-katarinabluu-uid-129466.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fkatarinabluu_1717825580925.jpg?alt=media&token=ed8783a9-00a1-4fd0-93b7-f62957e56b7c",
       "profileName": "Karina Han",
       "text": "Tes lagi ges",
       "timestamp": "2024-06-04T17:04:33.563420",
@@ -109,7 +123,7 @@
     "-NzYfV1YI4IvxfuT_6iV": {
       "postType": "ppy",
       "ppyID": "-NzYfV1YI4IvxfuT_6iV",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "Tes",
       "timestamp": "2024-06-04T21:36:22.566462",
@@ -118,7 +132,7 @@
     "-Nz_YMc5OBAacXqr3E7g": {
       "postType": "ppy",
       "ppyID": "-Nz_YMc5OBAacXqr3E7g",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "Selamat pagi :)",
       "timestamp": "2024-06-05T06:20:05.384908",
@@ -126,7 +140,7 @@
     },
     "-Nz_kcr3eDqsNefpZlc6": {
       "postType": "ppy",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "성공에 대한 의지를 품는 것은 무엇보다 중요하다",
       "timestamp": "2024-06-05T07:18:03.844452",
@@ -134,7 +148,7 @@
     },
     "-NzahhBoL280TsTeRQWI": {
       "postType": "ppy",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "Udah mau jam 12 nih ges",
       "timestamp": "2024-06-05T11:44:52.408584",
@@ -142,7 +156,7 @@
     },
     "-Nzal--HkYI_HjO4JQxd": {
       "postType": "ppy",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "Tetap semangat!",
       "timestamp": "2024-06-05T11:59:15.859268",
@@ -151,7 +165,7 @@
     "-NzbQauc86SjPrR2I3qQ": {
       "postType": "ppy",
       "ppyID": "-NzbQauc86SjPrR2I3qQ",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "😁",
       "timestamp": "2024-06-05T15:05:25.293877",
@@ -159,7 +173,7 @@
     },
     "-NzcH5OloR9JsOnffxsI": {
       "postType": "ppy",
-      "profileImage": "assets/users/mrifqiv/favicon/username-mrifqiv-uid-872563.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fmrifqivirgiansyah_1717819615309.jpg?alt=media&token=a7b5d615-b329-4e94-9389-0f6b05aa7d50",
       "profileName": "M. Rifqi Virgiansyah",
       "text": "Malam ges",
       "timestamp": "2024-06-05T19:03:30.035554",
@@ -167,7 +181,7 @@
     },
     "-NzdRUM00c9z79NMm6Xp": {
       "ppyID": "-NzdRUM00c9z79NMm6Xp",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "나 왜 밤에 잠을 잘 못 자지???🥹😩",
       "timestamp": "2024-06-06T00:28:30.919240",
@@ -175,18 +189,36 @@
     },
     "-NzfQ0DlRznjCBYtN0k9": {
       "ppyID": "-NzfQ0DlRznjCBYtN0k9",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "Pagi ges",
       "timestamp": "2024-06-06T09:41:19.800957",
       "username": "jjnaey97"
+    },
+    "-NzlIAcuBYtiVmk7tTWl": {
+      "postId": "-NzlIAcuBYtiVmk7tTWl",
+      "postType": "ppy",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fmrifqivirgiansyah_1717819615309.jpg?alt=media&token=a7b5d615-b329-4e94-9389-0f6b05aa7d50",
+      "profileName": "M. Rifqi Virgiansyah",
+      "text": "Jumat berkah🙏🏻",
+      "timestamp": "2024-06-07T13:04:48.575846",
+      "username": "mrifqivirgiansyah"
+    },
+    "-NzpxgmSrC1J_MPe0N3W": {
+      "postId": "-NzpxgmSrC1J_MPe0N3W",
+      "postType": "ppy",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fmrifqivirgiansyah_1717819615309.jpg?alt=media&token=a7b5d615-b329-4e94-9389-0f6b05aa7d50",
+      "profileName": "M. Rifqi Virgiansyah",
+      "text": "tes",
+      "timestamp": "2024-06-08T10:49:03.264046",
+      "username": "mrifqivirgiansyah"
     }
   },
   "postPypoMain": {
     "-NzWwHso8JOvNYpMnA4f": {
       "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717480682948.jpg?alt=media&token=6e3bcfe0-3cf5-4fae-9419-8717c5f46011",
       "postType": "pypo",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "Feelin' good",
       "timestamp": "2024-06-04T13:30:30.708728",
@@ -195,7 +227,7 @@
     "-NzWycYFn3n4ZflYq4z-": {
       "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717483237435.jpg?alt=media&token=4084b3dc-5673-4766-80b7-8bcb64168c7e",
       "postType": "pypo",
-      "profileImage": "assets/users/katarinabluu/favicon/username-katarinabluu-uid-129466.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fkatarinabluu_1717825580925.jpg?alt=media&token=ed8783a9-00a1-4fd0-93b7-f62957e56b7c",
       "profileName": "Karina Han",
       "text": "Beautiful view, like you :D",
       "timestamp": "2024-06-04T13:40:43.737028",
@@ -205,7 +237,7 @@
       "likedBy": "itsmechrist",
       "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717549701197.jpg?alt=media&token=48ffdd8b-1cd2-4957-8943-32dc00e75f92",
       "postType": "pypo",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "OK Google",
       "timestamp": "2024-06-05T08:08:25.319290",
@@ -214,7 +246,7 @@
     "-Nzc4YgUCUgRR0ulljRa": {
       "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717585718148.jpg?alt=media&token=003f3309-7726-42f5-bb16-5fb584edd236",
       "postType": "pypo",
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileName": "Christ",
       "text": "Latepost",
       "timestamp": "2024-06-05T18:08:42.146162",
@@ -222,7 +254,7 @@
     },
     "-NzfRqxekBxFSVvucjPJ": {
       "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717642151816.jpg?alt=media&token=8548bea3-83a4-48f6-8933-fe0009d81506",
-      "profileImage": "assets/users/mrifqiv/favicon/username-mrifqiv-uid-872563.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fmrifqivirgiansyah_1717819615309.jpg?alt=media&token=a7b5d615-b329-4e94-9389-0f6b05aa7d50",
       "profileName": "M. Rifqi Virgiansyah",
       "text": "Life is coding",
       "timestamp": "2024-06-06T09:49:22.030670",
@@ -231,11 +263,21 @@
     "-NzfzeEeTBkeDVqDtAbh": {
       "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717651280860.jpg?alt=media&token=e7b7a7c4-bbb5-45fd-b195-ad92b3920f2d",
       "postID": "-NzfzeEeTBkeDVqDtAbh",
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileName": "Janeya",
       "text": "❣️",
       "timestamp": "2024-06-06T12:21:24.970207",
       "username": "jjnaey97"
+    },
+    "-NzqIG3lI6kWo0dZsqdc": {
+      "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2Fitsmechrist_1717824193054.jpg?alt=media&token=a2ec4d5f-4cf4-495f-abfd-2120a3f6314d",
+      "postId": "-NzqIG3lI6kWo0dZsqdc",
+      "postType": "pypo",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
+      "profileName": "Christ",
+      "text": "new haircut👦🏻✂️",
+      "timestamp": "2024-06-08T12:23:16.921093",
+      "username": "itsmechrist"
     }
   },
   "users": {
@@ -263,13 +305,13 @@
         "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717651280860.jpg?alt=media&token=e7b7a7c4-bbb5-45fd-b195-ad92b3920f2d"
       ],
       "ppy": 0,
-      "profileImage": "assets/users/jjnaey97/favicon/username-jjnaey97-uid-204238.jpeg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fjjnaey97_1717822741128.jpg?alt=media&token=8ba2d275-e7d5-45c4-ab3b-b20c3f65a6f8",
       "profileImageFormat": "jpeg",
       "profileName": "Janeya",
       "pypo": 0,
       "userAddress": "Palembang, Indonesia",
       "userBio": "Hello",
-      "userBirthday": "01-01-1970",
+      "userBirthday": "11-02-1997",
       "userGender": "Perempuan",
       "userLocation": {
         "latitude": -2.9911083,
@@ -287,7 +329,7 @@
         "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717642151816.jpg?alt=media&token=8548bea3-83a4-48f6-8933-fe0009d81506"
       ],
       "ppy": 0,
-      "profileImage": "assets/users/mrifqiv/favicon/username-mrifqiv-uid-872563.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fmrifqivirgiansyah_1717819615309.jpg?alt=media&token=a7b5d615-b329-4e94-9389-0f6b05aa7d50",
       "profileImageFormat": "jpg",
       "profileName": "M. Rifqi Virgiansyah",
       "pypo": 0,
@@ -325,10 +367,14 @@
       "fans": 6,
       "following": 1,
       "ppy": 0,
-      "profileImage": "assets/users/katarinabluu/favicon/username-katarinabluu-uid-129466.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fkatarinabluu_1717825580925.jpg?alt=media&token=ed8783a9-00a1-4fd0-93b7-f62957e56b7c",
       "profileImageFormat": "jpg",
       "profileName": "Karina Han",
       "pypo": 0,
+      "userAddress": "",
+      "userBio": "",
+      "userBirthday": "01-01-1970",
+      "userGender": "Perempuan",
       "userLocation": {
         "latitude": 37.5326,
         "longitude": 127.024612
@@ -343,14 +389,18 @@
       "following": 0,
       "likedPypo": [
         "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717549701197.jpg?alt=media&token=48ffdd8b-1cd2-4957-8943-32dc00e75f92",
-        "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717585718148.jpg?alt=media&token=003f3309-7726-42f5-bb16-5fb584edd236"
+        "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2F1717585718148.jpg?alt=media&token=003f3309-7726-42f5-bb16-5fb584edd236",
+        "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/post_images%2Fitsmechrist_1717824193054.jpg?alt=media&token=a2ec4d5f-4cf4-495f-abfd-2120a3f6314d"
       ],
       "ppy": 0,
-      "profileImage": "assets/users/itsmechrist/favicon/username-itsmechrist-uid-254803.jpg",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/zippyproject-mrifqiv.appspot.com/o/user_profileImage%2Fitsmechrist_1717823766159.jpg?alt=media&token=facf4399-70d2-42cf-bd50-f9d590bb7ef0",
       "profileImageFormat": "jpg",
       "profileName": "Christ",
       "pypo": 0,
       "userAddress": "Jakarta, Indonesia",
+      "userBio": "",
+      "userBirthday": "03-10-1997",
+      "userGender": "Laki-Laki",
       "userLocation": {
         "latitude": -6.211544,
         "longitude": 106.845172

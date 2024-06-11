@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zippy/screens/major_features/pesan_features/user_contacts.dart';
+import 'package:zippy/screens/major_features/pesan_features/show_user_dm_screen.dart';
 
 class Pesan extends StatefulWidget {
   const Pesan({super.key});
@@ -10,7 +12,7 @@ class Pesan extends StatefulWidget {
 class _PesanState extends State<Pesan> {
   final List<PesanItem> messages = [
     PesanItem(
-        username: 'Christ',
+        username: 'itsmechrist',
         message: 'Hi mate!',
         timestamp: '2h ago',
         profileImage:
@@ -33,6 +35,7 @@ class _PesanState extends State<Pesan> {
         timestamp: '1d ago',
         profileImage: 'assets/users/ethan1610/favicon/username-ethan1610-uid-256944.jpg'),
   ];
+
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
@@ -49,8 +52,27 @@ class _PesanState extends State<Pesan> {
       body: ListView.builder(
         itemCount: messages.length,
         itemBuilder: (context, index) {
-          return MessageWidget(message: messages[index]);
+          return MessageWidget(
+            message: messages[index],
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShowUserDMScreen(username: messages[index].username, currentUsername: '', chatWithUsername: '',),
+                ),
+              );
+            },
+          );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserContacts()),
+          );
+        },
+        child: Icon(Icons.message),
       ),
     );
   }
@@ -62,17 +84,23 @@ class PesanItem {
   final String timestamp;
   final String profileImage;
 
-  PesanItem(
-      {required this.username,
-      required this.message,
-      required this.timestamp,
-      required this.profileImage});
+  PesanItem({
+    required this.username,
+    required this.message,
+    required this.timestamp,
+    required this.profileImage,
+  });
 }
 
 class MessageWidget extends StatelessWidget {
   final PesanItem message;
+  final VoidCallback onTap;
 
-  const MessageWidget({super.key, required this.message});
+  const MessageWidget({
+    super.key,
+    required this.message,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +122,7 @@ class MessageWidget extends StatelessWidget {
           ),
         ],
       ),
-      onTap: () {
-        // Handle message tap
-      },
+      onTap: onTap,
     );
   }
 }

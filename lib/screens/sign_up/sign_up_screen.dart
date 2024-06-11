@@ -49,7 +49,11 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _checkUsernameAvailability() async {
     final username = _usernameController.text;
-    final snapshot = await _dbRef.child('usernames').child(username).get();
+    final snapshot = await _dbRef
+        .child('users')
+        .orderByChild('username')
+        .equalTo(username)
+        .get();
     if (snapshot.exists) {
       setState(() {
         _isUsernameAvailable = false;
@@ -210,7 +214,11 @@ class SignUpScreenState extends State<SignUpScreen> {
 
                     if (user != null) {
                       await user.sendEmailVerification();
-                      await _dbRef.child('usernames').child(username).set(true);
+                      await _dbRef.child('users').child(user.uid).set({
+                        'email': email,
+                        'profileName': profileName,
+                        'username': username,
+                      });
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                             builder: (context) =>

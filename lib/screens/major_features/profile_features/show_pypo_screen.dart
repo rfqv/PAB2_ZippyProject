@@ -104,10 +104,13 @@ class _ShowPypoScreenState extends State<ShowPypoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
     return Scaffold(
       appBar: AppBar(
         title: Text(username.isEmpty ? 'Pypo' : username),
-        backgroundColor: const Color(0xFF7DABCF),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: PageView.builder(
         controller: _pageController,

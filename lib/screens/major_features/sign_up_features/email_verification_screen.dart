@@ -31,7 +31,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     if (_isEmailVerified) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (context) => PhoneNumberInputScreen(user: widget.user)),
+          builder: (context) => PhoneNumberInputScreen(user: widget.user),
+        ),
       );
     }
   }
@@ -90,10 +91,20 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                           : const Text('Resend Verification Email'),
                     ),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: _checkEmailVerified,
-                      child: const Text('I have verified my email'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: _isEmailVerified ? null : _checkEmailVerified,
+                          child: const Text('I have verified my email'),
+                        ),
+                      ],
                     ),
+                    const SizedBox(width: 8.0),
+                        IconButton(
+                          icon: const Icon(Icons.refresh),
+                          onPressed: _checkEmailVerified,
+                        ),
                   ],
                 ),
               const SizedBox(height: 16.0),

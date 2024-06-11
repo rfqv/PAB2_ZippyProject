@@ -18,6 +18,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final List<Map<String, String>> pypoPosts = [];
+  final List<Map<String, String>> ppyPosts = [];
 
   @override
   void initState() {
@@ -118,47 +120,36 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // Implement edit profile functionality here
-                          },
-                          child: Text('Edit Profile'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Implement share profile functionality here
-                          },
-                          child: Text('Share Profile'),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
                   ],
                 ),
               ),
             ),
-            TabBar(
-              controller: _tabController,
-              tabs: [
-                Tab(text: 'Pypo'),
-                Tab(text: 'Ppy'),
-                Tab(text: 'Replies'),
-                Tab(text: 'Likes'),
-              ],
-            ),
-            Container(
-              height: 400,
-              child: TabBarView(
-                controller: _tabController,
+            Divider(),
+            DefaultTabController(
+              length: 4,
+              child: Column(
                 children: [
-                  _buildTabContent(),
-                  _buildTabContent(),
-                  _buildTabContent(),
-                  _buildTabContent(),
+                  TabBar(
+                    controller: _tabController,
+                    tabs: [
+                      Tab(text: 'Pypo'),
+                      Tab(text: 'Ppy'),
+                      Tab(text: 'Replies'),
+                      Tab(text: 'Likes'),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 400,
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        _buildPypoGrid(),
+                        _buildPpyList(),
+                        _buildRepliesList(),
+                        _buildLikesList(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -190,18 +181,99 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     );
   }
 
-  Widget _buildTabContent() {
-    return ListView.builder(
-      itemCount: 1, // Replace with actual item count
+  Widget _buildPypoGrid() {
+    if (pypoPosts.isEmpty) {
+      return const Center(child: Text("Tidak ada Pypo"));
+    }
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 4,
+      ),
+      itemCount: pypoPosts.length,
       itemBuilder: (context, index) {
-        return Card(
-          child: ListTile(
-            leading: Image.network(widget.profileImage),
-            title: Text('Post Title'),
-            subtitle: Text('Post subtitle or description'),
+        final post = pypoPosts[index];
+        final mediaUrl = post['mediaUrl'] ?? 'https://example.com/default_image.png'; // URL gambar default jika null
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShowPypoScreen(postPypo: pypoPosts, initialIndex: index),
+              ),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Image.network(mediaUrl, fit: BoxFit.cover),
+              ),
+            ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildPpyList() {
+    if (ppyPosts.isEmpty) {
+      return const Center(child: Text("Tidak ada Ppy"));
+    }
+
+    return ListView.builder(
+      itemCount: ppyPosts.length,
+      itemBuilder: (context, index) {
+        final post = ppyPosts[index];
+        return _buildPostPpyMainItem(post);
+      },
+    );
+  }
+
+  Widget _buildRepliesList() {
+    // Implement the functionality for replies list
+    return Center(child: Text("Replies List"));
+  }
+
+  Widget _buildLikesList() {
+    // Implement the functionality for likes list
+    return Center(child: Text("Likes List"));
+  }
+
+  Widget _buildPostPpyMainItem(Map<String, String> post) {
+    return Card(
+      child: ListTile(
+        leading: Image.network(post['mediaUrl'] ?? 'https://example.com/default_image.png'),
+        title: Text(post['title'] ?? 'No Title'),
+        subtitle: Text(post['description'] ?? 'No Description'),
+      ),
+    );
+  }
+}
+
+class ShowPypoScreen extends StatelessWidget {
+  final List<Map<String, String>> postPypo;
+  final int initialIndex;
+
+  const ShowPypoScreen({
+    Key? key,
+    required this.postPypo,
+    required this.initialIndex,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Pypo Detail'),
+      ),
+      body: Center(
+        child: Text('Pypo detail view for post index $initialIndex'),
+      ),
     );
   }
 }
